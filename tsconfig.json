@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noEmit": true,
+    "strict": true,
+    "allowJs": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+
+    "lib": ["es6"],
+    "types": ["reflect-metadata"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": [
+    "src"
+  ]
+}
