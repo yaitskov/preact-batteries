@@ -1,8 +1,4 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-//import HtmlWebpackPlugin from 'html-webpack-plugin';
-//const ReplacePlugin = require('webpack-plugin-replace');
-const ReplaceInFileWebpackPlugin = require('replace-in-file-webpack-plugin');
-
 
 module.exports = {
   entry: "./src/bootstrap.tsx",
@@ -38,16 +34,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin(),
-    new ReplaceInFileWebpackPlugin([{
-      dir: 'dist',
-      files: ['bundle.js'],
-      rules: [
-        {
-          search: /=function[(]([^)]+[)])/g,
-          replace: (m) => '=(' + /=function[(]([^)]+[)])/.exec(m)[1] + '=>'
-        }
-      ]
-    }])
+    new HtmlWebpackPlugin()
   ]
 };
