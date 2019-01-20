@@ -1,69 +1,68 @@
 import { render, h, Component } from 'preact';
+import { injectable, inject, Container } from 'inversify';
+import "reflect-metadata";
 
-class Class1 {
-}
-
-class SubClass extends Class1 {
-}
-
-interface IX {
-}
-
-
-class ZenIm implements IX {
-}
-
-class ExtPreact extends Component {
-  render() {
-    return <h1> hello world </h1>;
+@injectable()
+class PrintService {
+  print(b: Book) {
+    const t = `book summary ${b.getSummary().getText()}`;
+    console.log(t);
+    return t;
   }
 }
 
-const objects : any[] = [new Class1(), new SubClass(), new ZenIm(), new ExtPreact() ];
-
-class Beans {
-  dataField: number = 1;
-  emptyField: string;
-
-  constructor() {
-
-  }
-
-  lf = () => 888;
-
-  f1() {
-    return "f1";
-  }
-
-  d2() {
-    return 2;
+@injectable()
+class Summary {
+  getText() {
+    return "very good";
   }
 }
 
-const beans = new Beans();
+@injectable()
+class Author {
+}
+
+@injectable()
+class Book {
+  @inject("Author")
+  // @ts-ignore TS2564
+  private _author: Author;
+  @inject("Summary")
+  // @ts-ignore TS2564
+  private _summary: Summary;
+
+  @inject("PrintService")
+  // @ts-ignore TS2564
+  private _printService: PrintService;
+
+
+  print() {
+    return this._printService.print(this);
+  }
+
+  public getSummary() : Summary {
+    return this._summary;
+  }
+}
+
+let container = new Container();
+
+container.bind<PrintService>("PrintService").to(PrintService);
+container.bind<Author>("Author").to(Author);
+container.bind<Summary>("Summary").to(Summary);
+container.bind<Book>("Book").to(Book);
+
+let book = container.get<Book>("Book");
+
+function subRender() {
+  return <li>{book.print()}</li>;
+}
 
 render(
   <div>
     <h1>Class names</h1>
     <ul>
-      {objects.map(o => <li>{o.constructor.name}</li>)}
-    </ul>
-    <h1>Class methods</h1>
-    <ul>
-      {
-        Object.getOwnPropertyNames(Beans.prototype).map(
-          p => <li>{p} : {typeof Beans.prototype[p]}</li>
-        )
-      }
-    </ul>
-
-    <h1>Class fields</h1>
-    <ul>
-      {
-        Object.getOwnPropertyNames(beans).map(
-          p => <li>{p} : {typeof beans[p]}</li>
-        )
-      }
+      { subRender() }
     </ul>
 
   </div>, document.body);

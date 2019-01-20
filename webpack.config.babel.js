@@ -23,7 +23,17 @@ module.exports = {
           options: {
             presets: [['@babel/typescript', { jsxPragma: "h" }]],
             plugins: [
-              ['@babel/proposal-class-properties'],
+              [
+                "@babel/plugin-proposal-decorators",
+                {
+                  "legacy": true
+                }
+              ],
+              ['@babel/proposal-class-properties',
+               {
+                 'loose': true
+               }
+              ],
               ['@babel/proposal-object-rest-spread'],
               ['@babel/plugin-syntax-dynamic-import'],
               ["@babel/transform-react-jsx", { "pragma": "h" }]

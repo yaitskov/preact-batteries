@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,
@@ -12,10 +12,13 @@
     "jsx": "react",
     "jsxFactory": "h",
 
-    "lib": ["es2016", "dom"],
+    "lib": ["es6", "dom"],
     "types": ["reflect-metadata"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
+  },
+  "errorReporting": {
+    "excludedCodes": [2564]
   },
   "include": [
     "src"
