@@ -1,4 +1,5 @@
 import { Component, h } from 'preact';
+import linkState from 'linkstate';
 
 interface NameFormProps {
   value: string;
@@ -9,7 +10,6 @@ export class NameForm extends Component<NameFormProps, NameFormProps> {
     super(props);
     this.state = {value: ''};
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
   handleSubmit(e) {
@@ -17,17 +17,12 @@ export class NameForm extends Component<NameFormProps, NameFormProps> {
     e.preventDefault();
   }
 
-  handleChange(e) {
-    console.log(`update value [${this.state.value}] => [${e.target.value}]`);
-      this.setState({ value: e.target.value });
-  }
-
-  render() {
+  render(p, state) {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
           Name:
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
+          <input type="text" value={state.value} onInput={linkState(this, 'value')} />
         </label>
         <input type="submit" value="Submit" />
       </form>);
