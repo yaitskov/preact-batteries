@@ -14,44 +14,43 @@ function dir(o: any): string[] {
 
 type BeanName = string;
 type Scope = 's' | 'p';
-type OnInjected = (b: Bean, c: Container) => Bean;
+type OnInjected<T> = (b: T, c: Container) => T;
 
-type FullBeanDef = [BeanName, Type<Bean>, Scope, OnInjected];
-type BeanDef3 = [BeanName, Type<Bean>, Scope];
-type BeanDef2 = [BeanName, Type<Bean>];
-type BeanDef = (BeanDef2 | BeanDef3 | FullBeanDef);
+type FullBeanDef<T> = [BeanName, Type<T>, Scope, OnInjected<T>];
+type BeanDef3<T> = [BeanName, Type<T>, Scope];
+type BeanDef2<T> = [BeanName, Type<T>];
+type BeanDef<T> = (BeanDef2<T> | BeanDef3<T> | FullBeanDef<T>);
 
 export interface Type<T> extends Function { new (...args: any[]): T; }
 
 const once : Scope = 's';
 const many : Scope = 'p';
 
-class MetaBean {
-  constructor(public clazz: Type<Bean>,
+class MetaBean<T extends Bean> {
+  constructor(public clazz: Type<T>,
               public scope: Scope,
-              public onInjected: (Bean, Container) => Bean) {}
+              public onInjected: (T, Container) => T) {}
 }
 
 class Container {
   private onceBeans: Map<string, Bean> = new Map<string, Bean>();
-  private beanFactories: Map<string, MetaBean> = new Map<string, MetaBean>();
+  private beanFactories: Map<string, MetaBean<any>> = new Map<string, MetaBean<any>>();
 
-  bind(beanDefs: BeanDef[]): Container {
-    beanDefs.forEach(beanDef => {
-      this.bean(beanDef[0], new MetaBean(
-        beanDef[1],
-        beanDef.length < 3 ? once : (beanDef[2] as Scope),
-        beanDef.length < 4 ? (o, g) => o : (beanDef[3] as OnInjected)));
-    });
+  bind(beanDefs: BeanDef<Bean>[]): Container {
+    beanDefs.forEach(beanDef => this.bean(beanDef[0], beanDef[1],
+                                          (beanDef[2] as Scope) || once,
+                                          (beanDef[3] as OnInjected<Bean>) || ((o, g) => o)));
     return this;
   }
 
-  bean(name: string, meta: MetaBean): void {
+  bean<T>(name: string, clazz: Type<T>,
+          scope: Scope, onInjected: OnInjected<T>): Container {
     name = '$' + name;
     if (this.beanFactories[name]) {
       throw new Error(`factory name [${name}] is busy`);
     }
-    this.beanFactories[name] = meta;
+    this.beanFactories[name] = new MetaBean(clazz, scope, onInjected);
+    return this;
   }
 
   get(name: string): any {
@@ -127,16 +126,17 @@ class Book {
 
 let container = new Container();
 
-container.bind([
-  ['printService', PrintService],
-  ['author', Author, 's'],
-  ['summary', Summary, 'p',
-   (s, c) => {
-     console.log(`Created summary ${(s as Summary).getText()}`);
-     return s;
-   }
-  ],
-  ['book', Book]]);
+container
+  .bind(
+    [
+      ['printService', PrintService],
+      ['author', Author, 's'],
+      ['book', Book]
+    ])
+  .bean('summary', Summary, 'p', (s, c) => {
+    console.log(`Created summary ${s.getText()}`);
+    return s;
+  });
 
 let book = container.get("book");
 
