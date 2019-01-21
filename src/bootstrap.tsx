@@ -44,7 +44,8 @@ class Container {
   }
 
   bean<T>(name: string, clazz: Type<T>,
-          scope: Scope, onInjected: OnInjected<T>): Container {
+          scope: Scope = 's',
+          onInjected: OnInjected<T> = (o, g) => o): Container {
     name = '$' + name;
     if (this.beanFactories[name]) {
       throw new Error(`factory name [${name}] is busy`);
@@ -78,11 +79,21 @@ class Container {
     if (mb.scope === once) {
       this.onceBeans[name] = bean;
     }
-    this.injectDeps(name, bean, stack);
+    this.injectDeps(bean, stack);
     return mb.onInjected(bean, this);
   }
 
-  private injectDeps(name: string, bean: Bean, stack: string[]): void {
+  resolveDeps<T>(bean: T): Map<string, any> {
+    const result = new Map<string, any>();
+    dir(bean).forEach((n) => {
+      if (n[0] === '$') {
+        result[n] = this.getByName(n, []);
+      }
+    });
+    return result;
+  }
+
+  injectDeps<T>(bean: T, stack: string[]): void {
     dir(bean).forEach((n) => {
       if (n[0] === '$') {
         bean[n] = this.getByName(n, stack);
@@ -140,15 +151,56 @@ container
 
 let book = container.get("book");
 
-function subRender() {
-  return <li>{book.print()}</li>;
+/* interface InjComProp {
+ *   container: Container;
+ * }
+ *
+ * abstract class Injecom<T extends InjComProp> extends Component<T> {
+ *   // @ts-ignore TS2564
+ *   rrrbook: Book = null;
+ *
+ *   constructor(props: T) {
+ *     super(props);
+ *     this.doing();
+ *
+ *     props.container.injectDeps(this, []);
+ *   }
+ *
+ *   doing() {
+ *     console.log('base doing');
+ *   }
+ * }
+ * */
+/* interface FooProps extends InjComProp {
+ * }
+ * */
+class Foo extends Component {
+  // @ts-ignore TS2564
+  $book: Book;
+
+  subRender() {
+    return <li>{this.$book.print()}</li>;
+  }
+
+  render() {
+    return <ul>{ this.subRender() }</ul>;
+  }
 }
+
+//container.bean('foo', Foo);
+
+const inject = (T: any, container: Container): any => (
+  class Enhance extends T {
+    constructor(props) {
+      super(props);
+      container.injectDeps(this, []);
+    }
+  });
+
+const FooI = inject(Foo, container);
 
 render(
   <div>
     <h1>Class names</h1>
-    <ul>
-      { subRender() }
-    </ul>
-
+    <FooI/>
   </div>, document.body);
