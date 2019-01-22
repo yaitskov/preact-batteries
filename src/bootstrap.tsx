@@ -1,6 +1,7 @@
 import { render, h, Component } from 'preact';
 import { Container, inject } from './inject-1k';
 import { NameForm } from './name-form';
+import { TraceComponent } from './trace-component';
 
 class PrintService {
   print(b: Book) {
@@ -72,4 +73,8 @@ render(
     <FooI/>
     <h1>name Form</h1>
     <NameForm value="" />
+    <h1>Trace</h1>
+    <TraceComponent name="parent">
+      <TraceComponent name="child"/>
+    </TraceComponent>
   </div>, document.body);
