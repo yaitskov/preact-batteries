@@ -123,6 +123,18 @@ render(
       </InputBoxI>
       <InputBoxI>
         <label>
+          choice
+          <InputOkI svalid="r:[ab]" field="choice" />
+        </label>
+        <InpErrI>
+          <IfErrI check="r">too bad</IfErrI>
+        </InpErrI>
+        <InpHintI>
+          <p>A oder B</p>
+        </InpHintI>
+      </InputBoxI>
+      <InputBoxI>
+        <label>
           gender
           <InputOkI svalid="r:[mf] !e" field="gender" />
         </label>

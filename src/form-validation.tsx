@@ -52,7 +52,11 @@ export class Valiform  {
         //meta.fans.forEach(f => f.valid());
       }
     });
-    //for (let [
+    for (let [k,v] of this.inputByName) {
+      if (!(k in data)) {
+        v.empty();
+      }
+    }
   }
 
   setSubmit(callback: (d: Map<string, string>) => void) {

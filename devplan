@@ -1,5 +1,6 @@
 
++ empty form fields without init values
 generate errors for validations without iferr (universal ifferr)
 base class for component with short callback names
 stack based discovery class for binding form
-delay on validations to prevent jerk button move (event queue?)
+delay on validations to prevent jerk button move (event queue delay tills next events or 100ms?)
