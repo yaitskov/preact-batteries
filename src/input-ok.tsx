@@ -32,6 +32,7 @@ export class InputOk extends Component<InputOkP> implements InputIf {
   }
 
   updateVal(v: string) {
+    this.$valiform.change(this, null, v);
     this.setState({val: v});
   }
 

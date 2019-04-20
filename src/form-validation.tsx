@@ -48,10 +48,11 @@ export class Valiform  {
       const meta = this.inputByName[pn];
       if (meta) {
         meta.input.updateVal(data[pn]);
-        meta.input.valid();
-        meta.fans.forEach(f => f.valid());
+        //meta.input.valid();
+        //meta.fans.forEach(f => f.valid());
       }
     });
+    //for (let [
   }
 
   setSubmit(callback: (d: Map<string, string>) => void) {
