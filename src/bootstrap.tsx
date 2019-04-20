@@ -108,6 +108,7 @@ render(
     </TraceComponent>
     <h1>My Form framework</h1>
     <SformI data={dataHolder} onSend={e => submitHandler(dataHolder)}>
+      <SubmitI text="apply" />
       <InputBoxI>
         <label>
           age

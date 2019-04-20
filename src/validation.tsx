@@ -84,7 +84,7 @@ export class NotEmpty extends AbsValidator {
 export class IntType extends AbsValidator {
   name() { return 'i'; }
   protected valid(val: string): boolean {
-    return val.match(/^[0-9]{1,10}$/);
+    return (''+val).match(/^[0-9]{1,10}$/);
   }
   protected msgTpl(): string {
     return `field is not integer number`;
