@@ -1,30 +1,6 @@
 import { Component, h } from 'preact';
 import linkState from 'linkstate';
 
-/* interface InputOkProp {
- *   style: string;
- *   cls: string;
- *   svalid: string;
- * }
- *
- * export class InputOk extends Component<NameFormProps, NameFormProps> {
- *   constructor(props) {
- *     super(props);
- *     this.state = {val: ''};
- *     this.onChng = this.onChng.bind(this);
- *   }
- *
- *   onChng(e) {
- *     e.preventDefault();
- *   }
- *
- *   render(p, st) {
- *     return <input value={st.val} onChange={this.onChng} />;
- *
- *   }
- * }
- * */
-
 interface NameFormProps {
   value: string;
 }

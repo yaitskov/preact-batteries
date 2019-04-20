@@ -7,7 +7,7 @@ module.exports = {
   },
   mode: 'development',
   // Enable sourcemaps for debugging webpack's output.
-  devtool: "source-map",
+  // devtool: "source-map",
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
@@ -23,15 +23,10 @@ module.exports = {
           options: {
             presets: [['@babel/typescript', { jsxPragma: "h" }]],
             plugins: [
-              [
-                "@babel/plugin-proposal-decorators",
-                {
-                  "legacy": true
-                }
-              ],
+              ["@babel/plugin-proposal-function-bind"],
               ['@babel/proposal-class-properties',
                {
-                 'loose': true
+                 'loose': false
                }
               ],
               ['@babel/proposal-object-rest-spread'],

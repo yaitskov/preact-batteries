@@ -2,6 +2,17 @@ import { render, h, Component } from 'preact';
 import { Container, inject } from './inject-1k';
 import { NameForm } from './name-form';
 import { TraceComponent } from './trace-component';
+import { Sform } from './sform';
+import { Submit } from './submit';
+import { InputBox } from './input-box';
+import { InputOk } from './input-ok';
+import { InpErr } from './input-error';
+import { InpHint } from './input-hint';
+import { IfErr } from './if-error';
+import { Valiform } from './form-validation';
+import { Validation } from './validation';
+
+
 
 class PrintService {
   print(b: Book) {
@@ -43,7 +54,9 @@ container
     [
       ['printService', PrintService],
       ['author', Author, 's'],
-      ['book', Book]
+      ['book', Book],
+      ['valiform', Valiform],
+      ['validation', Validation],
     ])
   .bean('summary', Summary, 'p', (s, c) => {
     console.log(`Created summary ${s.getText()}`);
@@ -66,6 +79,22 @@ class Foo extends Component {
 }
 
 const FooI = inject(Foo, container);
+const SformI = inject(Sform, container);
+const InputBoxI = inject(InputBox, container);
+const InputOkI = inject(InputOk, container);
+const InpErrI = inject(InpErr, container);
+const IfErrI = inject(IfErr, container);
+const InpHintI = inject(InpHint, container);
+const SubmitI = inject(Submit, container);
+
+
+function submitHandler(data) {
+  console.log(`send data ${JSON.stringify(data)}`);
+}
+
+let dataHolder = {age: 0, gender: ''};
+
+
 
 render(
   <div>
@@ -77,4 +106,32 @@ render(
     <TraceComponent name="parent">
       <TraceComponent name="child"/>
     </TraceComponent>
+    <h1>My Form framework</h1>
+    <SformI data={dataHolder} onSend={e => submitHandler(dataHolder)}>
+      <InputBoxI>
+        <label>
+          age
+          <InputOkI svalid="min:16 max:65 !e i" field="age" />
+        </label>
+        <InpErrI>
+          <IfErrI check="min">you are too young ;)</IfErrI>
+        </InpErrI>
+        <InpHintI>
+          <p>enter your whole years</p>
+        </InpHintI>
+      </InputBoxI>
+      <InputBoxI>
+        <label>
+          gender
+          <InputOkI svalid="r:[mf] !e" field="gender" />
+        </label>
+        <InpErrI name="gender-errors">
+          <IfErrI check="r">straits only!</IfErrI>
+        </InpErrI>
+        <InpHintI>
+          <p>enter your gender</p>
+        </InpHintI>
+      </InputBoxI>
+      <SubmitI text="apply" />
+    </SformI>
   </div>, document.body);
