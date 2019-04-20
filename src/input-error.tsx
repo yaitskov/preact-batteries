@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import { MyCo } from './my-component';
 import { Valiform } from './form-validation';
 import { ValiFieldLi } from './input-if';
 
@@ -11,7 +12,7 @@ interface InpErrP {
 }
 
 // show children if field is invalid
-export class InpErr extends Component<InpErrP, InpErrSt> implements ValiFieldLi {
+export class InpErr extends MyCo<InpErrP, InpErrSt> implements ValiFieldLi {
   $valiform: Valiform;
 
   constructor(props) {
@@ -19,7 +20,7 @@ export class InpErr extends Component<InpErrP, InpErrSt> implements ValiFieldLi 
     this.state = {show: false};
   }
 
-  componentWillMount() {
+  wMnt() {
     console.log(`inp err will mount ${this.props.name}`);
     this.$valiform.addFan(this);
   }
