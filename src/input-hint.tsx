@@ -16,10 +16,12 @@ export class InpHint extends Component<{}, InpHintSt> implements ValiFieldLi {
   }
 
   componentWillMount() {
+    console.log('hint will mount');
     this.$valiform.addFan(this);
   }
 
   componentDidMount() {
+    console.log('hint did mount');
   }
 
   valid() {

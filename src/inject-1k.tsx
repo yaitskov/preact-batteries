@@ -56,6 +56,11 @@ export class Container {
     return this.getByName('$' + name, []);
   }
 
+  public sBean(name: string, obj: object): void {
+    this.onceBeans['$' + name] = obj;
+    return this;
+  }
+
   private getByName(name: string, stack: string[]) {
     const b = this.onceBeans[name];
     if (b === undefined) {

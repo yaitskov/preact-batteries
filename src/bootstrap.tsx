@@ -11,7 +11,7 @@ import { InpHint } from './input-hint';
 import { IfErr } from './if-error';
 import { Valiform } from './form-validation';
 import { Validation } from './validation';
-
+import { DomLookup } from './dom-lookup';
 
 
 class PrintService {
@@ -55,9 +55,11 @@ container
       ['printService', PrintService],
       ['author', Author, 's'],
       ['book', Book],
+      ['ldom', DomLookup],
       ['valiform', Valiform],
       ['validation', Validation],
     ])
+  .sBean('container', container)
   .bean('summary', Summary, 'p', (s, c) => {
     console.log(`Created summary ${s.getText()}`);
     return s;

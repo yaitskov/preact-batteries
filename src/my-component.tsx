@@ -9,7 +9,7 @@ export class MyCo<P, S> extends Component<P, S> {
     this.wMnt();
   }
 
-  wMnt() {
+  protected wMnt(): void {
     console.log("default wMnt");
   }
 }

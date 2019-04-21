@@ -9,11 +9,13 @@ export class InputBox extends Component {
   $valiform: Valiform;
 
   componentWillMount() {
+    console.log('box will mount');
     this.$valiform.flushListeners();
     this.$valiform.noListeners();
   }
 
   componentDidMount() {
+    console.log('box did mount');
   }
 
   render() {

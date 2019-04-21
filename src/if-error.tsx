@@ -20,11 +20,12 @@ export class IfErr extends Component<IfErrP, IfErrSt> implements ValiFieldLi {
   }
 
   componentWillMount() {
-    console.log(`iferr ${this.props.check}`);
+    console.log(`iferr will mount ${this.props.check}`);
     this.$valiform.addFan(this);
   }
 
   componentDidMount() {
+    console.log(`iferr did mount ${this.props.check}`);
   }
 
   valid() {
