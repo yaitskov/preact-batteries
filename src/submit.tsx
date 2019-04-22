@@ -1,21 +1,27 @@
-import { Component, h } from 'preact';
-import { Valiform } from './form-validation';
+import { h } from 'preact';
+import { MyCo } from './my-component';
+import { Valiform, FormLevel } from './form-validation';
 
 export interface SubmitP {
   text: string;
 }
 
-export class Submit extends Component<SubmitP> {
+export class Submit extends MyCo<SubmitP> {
   // @ts-ignore
   $valiform: Valiform;
+  form: FormLevel;
 
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
   }
 
+  protected wMnt(): void {
+    this.form = this.$valiform.topForm();
+  }
+
   onClick(e) {
-    this.$valiform.onSubmit(e);
+    this.form.trySubmit(e);
   }
 
   render() {

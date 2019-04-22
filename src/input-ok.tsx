@@ -1,11 +1,14 @@
-import { Component, h } from 'preact';
-import { Valiform } from './form-validation';
+import { h } from 'preact';
+import { MyCo } from './my-component';
+import { Valiform, FormLevel } from './form-validation';
 import { InputOkP, InputIf } from './input-if';
 import { Invalid } from './validation';
 
-export class InputOk extends Component<InputOkP> implements InputIf {
+export class InputOk extends MyCo<InputOkP> implements InputIf {
   // @ts-ignore
   $valiform: Valiform;
+  // @ts-ignore
+  form: FormLevel;
 
   constructor(props) {
     super(props);
@@ -13,17 +16,18 @@ export class InputOk extends Component<InputOkP> implements InputIf {
     this.onChng = this.onChng.bind(this);
   }
 
-  componentWillMount() {
-    this.$valiform.add(this);
+  wMnt() {
+    this.form = this.$valiform.topForm();
+    this.form.add(this);
   }
 
-  componentWillUnmount() {
-    this.$valiform.rm(this);
+  wUmt() {
+    this.form.rm(this);
   }
 
   onChng(e) {
     e.preventDefault();
-    this.$valiform.change(this, this.state.val, e.target.value);
+    this.form.change(this, this.state.val, e.target.value);
     this.setState({val: e.target.value});
   }
 
@@ -32,7 +36,7 @@ export class InputOk extends Component<InputOkP> implements InputIf {
   }
 
   updateVal(v: string) {
-    this.$valiform.change(this, null, v);
+    this.form.change(this, null, v);
     this.setState({val: v});
   }
 

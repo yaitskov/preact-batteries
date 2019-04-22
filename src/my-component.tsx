@@ -9,7 +9,23 @@ export class MyCo<P, S> extends Component<P, S> {
     this.wMnt();
   }
 
+  componentWillUnmount() {
+    this.wUmt();
+  }
+
+  componentDidMount() {
+    this.dMnt();
+  }
+
   protected wMnt(): void {
     console.log("default wMnt");
+  }
+
+  protected wUmt(): void {
+    console.log("default wUmt");
+  }
+
+  protected dMnt(): void {
+    console.log("default dMnt");
   }
 }

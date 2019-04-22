@@ -1,6 +1,8 @@
-import { h, Component } from 'preact';
+import { h } from 'preact';
+import { MyCo } from './my-component';
 import { Valiform } from './form-validation';
 import { ValiFieldLi } from './input-if';
+import { If } from './if';
 
 interface IfErrSt {
   show: boolean;
@@ -11,7 +13,7 @@ interface IfErrP {
 }
 
 // show children if field is invalid
-export class IfErr extends Component<IfErrP, IfErrSt> implements ValiFieldLi {
+export class IfErr extends MyCo<IfErrP, IfErrSt> implements ValiFieldLi {
   $valiform: Valiform;
 
   constructor(props) {
@@ -19,12 +21,12 @@ export class IfErr extends Component<IfErrP, IfErrSt> implements ValiFieldLi {
     this.state = {show: false};
   }
 
-  componentWillMount() {
+  wMnt() {
     console.log(`iferr will mount ${this.props.check}`);
-    this.$valiform.addFan(this);
+    this.$valiform.topForm().addFan(this);
   }
 
-  componentDidMount() {
+  dMnt() {
     console.log(`iferr did mount ${this.props.check}`);
   }
 
@@ -45,10 +47,7 @@ export class IfErr extends Component<IfErrP, IfErrSt> implements ValiFieldLi {
   }
 
   render() {
-    if (this.state.show) {
-      // @ts-ignore
-      return this.props.children[0];
-    }
-    return null;
+    // @ts-ignore
+    return <If f={this.state.show}>{this.props.children}</If>;
   }
 }

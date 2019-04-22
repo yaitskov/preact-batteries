@@ -1,6 +1,8 @@
 
 + empty() form fields without init values
-generate errors for validations without iferr (universal ifferr)
+generate errors for validations without iferr (universal ifferr
+- at the end of inputbox is known: list of validators, list of custom error views
+    and reference to universal error view )
 base class for component with short callback names
 stack based discovery class for binding form
 delay on validations to prevent jerk button move (event queue delay tills next events or 100ms?)

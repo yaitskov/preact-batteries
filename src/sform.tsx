@@ -1,27 +1,34 @@
-import { Component, h } from 'preact';
-import { Valiform } from './form-validation';
+import { h } from 'preact';
+import { MyCo } from './my-component';
+import { Wm } from './will-mount';
+import { Valiform, FormLevel } from './form-validation';
 
 export interface SformP {
   data: Map<string, string>;
   onSend: (d: Map<string, string>) => void;
 }
 
-export class Sform extends Component<SformP> {
+export class Sform extends MyCo<SformP> {
+  // @ts-ignore
   $valiform: Valiform;
-  constructor(props) {
-    super(props);
+  // @ts-ignore
+  form: FormLevel;
+
+  protected wMnt(): void {
+    this.$valiform.newForm();
+    this.form = this.$valiform.topForm();
+    this.form.setSubmit(this.props.onSend);
   }
 
-  componentWillMount() {
-    this.$valiform.setSubmit(this.props.onSend);
-  }
-
-  componentDidMount() {
-    this.$valiform.setValue(this.props.data);
+  protected dMnt(): void {
+    this.form.setValue(this.props.data);
   }
 
   render() {
     // @ts-ignore
-    return <div>{this.props.children}</div>;
+    return <div>
+      {this.props.children}
+      <Wm c={() => this.$valiform.endForm()}/>
+    </div>;
   }
 }

@@ -1,4 +1,5 @@
 import { InputIf, ValiFieldLi } from './input-if';
+import { Container, inject } from './inject-1k';
 import { Validation, Validator } from './validation';
 
 class MetaInput {
@@ -7,9 +8,9 @@ class MetaInput {
               public fans: ValiFieldLi = []) {}
 }
 
-export class Valiform  {
-  // @ts-ignore
-  $validation: Validation;
+export class FormLevel {
+  constructor(private validation: Validation) {}
+
   private data: Map<string, string> = new Map<string, string>();
   private liBuf: ValiFieldLi[] = [];
   private curInput: InputIf = null;
@@ -20,7 +21,7 @@ export class Valiform  {
     this.curInput = input;
     const props = input.props;
     this.inputByName[props.field] = new MetaInput(
-      input, this.$validation.build(props.svalid, props.field));
+      input, this.validation.build(props.svalid, props.field));
   }
 
   rm(input: InputIf): void {
@@ -63,32 +64,52 @@ export class Valiform  {
     this.onSubmit = callback;
   }
 
+  public trySubmit(): void {
+    // wait till validation status is known for all fields
+
+  }
+
   addFan(fan: ValiFieldLi) {
     if (this.curInput) {
       this.inputByName[this.curInput.props.field].fans.push(fan);
     }
   }
 
-  flushListeners() {
-    if (!this.curInput) {
-      //throw new Error("InputBox without input");
-      console.log("InputBox without input");
-    } else {
-      //this.liBuf = [];
-      //this.curInput.fans = this.liBuf;
+  public flush(): void {
+    if (this.curInput) {
+      this.liBuf = [];
       this.curInput = null;
+    } else {
+      throw new Error('InputBox without input');
+      //console.log("InputBox without input");
+      //this.curInput.fans = this.liBuf;
     }
   }
 
-  noListeners() {
+  public noListeners(): void {
     if (this.liBuf.length) {
-      throw new Error("not empty");
+      throw new Error('input listeners is not empty');
+    }
+    if (this.curInput) {
+      throw new Error('nested InputBox is not supported');
     }
   }
+}
 
-  newForm() {
+export class Valiform  {
+  // @ts-ignore
+  private $validation: Validation;
+  private formStack: FormLevel[] = [];
+
+  public newForm(): void {
+    this.formStack.unshift(new FormLevel(this.$validation));
   }
 
-  endForm() {
+  public endForm(): void {
+    this.formStack.shift();
+  }
+
+  public topForm(): FormLevel {
+    return this.formStack[0];
   }
 }

@@ -1,8 +1,8 @@
-import { h, Component } from 'preact';
-import { InjSubCom } from './inject-sub-components';
+import { h } from 'preact';
 import { Valiform } from './form-validation';
 import { ValiFieldLi } from './input-if';
-import { DomCom } from './dom-component';
+import { MyCo } from './my-component';
+import { If } from './if';
 
 
 interface InpErrSt {
@@ -14,7 +14,7 @@ interface InpErrP {
 }
 
 // show children if field is invalid
-export class InpErr extends InjSubCom<InpErrP, InpErrSt> implements ValiFieldLi {
+export class InpErr extends MyCo<InpErrP, InpErrSt> implements ValiFieldLi {
   $valiform: Valiform;
 
   constructor(props) {
@@ -22,16 +22,12 @@ export class InpErr extends InjSubCom<InpErrP, InpErrSt> implements ValiFieldLi 
     this.state = {show: false};
   }
 
-  protected subComTypes(): Type[] {
-    return [DomCom];
-  }
-
   wMnt() {
     console.log(`inp err will mount ${this.props.name}`);
-    this.$valiform.addFan(this);
+    this.$valiform.topForm().addFan(this);
   }
 
-  componentDidMount() {
+  dMnt() {
     console.log('err did mount');
   }
 
@@ -55,14 +51,10 @@ export class InpErr extends InjSubCom<InpErrP, InpErrSt> implements ValiFieldLi 
   }
 
   render() {
-    const DomC = this.sCom(DomCom);
     console.log(`error render called ${this.state.show}`);
-    //if (this.state.show) {
     // @ts-ignore
-    return <div style={{ display: this.state.show }} class="errors">
-      <DomC name="inpErr">
-        {this.props.children}
-      </DomC>
-    </div>;
+    return <If f={this.state.show} class="errors">
+      {this.props.children}
+    </If>;
   }
 }

@@ -1,25 +1,30 @@
-import { Component, h } from 'preact';
-import { Valiform } from 'form-validation';
+import { h } from 'preact';
+import { MyCo } from './my-component';
+import { Wm } from './will-mount';
+import { Valiform, FormLevel } from './form-validation';
 
 /**
   draw scope for input listeners
 */
-export class InputBox extends Component {
+export class InputBox extends MyCo {
   // @ts-ignore
   $valiform: Valiform;
+  // @ts-ignore
+  form: FormLevel;
 
-  componentWillMount() {
-    console.log('box will mount');
-    this.$valiform.flushListeners();
-    this.$valiform.noListeners();
+  // ensure that previous box is complete
+  protected wMnt(): void {
+    this.form = this.$valiform.topForm();
+    this.form.noListeners();
   }
 
-  componentDidMount() {
-    console.log('box did mount');
+  // complete box
+  private flush(): void {
+    this.form.flush();
   }
 
   render() {
     // @ts-ignore
-    return <div>{this.props.children}</div>; //[0];
+    return <div>{this.props.children}<Wm c={() => this.flush()}/></div>; //[0];
   }
 }
