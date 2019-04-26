@@ -1,8 +1,9 @@
 import { InputIf, ValiFieldLi } from './input-if';
 import { Container, inject } from './inject-1k';
-import { Validation, Validator } from './validation';
+import { Validation, Validator, Invalid } from './validation';
 
 class MetaInput {
+  public syncErrors: Invalid[] = [];
   constructor(public input: InputIf,
               public check: Validator,
               public fans: ValiFieldLi = []) {}
@@ -20,21 +21,21 @@ export class FormLevel {
   add(input: InputIf): void {
     this.curInput = input;
     const props = input.props;
-    this.inputByName[props.field] = new MetaInput(
-      input, this.validation.build(props.svalid, props.field));
+    this.inputByName.set(props.field, new MetaInput(
+      input, this.validation.build(props.svalid, props.field)));
   }
 
   rm(input: InputIf): void {
-    delete this.inputByName[input.props.field];
+    delete this.inputByName.get(input.props.field);
   }
 
   change(input, oldV, newV): void {
     const p = input.props;
-    this.data[p.field] = newV;
-    const meta = this.inputByName[p.field];
+    this.data.set(p.field, newV);
+    const meta = this.inputByName.get(p.field);
     if (meta) {
       meta.fans.forEach(f => f.dirty());
-      const errors = meta.check.check(newV);
+      const errors = meta.syncErrors = meta.check.check(newV);
       if (errors.length) {
         meta.fans.forEach(f => f.invalid(errors));
       } else {
@@ -45,17 +46,16 @@ export class FormLevel {
 
   setValue(data: Map<string, string>): void {
     this.data = data;
-    Object.getOwnPropertyNames(data).forEach(pn => {
-      const meta = this.inputByName[pn];
+    for (let [k, _] of data) {
+      const meta = this.inputByName.get(k);
       if (meta) {
-        meta.input.updateVal(data[pn]);
-        //meta.input.valid();
-        //meta.fans.forEach(f => f.valid());
+        meta.input.updateVal(data.get(k));
       }
-    });
-    for (let [k,v] of this.inputByName) {
-      if (!(k in data)) {
-        v.empty();
+    }
+    for (let [k, meta] of this.inputByName) {
+      if (!data.has(k)) {
+        meta.input.empty();
+        meta.fans.forEach(f => f.empty());
       }
     }
   }
@@ -64,14 +64,19 @@ export class FormLevel {
     this.onSubmit = callback;
   }
 
-  public trySubmit(): void {
-    // wait till validation status is known for all fields
-
+  public trySubmit(e): void {
+    for (let [k, m] of this.inputByName) {
+      if (m.syncErrors.length) {
+        console.log('sync validators fails');
+        return;
+      }
+    }
+    this.onSubmit(e);
   }
 
   addFan(fan: ValiFieldLi) {
     if (this.curInput) {
-      this.inputByName[this.curInput.props.field].fans.push(fan);
+      this.inputByName.get(this.curInput.props.field).fans.push(fan);
     }
   }
 

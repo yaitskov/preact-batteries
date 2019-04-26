@@ -94,8 +94,7 @@ function submitHandler(data) {
   console.log(`send data ${JSON.stringify(data)}`);
 }
 
-let dataHolder = {age: 0, gender: ''};
-
+let dataHolder = new Map(Object.entries({age: 0, gender: ''}));
 
 
 render(
