@@ -28,7 +28,7 @@ export class PriorityField extends MyCo<{}, {}> {
     return <InputBoxI>
       <label>
         Priority
-        <CheckI on="c" mit="min:1 max:10 !e i">
+        <CheckI on="k" mit="min:1 max:10 !e i">
           <InputOkI a="priority" />
         </CheckI>
       </label>

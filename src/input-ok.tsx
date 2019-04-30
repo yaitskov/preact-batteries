@@ -37,7 +37,7 @@ export class InputOk extends MyCo<InputOkP, InputOkS> implements InputIf {
   onKeyUp(e) {
     console.log(`trigger validation check ${e}`);
     // set state some how
-    this.form.checkFieldBy(this, ['k'], '');
+    this.form.checkFieldBy(this, ['k'], e.target.value);
   }
 
   onChng(e) {
