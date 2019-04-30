@@ -1,6 +1,7 @@
 import { h } from 'preact';
 import { MyCo } from './my-component';
 import { Container, inject } from './inject-1k';
+import { Invalid } from './validation';
 import { postJ } from './abortable-fetch';
 import { InputBox } from './input-box';
 import { InputOk } from './input-ok';
@@ -9,6 +10,9 @@ import { InpErr } from './input-error';
 import { InpHint } from './input-hint';
 import { IfErr } from './if-error';
 
+interface Errors {
+  errors: Invalid[];
+}
 
 export class ActionField extends MyCo<{}, {}> {
   // @ts-ignore TS2564
@@ -29,7 +33,7 @@ export class ActionField extends MyCo<{}, {}> {
       <label>
         Action
         <CheckI on="c" mit="r:^.{1,17}$ !e">
-          <CheckI on="s" mit={(v) => postJ('/unique-action', {value: v}).tn(e => e.json() as any).tn(e => e.errors) }>
+          <CheckI on="s" mit={(v) => postJ('/unique-action', {value: v}).tn<Errors>(e => e.json()).tn(e => e.errors) }>
             <InputOkI a="action" />
           </CheckI>
         </CheckI>
