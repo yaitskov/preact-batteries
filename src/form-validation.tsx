@@ -1,6 +1,6 @@
 import { Tobj, forM, mapO } from './typed-object';
 import { InputIf, ValiFieldLi } from './input-if';
-import { tJoin } from './abortable-promise';
+import { tJoin, Thenable } from './abortable-promise';
 import { Container, inject } from './inject-1k';
 import { InputCheckP, CheckOn } from './input-check-def';
 import { Validation, Validator, Invalid } from './validation';
@@ -30,12 +30,12 @@ export class FormLevel {
   // @ts-ignore TS2564
   private onSubmit: (d: {}) => void;
 
-  check(c: InputCheckP): void {
+  public check(c: InputCheckP): void {
     failIf(this.curInput, 'wrap input into checks');
     this.inpChecks.push(c);
   }
 
-  add(input: InputIf): void {
+  public add(input: InputIf): void {
     this.curInput = input;
     const props = input.getProps();
     const checks: Tobj<Validator> = {};
@@ -51,19 +51,33 @@ export class FormLevel {
     delete this.inputByName[input.getProps().a];
   }
 
-  change(input, oldV: string, newV: string): void {
+  public checkFieldBy(input: InputIf, events: CheckOn[], newV: string): void {
     const p = input.getProps();
     this.data[p.a] = newV;
     const meta: MetaInput = this.inputByName[p.a];
     if (meta) {
-      meta.fans.forEach(f => f.dirty());
-      meta.check["c"].check(newV).tnr(errors => {
+      this.checkBy(events, meta);
+    }
+  }
+
+  private checkBy(events: CheckOn[], meta: MetaInput): Thenable<Invalid[]> {
+    meta.fans.forEach(f => f.dirty());
+    return tJoin(events.filter(et => et in meta.check).map(et =>
+      meta.check[et].check(this.data[meta.input.getProps().a]))).tn(e => e.flat()).tnr(errors => {
         if (errors.length) {
           meta.fans.forEach(f => f.invalid(errors));
         } else {
           meta.fans.forEach(f => f.valid());
         }
       });
+  }
+
+  change(input: InputIf, oldV: string, newV: string): void {
+    const p = input.getProps();
+    this.data[p.a] = newV;
+    const meta: MetaInput = this.inputByName[p.a];
+    if (meta) {
+      this.checkBy(['k', 'c'], meta);
     }
   }
 
@@ -88,16 +102,15 @@ export class FormLevel {
   }
 
   public trySubmit(e): void {
-    tJoin(mapO(this.inputByName, ([k, m]) => m.check["c"].check(
-      this.data[k]))).tn(
-        errs => errs.flatMap(o => o)).tn(
-          errs => {
-            if (errs.length) {
-              console.log('sync validators fails');
-            } else {
-              this.onSubmit(e);
-            }
-          });
+    tJoin(mapO(this.inputByName, ([k, m]) => this.checkBy(['k', 'c', 's'], m))).tn(
+      errs => errs.flat()).tn(
+        errs => {
+          if (errs.length) {
+            console.log('sync validators fails');
+          } else {
+            this.onSubmit(e);
+          }
+        });
   }
 
   addFan(fan: ValiFieldLi) {

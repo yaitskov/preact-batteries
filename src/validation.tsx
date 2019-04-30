@@ -9,7 +9,7 @@ type CheckName = string;
 
 export class Invalid {
   constructor(public msgTmp: MessageTemplate,
-              public name: CheckName,
+              public check: CheckName,
               public params: Tobj<any>) {}
 }
 
@@ -89,7 +89,11 @@ class ValidatorF implements Validator {
               private f: (s: string) => Thenable<Invalid[]>) {}
 
   check(val: string): Thenable<Invalid[]> {
-    return this.f(val);
+    return this.f(val).tnr(ers => {
+      ers.forEach(e => {
+        e.check = this.n;
+      });
+    });
   }
 
   public name(): string {
@@ -195,7 +199,7 @@ class ValiChain implements Validator {
   }
 
   check(val: string): Thenable<Invalid[]> {
-    return tJoin(this.sub.map(i => i.check(val))).tn((l) => l.flatMap(a => a));
+    return tJoin(this.sub.map(i => i.check(val))).tn((l) => l.flat());
   }
 }
 
@@ -226,7 +230,7 @@ export class Validation {
     }
     if (t == "function") {
       return new ValiCache(
-        new ValidatorF('-' + fieldName,
+        new ValidatorF('-',
                        check.mit as (string) => Thenable<Invalid[]>));
     }
     throw new Error('bad mit type');

@@ -18,6 +18,7 @@ export class InputOk extends MyCo<InputOkP, InputOkS> implements InputIf {
     super(props);
     this.state = {val: ''};
     this.onChng = this.onChng.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
   }
 
   public getProps(): InputOkP {
@@ -33,6 +34,12 @@ export class InputOk extends MyCo<InputOkP, InputOkS> implements InputIf {
     this.form.rm(this);
   }
 
+  onKeyUp(e) {
+    console.log(`trigger validation check ${e}`);
+    // set state some how
+    this.form.checkFieldBy(this, ['k'], '');
+  }
+
   onChng(e) {
     e.preventDefault();
     this.form.change(this, this.state.val, e.target.value);
@@ -40,7 +47,7 @@ export class InputOk extends MyCo<InputOkP, InputOkS> implements InputIf {
   }
 
   render(p, st) {
-    return <input value={st.val} onChange={this.onChng} />;
+    return <input value={st.val} onChange={this.onChng} onKeyUp={this.onKeyUp} />;
   }
 
   updateVal(v: string) {

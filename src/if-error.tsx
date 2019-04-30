@@ -37,7 +37,7 @@ export class IfErr extends MyCo<IfErrP, IfErrSt> implements ValiFieldLi {
   }
 
   invalid(inv: Invalid[]) {
-    this.setState({show: inv.filter(i => i.name == this.props.check).length > 0});
+    this.setState({show: inv.filter(i => i.check == this.props.check).length > 0});
   }
 
   dirty() {

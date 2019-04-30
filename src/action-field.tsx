@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { MyCo } from './my-component';
 import { Container, inject } from './inject-1k';
-
+import { postJ } from './abortable-fetch';
 import { InputBox } from './input-box';
 import { InputOk } from './input-ok';
 import { InputCheck } from './input-check';
@@ -29,10 +29,13 @@ export class ActionField extends MyCo<{}, {}> {
       <label>
         Action
         <CheckI on="c" mit="r:^.{1,17}$ !e">
-          <InputOkI a="action" />
+          <CheckI on="s" mit={(v) => postJ('/unique-action', {value: v}).tn(e => e.json() as any).tn(e => e.errors) }>
+            <InputOkI a="action" />
+          </CheckI>
         </CheckI>
       </label>
       <InpErrI>
+        <IfErrI check="-">action is used</IfErrI>
         <IfErrI check="r">action is too long ;)</IfErrI>
         <IfErrI check="!e">action is required</IfErrI>
       </InpErrI>

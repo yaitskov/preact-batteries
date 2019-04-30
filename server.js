@@ -15,6 +15,15 @@ app
   .get('/todos', (req, res) => {
     res.json({todos: todos});
   })
+  .post('/unique-action', (req, res) => {
+    console.log(`check that action [${req.body.value}] is unique`);
+    const collidingTodo = todos.find((todo) => todo.action === req.body.value);
+    if (collidingTodo === undefined) {
+      res.json({errors:[]});
+    } else {
+      res.json({errors:[{msgTmpl:"name is busy", params: {name: req.body.value}}]});
+    }
+  })
   .post('/todo', (req, res) => {
     console.log("req " + JSON.stringify(req.body));
     todos.push(req.body);
