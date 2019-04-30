@@ -2,8 +2,9 @@ import { render, h, Component } from 'preact';
 import { Container, inject } from './inject-1k';
 
 import { ToDoForm, ToDoFormP, ToDo } from './todo-form';
+import { MyCo } from './my-component';
 import { Thenable } from './abortable-promise';
-import { postJ } from './abortable-fetch';
+import { postJ, geT } from './abortable-fetch';
 import { Valiform } from './form-validation';
 import { Validation } from './validation';
 
@@ -20,17 +21,55 @@ container
 
 const ToDoFormI = inject(ToDoForm, container);
 
-function submitHandler(data) {
+
+function submitHandler(data: ToDo): Thenable<ToDo> {
   console.log(`sending data ${JSON.stringify(data)}`);
-  postJ('/todo', data).tnr(
-    (r) => { console.log(`sent data ${JSON.stringify(data)}`) ; }).ctch(
+  return postJ('/todo', data).tn(
+    (r) => {
+      console.log(`sent data ${JSON.stringify(data)}`) ;
+      return data;
+    }).ctch(
       e => console.log(`ops ${e}`));
 }
 
-let todo: ToDo = {priority: 1, action: 'GO GO GO!'};
+interface TodoListP {
+  todos: ToDo[];
+}
 
-render(
-  <div>
-    <h1>Todos</h1>
-    <ToDoFormI todo={todo} onSubmit={td => submitHandler(td)}/>
-  </div>, document.body);
+class TodoList extends MyCo<TodoListP, {}> {
+  render() {
+    return <ul>
+      { this.props.todos.map(td => <li><b>{td.priority}:</b> {td.action}</li>) }
+    </ul>;
+  }
+}
+
+interface TodoGroupS {
+  todoList: ToDo[];
+  todo: ToDo;
+}
+
+class TodoGroup extends MyCo<{}, TodoGroupS> {
+  constructor(props) {
+    super(props);
+    this.setState({todoList: [],
+                   todo: {priority: 1, action: 'GO GO GO!'}});
+  }
+
+  wMnt() {
+    geT('/todos').tn(r => r.json().then(todos => this.setState({...this.state, todoList: todos.todos})));
+  }
+
+  render() {
+    return <div>
+      <h1>Todos</h1>
+      <div>
+        <TodoList todos={this.state.todoList}/>
+      </div>
+      <h1>New TODO</h1>
+      <ToDoFormI todo={this.state.todo} onSubmit={td => submitHandler(td).tnr(x => this.setState({...this.state, todoList: [...this.state.todoList, {...this.state.todo}]})) }/>
+        </div>;
+  }
+}
+
+render(<TodoGroup/>, document.body);
