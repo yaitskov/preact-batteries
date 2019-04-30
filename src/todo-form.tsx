@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { MyCo } from './my-component';
 import { Container, inject } from './inject-1k';
-
+// import { Thenable } from './abortable-promise';
 import { Sform } from './sform';
 import { Submit } from './submit';
 import { ActionField } from './action-field';
