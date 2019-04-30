@@ -6,9 +6,10 @@ export interface SubmitP {
   text: string;
 }
 
-export class Submit extends MyCo<SubmitP> {
+export class Submit extends MyCo<SubmitP, {}> {
   // @ts-ignore
   $valiform: Valiform;
+  // @ts-ignore
   form: FormLevel;
 
   constructor(props) {

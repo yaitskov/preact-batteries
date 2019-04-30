@@ -6,7 +6,7 @@ import { Valiform, FormLevel } from './form-validation';
 /**
   draw scope for input listeners
 */
-export class InputBox extends MyCo {
+export class InputBox extends MyCo<{}, {}> {
   // @ts-ignore
   $valiform: Valiform;
   // @ts-ignore

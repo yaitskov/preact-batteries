@@ -1,82 +1,108 @@
+import { Tobj, forM, mapO } from './typed-object';
 import { InputIf, ValiFieldLi } from './input-if';
+import { tJoin } from './abortable-promise';
 import { Container, inject } from './inject-1k';
+import { InputCheckP, CheckOn } from './input-check-def';
 import { Validation, Validator, Invalid } from './validation';
+import { grpBy } from './group-by';
 
 class MetaInput {
-  public syncErrors: Invalid[] = [];
   constructor(public input: InputIf,
-              public check: Validator,
-              public fans: ValiFieldLi = []) {}
+              public check: Tobj<Validator>, // key CheckOn
+              public fans: ValiFieldLi[] = []) {}
 }
+
+export const failIf = (c: any, msg: string) => {
+  if (c) {
+    throw new Error(msg);
+  }
+};
 
 export class FormLevel {
   constructor(private validation: Validation) {}
 
-  private data: Map<string, string> = new Map<string, string>();
+  private data: Tobj<string> = {};
   private liBuf: ValiFieldLi[] = [];
-  private curInput: InputIf = null;
-  private inputByName: Map<string, MetaInput> = new Map<string, MetaInput>();
-  private onSubmit: (d: Map<string, string>) => void;
+  private inpChecks: InputCheckP[] = [];
+  // @ts-ignore TS2564
+  private curInput: InputIf | null;
+  private inputByName: Tobj<MetaInput> = {};
+  // @ts-ignore TS2564
+  private onSubmit: (d: {}) => void;
+
+  check(c: InputCheckP): void {
+    failIf(this.curInput, 'wrap input into checks');
+    this.inpChecks.push(c);
+  }
 
   add(input: InputIf): void {
     this.curInput = input;
-    const props = input.props;
-    this.inputByName.set(props.field, new MetaInput(
-      input, this.validation.build(props.svalid, props.field)));
+    const props = input.getProps();
+    const checks: Tobj<Validator> = {};
+    forM(grpBy(c => c.on, this.inpChecks),
+         ([kOn, vLst]) => {
+           checks[kOn] = this.validation.build(vLst, props.a);
+         });
+    this.inputByName[props.a] = new MetaInput(input, checks);
+    this.inpChecks = [];
   }
 
   rm(input: InputIf): void {
-    delete this.inputByName.get(input.props.field);
+    delete this.inputByName[input.getProps().a];
   }
 
-  change(input, oldV, newV): void {
-    const p = input.props;
-    this.data.set(p.field, newV);
-    const meta = this.inputByName.get(p.field);
+  change(input, oldV: string, newV: string): void {
+    const p = input.getProps();
+    this.data[p.a] = newV;
+    const meta: MetaInput = this.inputByName[p.a];
     if (meta) {
       meta.fans.forEach(f => f.dirty());
-      const errors = meta.syncErrors = meta.check.check(newV);
-      if (errors.length) {
-        meta.fans.forEach(f => f.invalid(errors));
-      } else {
-        meta.fans.forEach(f => f.valid());
-      }
+      meta.check["c"].check(newV).tnr(errors => {
+        if (errors.length) {
+          meta.fans.forEach(f => f.invalid(errors));
+        } else {
+          meta.fans.forEach(f => f.valid());
+        }
+      });
     }
   }
 
-  setValue(data: Map<string, string>): void {
+  setValue(data: {}): void {
     this.data = data;
-    for (let [k, _] of data) {
-      const meta = this.inputByName.get(k);
+    forM(data, ([k, v]) => {
+      const meta = this.inputByName[k];
       if (meta) {
-        meta.input.updateVal(data.get(k));
+        meta.input.updateVal(data[k]);
       }
-    }
-    for (let [k, meta] of this.inputByName) {
-      if (!data.has(k)) {
+    });
+    forM(this.inputByName, ([k, meta]) => {
+      if (!(k in data)) {
         meta.input.empty();
         meta.fans.forEach(f => f.empty());
       }
-    }
+    });
   }
 
-  setSubmit(callback: (d: Map<string, string>) => void) {
+  setSubmit(callback: (d: {}) => void) {
     this.onSubmit = callback;
   }
 
   public trySubmit(e): void {
-    for (let [k, m] of this.inputByName) {
-      if (m.syncErrors.length) {
-        console.log('sync validators fails');
-        return;
-      }
-    }
-    this.onSubmit(e);
+    tJoin(mapO(this.inputByName, ([k, m]) => m.check["c"].check(
+      this.data[k]))).tn(
+        errs => errs.flatMap(o => o)).tn(
+          errs => {
+            if (errs.length) {
+              console.log('sync validators fails');
+            } else {
+              this.onSubmit(e);
+            }
+          });
   }
 
   addFan(fan: ValiFieldLi) {
     if (this.curInput) {
-      this.inputByName.get(this.curInput.props.field).fans.push(fan);
+      this.inputByName[this.curInput.getProps().a].fans.push(fan);
     }
   }
 
@@ -86,18 +112,12 @@ export class FormLevel {
       this.curInput = null;
     } else {
       throw new Error('InputBox without input');
-      //console.log("InputBox without input");
-      //this.curInput.fans = this.liBuf;
     }
   }
 
   public noListeners(): void {
-    if (this.liBuf.length) {
-      throw new Error('input listeners is not empty');
-    }
-    if (this.curInput) {
-      throw new Error('nested InputBox is not supported');
-    }
+    failIf(this.liBuf.length, 'input listeners is not empty');
+    failIf(this.curInput, 'nested InputBox is not supported');
   }
 }
 

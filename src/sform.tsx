@@ -4,11 +4,11 @@ import { Wm } from './will-mount';
 import { Valiform, FormLevel } from './form-validation';
 
 export interface SformP {
-  data: Map<string, string>;
-  onSend: (d: Map<string, string>) => void;
+  data: object;
+  onSend: (d: object) => void;
 }
 
-export class Sform extends MyCo<SformP> {
+export class Sform extends MyCo<SformP, {}> {
   // @ts-ignore
   $valiform: Valiform;
   // @ts-ignore

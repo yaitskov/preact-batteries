@@ -4,7 +4,11 @@ import { Valiform, FormLevel } from './form-validation';
 import { InputOkP, InputIf } from './input-if';
 import { Invalid } from './validation';
 
-export class InputOk extends MyCo<InputOkP> implements InputIf {
+interface InputOkS {
+  val: string;
+}
+
+export class InputOk extends MyCo<InputOkP, InputOkS> implements InputIf {
   // @ts-ignore
   $valiform: Valiform;
   // @ts-ignore
@@ -14,6 +18,10 @@ export class InputOk extends MyCo<InputOkP> implements InputIf {
     super(props);
     this.state = {val: ''};
     this.onChng = this.onChng.bind(this);
+  }
+
+  public getProps(): InputOkP {
+    return this.props;
   }
 
   wMnt() {
@@ -36,7 +44,7 @@ export class InputOk extends MyCo<InputOkP> implements InputIf {
   }
 
   updateVal(v: string) {
-    this.form.change(this, null, v);
+    this.form.change(this, '', v);
     this.setState({val: v});
   }
 

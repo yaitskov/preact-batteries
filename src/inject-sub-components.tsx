@@ -1,8 +1,11 @@
 import { MyCo } from './my-component';
 import { Container, inject } from './inject-1k';
 
+type Type = any;
+
 export abstract class InjSubCom<P, S> extends MyCo<P, S> {
   protected subComs: Map<Type, object> = new Map<Type, object>();
+  // @ts-ignore TS2564
   protected $container: Container;
 
   componentWillMount() {

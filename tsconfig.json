@@ -11,9 +11,8 @@
     "esModuleInterop": true,
     "jsx": "react",
     "jsxFactory": "h",
-
-    "lib": ["es6", "dom"],
-    "types": ["reflect-metadata"],
+    "lib": ["es6", "dom", "es2017.object", "esnext.array"],
+    "types": [],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },

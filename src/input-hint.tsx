@@ -1,5 +1,6 @@
 import { h } from 'preact';
 import { MyCo } from './my-component';
+import { Invalid } from './validation';
 import { Valiform } from './form-validation';
 import { ValiFieldLi } from './input-if';
 import { If } from './if';
@@ -10,6 +11,7 @@ interface InpHintSt {
 
 // show children if field is invalid
 export class InpHint extends MyCo<{}, InpHintSt> implements ValiFieldLi {
+  // @ts-ignore TS2564
   $valiform: Valiform;
 
   constructor(props) {

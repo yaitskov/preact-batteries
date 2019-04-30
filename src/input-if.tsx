@@ -1,10 +1,11 @@
 import { Invalid } from './validation';
 
+type FieldName = string;
+
 export interface InputOkP {
   style: string;
   cls: string;
-  svalid: string;
-  field: string;
+  a: FieldName;
 }
 
 export interface ValiFieldLi {

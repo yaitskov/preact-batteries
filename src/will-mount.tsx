@@ -5,7 +5,7 @@ export interface WmP {
   c: () => void;
 }
 
-export class Wm extends MyCo<WmP> {
+export class Wm extends MyCo<WmP, {}> {
   protected wMnt(): void {
     this.props.c();
   }

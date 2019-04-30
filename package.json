@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "check-types": "tsc",
+    "start-server": "nodemon server.js",
+    "check-types": "npx typescript",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -20,7 +21,9 @@
     "@babel/preset-stage-3": "^7.0.0",
     "@babel/preset-typescript": "^7.1.0",
     "babel-loader": "^8.0.5",
+    "express": "^4.16.4",
     "linkstate": "^1.1.1",
+    "nodemon": "^1.18.11",
     "preact": "^8.4.2",
     "typescript": "^3.2.2",
     "webpack": "^4.28.1",

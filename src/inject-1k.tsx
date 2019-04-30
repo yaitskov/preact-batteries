@@ -56,7 +56,7 @@ export class Container {
     return this.getByName('$' + name, []);
   }
 
-  public sBean(name: string, obj: object): void {
+  public sBean(name: string, obj: object): Container {
     this.onceBeans['$' + name] = obj;
     return this;
   }

@@ -1,6 +1,6 @@
 import { Component, h } from 'preact';
 
-export class MyCo<P, S> extends Component<P, S> {
+export abstract class MyCo<P, S> extends Component<P, S> {
   constructor(props) {
     super(props);
   }
