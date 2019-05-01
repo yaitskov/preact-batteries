@@ -1,4 +1,5 @@
 import { h } from 'preact';
+import { U } from './const';
 import { MyCo } from './my-component';
 import { Invalid } from './validation';
 import { Valiform } from './form-validation';
@@ -17,6 +18,10 @@ export class InpHint extends MyCo<{}, InpHintSt> implements ValiFieldLi {
   constructor(props) {
     super(props);
     this.state = {show: true};
+  }
+
+  chkN(): string {
+    return U;
   }
 
   wMnt() {

@@ -21,7 +21,7 @@ app
     if (collidingTodo === undefined) {
       res.json({errors:[]});
     } else {
-      res.json({errors:[{msgTmpl:"name is busy", params: {name: req.body.value}}]});
+      res.json({errors:[{msgTmp:"name is busy", params: {name: req.body.value}}]});
     }
   })
   .post('/todo', (req, res) => {

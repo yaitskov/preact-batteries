@@ -1,4 +1,6 @@
 import { h } from 'preact';
+import { U } from './const';
+import { Container, inject } from './inject-1k';
 import { Valiform } from './form-validation';
 import { Invalid } from './validation';
 import { ValiFieldLi } from './input-if';
@@ -18,10 +20,16 @@ interface InpErrP {
 export class InpErr extends MyCo<InpErrP, InpErrSt> implements ValiFieldLi {
   // @ts-ignore TS2564
   $valiform: Valiform;
+  // @ts-ignore TS2564
+  $container: Container;
 
   constructor(props) {
     super(props);
-    this.state = {show: false};
+    this.st = {show: false};
+  }
+
+  chkN(): string {
+    return U;
   }
 
   wMnt() {
@@ -35,12 +43,12 @@ export class InpErr extends MyCo<InpErrP, InpErrSt> implements ValiFieldLi {
 
   valid() {
     console.log(`valid => false`);
-    this.setState({show: false});
+    this.st = {show: false};
   }
 
   invalid(inv: Invalid[]) {
     console.log(`invalid => true`);
-    this.setState({show: true});
+    this.st = {show: true};
   }
 
   dirty() {
@@ -49,14 +57,13 @@ export class InpErr extends MyCo<InpErrP, InpErrSt> implements ValiFieldLi {
 
   empty() {
     console.log(`empty => false`);
-    this.setState({show: false});
+    this.st = {show: false};
   }
 
   render() {
-    console.log(`error render called ${this.state.show}`);
     // @ts-ignore
-    return <If f={this.state.show} class="errors">
-      {this.props.children}
+    return <If f={this.st.show} class="errors">
+      { this.props.children as any }
     </If>;
   }
 }

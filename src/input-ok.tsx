@@ -1,4 +1,5 @@
 import { h } from 'preact';
+import { U } from './const';
 import { MyCo } from './my-component';
 import { Valiform, FormLevel } from './form-validation';
 import { InputOkP, InputIf } from './input-if';
@@ -19,6 +20,10 @@ export class InputOk extends MyCo<InputOkP, InputOkS> implements InputIf {
     this.state = {val: ''};
     this.onChng = this.onChng.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
+  }
+
+  chkN(): string {
+    return U;
   }
 
   public getProps(): InputOkP {

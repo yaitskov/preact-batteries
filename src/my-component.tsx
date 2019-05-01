@@ -17,6 +17,18 @@ export abstract class MyCo<P, S> extends Component<P, S> {
     this.dMnt();
   }
 
+  protected set st(newSt: S) {
+    this.setState(newSt);
+  }
+
+  protected get st(): S {
+    return this.state;
+  }
+
+  protected get pr(): P {
+    return this.props;
+  }
+
   protected wMnt(): void {
     console.log("default wMnt");
   }

@@ -9,6 +9,8 @@ import { InputCheck } from './input-check';
 import { InpErr } from './input-error';
 import { InpHint } from './input-hint';
 import { IfErr } from './if-error';
+import { DefaultErr } from './default-error';
+
 
 interface Errors {
   errors: Invalid[];
@@ -22,6 +24,7 @@ export class ActionField extends MyCo<{}, {}> {
   }
 
   render() {
+    const DefaultErrI = inject(DefaultErr, this.$container);
     const InputBoxI = inject(InputBox, this.$container);
     const InputOkI = inject(InputOk, this.$container);
     const CheckI = inject(InputCheck, this.$container);
@@ -39,9 +42,9 @@ export class ActionField extends MyCo<{}, {}> {
         </CheckI>
       </label>
       <InpErrI>
-        <IfErrI check="-">action is used</IfErrI>
         <IfErrI check="r">action is too long ;)</IfErrI>
         <IfErrI check="!e">action is required</IfErrI>
+        <DefaultErrI/>
       </InpErrI>
       <InpHintI>
         <p>enter descriptive action up to 17 letters</p>

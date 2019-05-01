@@ -1,3 +1,4 @@
+import { U } from './const';
 import { Tobj, forM, mapO } from './typed-object';
 import { InputIf, ValiFieldLi } from './input-if';
 import { tJoin, Thenable } from './abortable-promise';
@@ -6,10 +7,12 @@ import { InputCheckP, CheckOn } from './input-check-def';
 import { Validation, Validator, Invalid } from './validation';
 import { grpBy } from './group-by';
 
-class MetaInput {
+export class MetaInput {
   constructor(public input: InputIf,
               public check: Tobj<Validator>, // key CheckOn
               public fans: ValiFieldLi[] = []) {}
+
+  public shownChecks = (): string[] => this.fans.map(f => f.chkN()).filter(n => !!n);
 }
 
 export const failIf = (c: any, msg: string) => {
@@ -25,7 +28,7 @@ export class FormLevel {
   private liBuf: ValiFieldLi[] = [];
   private inpChecks: InputCheckP[] = [];
   // @ts-ignore TS2564
-  private curInput: InputIf | null;
+  private curInput: InputIf;
   private inputByName: Tobj<MetaInput> = {};
   // @ts-ignore TS2564
   private onSubmit: (d: {}) => void;
@@ -33,6 +36,18 @@ export class FormLevel {
   public check(c: InputCheckP): void {
     failIf(this.curInput, 'wrap input into checks');
     this.inpChecks.push(c);
+  }
+
+  public curField(): string {
+    return this.curInput.getProps().a;
+  }
+
+  public curMField(): MetaInput {
+    return this.metaOf(this.curField());
+  }
+
+  public metaOf(field: string): MetaInput {
+    return this.inputByName[field];
   }
 
   public add(input: InputIf): void {
@@ -122,7 +137,7 @@ export class FormLevel {
   public flush(): void {
     if (this.curInput) {
       this.liBuf = [];
-      this.curInput = null;
+      this.curInput = U;
     } else {
       throw new Error('InputBox without input');
     }

@@ -15,12 +15,16 @@ interface IfErrP {
 
 // show children if field is invalid
 export class IfErr extends MyCo<IfErrP, IfErrSt> implements ValiFieldLi {
-  // @ts-ignore TS2564xb
+  // @ts-ignore TS2564
   $valiform: Valiform;
 
   constructor(props) {
     super(props);
-    this.state = {show: false};
+    this.valid();
+  }
+
+  public chkN(): string {
+    return this.pr.check;
   }
 
   wMnt() {
@@ -33,11 +37,11 @@ export class IfErr extends MyCo<IfErrP, IfErrSt> implements ValiFieldLi {
   }
 
   valid() {
-    this.setState({show: false});
+    this.st = {show: false};
   }
 
   invalid(inv: Invalid[]) {
-    this.setState({show: inv.filter(i => i.check == this.props.check).length > 0});
+    this.st = {show: inv.filter(i => i.check == this.chkN()).length > 0};
   }
 
   dirty() {
@@ -45,11 +49,11 @@ export class IfErr extends MyCo<IfErrP, IfErrSt> implements ValiFieldLi {
   }
 
   empty() {
-    this.setState({show: false});
+    this.valid();
   }
 
   render() {
     // @ts-ignore
-    return <If f={this.state.show}>{this.props.children}</If>;
+    return <If f={this.st.show}>{this.props.children}</If>;
   }
 }
