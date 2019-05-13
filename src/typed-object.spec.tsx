@@ -1,5 +1,5 @@
 
-import { forM, mapO, emptyM, keysM, idx, aHas } from './typed-object';
+import { forM, mapO, emptyM, keysM, idx, aHas, toMap } from './typed-object';
 
 
 describe('typed object:', () => {
@@ -27,6 +27,18 @@ describe('typed object:', () => {
     it('zero', () => expect(idx(1, [1, 2])).toBe(0));
     it('last', () => expect(idx(2, [1, 2])).toBe(1));
     it('missing', () => expect(idx(3, [1, 2])).toBe(-1));
+  });
+
+  describe('aHas', () => {
+    it('array has', () => expect(aHas(1, [1])).toBe(true));
+    it('array lacks', () => expect(aHas(1, [2])).toBe(false));
+  });
+
+  describe('toMap', () => {
+    it('empty', () => expect(toMap([],
+                                   e => throw new Error('bad'),
+                                   e => throw new Error('bad'))).toEqual({}));
+    it('1 item', () => expect(toMap([2], e => 'a', e => e)).toEqual({a: 2}));
   });
 
   describe('emptyM', () => {

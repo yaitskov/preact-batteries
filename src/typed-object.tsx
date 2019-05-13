@@ -10,6 +10,6 @@ export const keysM = <T extends {} >(m: Tobj<T>): string[] => Object.keys(m);
 export const emptyM = <T extends {} >(m: Tobj<T>): boolean => !keysM(m).length;
 
 export const idx = <T extends {} >(e: T, a: T[]): number => a.indexOf(e);
-export const aHas = <T extends {} >(e: T, a: T[]): boolean => !!idx(e, a);
+export const aHas = <T extends {} >(e: T, a: T[]): boolean => idx(e, a) >= 0;
 export const toMap = <T extends {}, V extends {} >(
   a: T[], keyF: (e: T) => string, valueF: (e: T) => V): Tobj<V> => a.reduce((m, e) => (m[keyF(e)] = valueF(e), m), {});
