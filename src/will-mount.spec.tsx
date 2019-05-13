@@ -5,7 +5,7 @@ import { Wm } from './will-mount';
 
 describe('Will mount component', () => {
   it('callback is called', () => {
-    const calls = [];
+    const calls: number[] = [];
     const dom = shallow(<Wm c={() => calls.push(1)} />);
     expect(dom.find('b').length).toBe(1);
     expect(calls).toEqual([1]);

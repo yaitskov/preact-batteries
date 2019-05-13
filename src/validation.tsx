@@ -73,7 +73,7 @@ class ValiCache implements Validator {
       if (this.res === U) { // result is not ready
         r = this.pro as Thenable<Invalid[]>;
       } else if (Date.now() - this.ts < 800000) {
-        r = resolved(this.res);
+        r = resolved(this.res as Invalid[]);
       } else {
         this.input = U;
         r = this.check(val);
