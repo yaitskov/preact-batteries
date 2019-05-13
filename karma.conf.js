@@ -32,6 +32,7 @@ module.exports = function(config) {
                      'loose': false
                    }
                   ],
+                  ['@babel/plugin-proposal-throw-expressions'],
                   ['@babel/proposal-object-rest-spread'],
                   ['@babel/plugin-syntax-dynamic-import'],
                   ["@babel/transform-react-jsx", { "pragma": "h" }]
