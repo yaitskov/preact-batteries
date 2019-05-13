@@ -25,6 +25,10 @@ export abstract class MyCo<P, S> extends Component<P, S> {
     return this.state;
   }
 
+  protected ust(f: (S) => S): S {
+    return this.st = f(this.st);
+  }
+
   protected get pr(): P {
     return this.props;
   }

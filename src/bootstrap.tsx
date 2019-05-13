@@ -57,7 +57,7 @@ class TodoGroup extends MyCo<{}, TodoGroupS> {
   }
 
   wMnt() {
-    geT('/todos').tn(r => r.json().then(todos => this.setState({...this.state, todoList: todos.todos})));
+    geT('/todos').tn(r => r.json().then(todos => this.ust(state => ({...state, todoList: todos.todos}))));
   }
 
   render() {
