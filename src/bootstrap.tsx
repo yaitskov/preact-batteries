@@ -52,8 +52,8 @@ interface TodoGroupS {
 class TodoGroup extends MyCo<{}, TodoGroupS> {
   constructor(props) {
     super(props);
-    this.setState({todoList: [],
-                   todo: {priority: 1, action: 'GO GO GO!'}});
+    this.st = {todoList: [],
+               todo: {priority: 1, action: 'GO GO GO!'}};
   }
 
   wMnt() {
@@ -64,10 +64,10 @@ class TodoGroup extends MyCo<{}, TodoGroupS> {
     return <div>
       <h1>Todos</h1>
       <div>
-        <TodoList todos={this.state.todoList}/>
+        <TodoList todos={this.st.todoList}/>
       </div>
       <h1>New TODO</h1>
-      <ToDoFormI todo={this.state.todo} onSubmit={td => submitHandler(td).tnr(x => this.setState({...this.state, todoList: [...this.state.todoList, {...this.state.todo}]})) }/>
+      <ToDoFormI todo={this.st.todo} onSubmit={td => submitHandler(td).tnr(x => this.ust(state => ({...state, todoList: [...state.todoList, {...state.todo}]}))) }/>
         </div>;
   }
 }
