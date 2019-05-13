@@ -1,7 +1,7 @@
 import { Tobj } from './typed-object';
 import { Thenable, resolved, tJoin } from './abortable-promise';
 import { InputCheckP } from './input-check-def';
-
+import { U } from './const';
 
 type MessageTemplate = string;
 type CheckName = string;
@@ -17,8 +17,6 @@ export interface Validator {
   name(): CheckName;
   check(val: string): Thenable<Invalid[]>;
 }
-
-const U = undefined;
 
 // every validator instance (for every field it is applied)
 // must have dispatcher to know whether validation is applied
