@@ -1,20 +1,21 @@
-
+import { U } from './const';
+import { unreachable } from './test-utils';
 import { forM, mapO, emptyM, keysM, idx, aHas, toMap } from './typed-object';
 
 
 describe('typed object:', () => {
   describe('forM', () => {
-    it('empty object', () => forM({}, (pair) => throw new Error('dead')));
+    it('empty object', () => forM({}, unreachable));
 
     it('1 pair', () => {
-      const r = [];
+      const r: [string, number][] = [];
       forM({a: 2}, (pair) => r.push(pair));
       expect(r).toEqual([['a', 2]]);
     });
   });
 
   describe('mapO', () => {
-    it('empty', () => expect(mapO({}, (pair) => throw new Error('dead'))).toEqual([]));
+    it('empty', () => expect(mapO({}, unreachable)).toEqual([]));
     it('1 pair', () => expect(mapO({a: 2}, (pair) => pair)).toEqual([['a', 2]]));
   });
 
@@ -35,14 +36,12 @@ describe('typed object:', () => {
   });
 
   describe('toMap', () => {
-    it('empty', () => expect(toMap([],
-                                   e => throw new Error('bad'),
-                                   e => throw new Error('bad'))).toEqual({}));
+    it('empty', () => expect(toMap([], unreachable, unreachable)).toEqual({}));
     it('1 item', () => expect(toMap([2], e => 'a', e => e)).toEqual({a: 2}));
   });
 
   describe('emptyM', () => {
     it('empty true', () => expect(emptyM({})).toBe(true));
-    it('1 key false', () => expect(emptyM({a: undefined})).toBe(false));
+    it('1 key false', () => expect(emptyM({a: U})).toBe(false));
   });
 });

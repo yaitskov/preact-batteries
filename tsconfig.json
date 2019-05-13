@@ -12,7 +12,7 @@
     "jsx": "react",
     "jsxFactory": "h",
     "lib": ["es6", "dom", "es2017.object", "esnext.array"],
-    "types": [],
+    "types": ["jasmine"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
