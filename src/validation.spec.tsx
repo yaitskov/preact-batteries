@@ -12,9 +12,9 @@ function reject(msg: string, validator: Validator, value: string) {
 
 describe('validation', () => {
   describe('max', () => {
-    asyncIt('pass eq', new Max(10).check('10'), c => c.toEqual([]));
-    asyncIt('pass less', new Max(10).check('9'), c => c.toEqual([]));
-    asyncIt('reject more', new Max(10).check('11'), c => c.toEqual([isA(Invalid)]));
+    pass('eq', new Max(10), '10');
+    pass('less', new Max(10), '9');
+    reject('more', new Max(10), '11');
   });
 
   describe('int type', () => {
