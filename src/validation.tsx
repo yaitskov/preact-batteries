@@ -1,5 +1,5 @@
 import { Tobj } from './typed-object';
-import { Thenable, resolved, tJoin } from './abortable-promise';
+import { Thenable, resolved, tJoin } from './async/abortable-promise';
 import { InputCheckP } from './input-check-def';
 import { Invalid, CheckName, MessageTemplate } from './invalid';
 import { U } from './const';

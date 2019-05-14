@@ -1,5 +1,5 @@
 import { Invalid } from './invalid';
-import { Thenable } from './abortable-promise';
+import { Thenable } from './async/abortable-promise';
 
 // Key Up | Change | Submit
 export type CheckOn = "k" | "c" | "s";

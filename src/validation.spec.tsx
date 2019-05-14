@@ -1,5 +1,5 @@
 import { asyncIt, isA } from './test-utils';
-import { resolved, tJoin, AbrPro } from './abortable-promise';
+import { resolved, tJoin, AbrPro } from './async/abortable-promise';
 import { Invalid } from './invalid';
 import { CustomValidator, InputCheckP } from './input-check-def';
 import { ValiCache, ValidatorF, Validation, Validator, Max, Min, Match, IntType, NotEmpty, ValiChain } from './validation';

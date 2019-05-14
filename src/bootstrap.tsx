@@ -3,8 +3,8 @@ import { Container, inject } from './injection/inject-1k';
 
 import { ToDoForm, ToDoFormP, ToDo } from './todo-form';
 import { MyCo } from './my-component';
-import { Thenable } from './abortable-promise';
-import { postJ, geT } from './abortable-fetch';
+import { Thenable } from './async/abortable-promise';
+import { postJ, geT } from './async/abortable-fetch';
 import { Valiform } from './form-validation';
 import { Validation } from './validation';
 

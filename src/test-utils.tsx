@@ -1,4 +1,4 @@
-import { Thenable } from './abortable-promise';
+import { Thenable } from './async/abortable-promise';
 
 export const die = (msg: string) => { throw new Error(msg); };
 
