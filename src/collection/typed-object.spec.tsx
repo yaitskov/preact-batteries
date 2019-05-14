@@ -1,6 +1,6 @@
-import { U } from './const';
-import { unreachable } from './test-utils';
-import { forM, mapO, emptyM, keysM, idx, aHas, toMap } from './typed-object';
+import { U } from 'const';
+import { unreachable } from 'test-utils';
+import { forM, mapO, emptyM, keysM, idx, aHas, toMap } from 'collection/typed-object';
 
 
 describe('typed object:', () => {

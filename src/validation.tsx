@@ -1,4 +1,4 @@
-import { Tobj } from './typed-object';
+import { Tobj } from './collection/typed-object';
 import { Thenable, resolved, tJoin } from './async/abortable-promise';
 import { InputCheckP } from './input-check-def';
 import { Invalid, CheckName, MessageTemplate } from './invalid';
