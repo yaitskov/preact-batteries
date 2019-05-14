@@ -11,7 +11,7 @@ export interface Validator {
 
 // every validator instance (for every field it is applied)
 // must have dispatcher to know whether validation is applied
-class ValiCache implements Validator {
+export class ValiCache implements Validator {
   // @ts-ignore TS2564
   private input: string | undefined;
   // @ts-ignore TS2564
@@ -72,8 +72,7 @@ class ValiCache implements Validator {
   }
 }
 
-
-class ValidatorF implements Validator {
+export class ValidatorF implements Validator {
   constructor(private n: string,
               private f: (s: string) => Thenable<Invalid[]>) {}
 

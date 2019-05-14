@@ -1,8 +1,8 @@
 import { asyncIt, isA } from './test-utils';
-import { resolved } from './abortable-promise';
+import { resolved, tJoin, AbrPro } from './abortable-promise';
 import { Invalid } from './invalid';
 import { CustomValidator, InputCheckP } from './input-check-def';
-import { Validation, Validator, Max, Min, Match, IntType, NotEmpty, ValiChain } from './validation';
+import { ValiCache, ValidatorF, Validation, Validator, Max, Min, Match, IntType, NotEmpty, ValiChain } from './validation';
 
 function pass(msg: string, validator: Validator, value: string) {
   asyncIt('pass ' + msg, validator.check(value), c => c.toEqual([]));
@@ -24,6 +24,8 @@ function passReject(msg: string, validator: Validator, good: string, bad: string
   pass(msg, validator, good);
   reject(msg, validator, bad);
 }
+
+type Callback0 = () => void;
 
 describe('validation', () => {
   describe('max', () => {
@@ -70,5 +72,55 @@ describe('validation', () => {
     pass('func', new Validation().build(funcCheck((s) => resolved([])), 'f'), '8');
     reject('func', new Validation().build(
       funcCheck((s) => resolved([new Invalid('boo', 'custom', {})])), 'f'), '8');
+  });
+
+  describe('validation cache', () => {
+    pass('base', new ValiCache(new NotEmpty()), 'a');
+    describe('call base if value changed', () => {
+      const calls: string[] = [];
+      const vCache = new ValiCache(new ValidatorF('n', (s) => {
+        calls.push(s); return resolved([]); }));
+      asyncIt('no errors', tJoin([vCache.check('a'), vCache.check('b')])
+        .tn(r => r.flat())
+        .tnr(() => it('2 call', () => expect(calls).toEqual(['a', 'b']))),
+              c => c.toEqual([]));
+    });
+
+    describe('interrupt progress', () => {
+      const abortCalls: string[] = [];
+      const vCache = new ValiCache(
+        new ValidatorF(
+          'n', (s) => new AbrPro<Invalid[]>(
+            abortCalls.length > 0 ? Promise.resolve([]) : new Promise<Invalid[]>((ok, bad) => {}),
+            {abort: () => abortCalls.push(s)})));
+      asyncIt('no errors', tJoin([vCache.check('a'), vCache.check('b')])
+        .tn(r => r.flat())
+        .tnr(() => it('1 call', () => expect(abortCalls).toEqual(['a']))),
+              c => c.toEqual([]));
+    });
+
+    describe('wait progress', () => {
+      const calls: string[] = [];
+      const vCache = new ValiCache(
+        new ValidatorF(
+          'n', (s) => {
+            calls.push(s);
+            return new AbrPro<Invalid[]>(
+              new Promise<Invalid[]>((ok, bad) => {}),
+              {abort: () => {}});
+          }));
+      it('promise is reused',
+         () => expect(vCache.check('a') === vCache.check('a')).toBe(true));
+    });
+
+    describe('use cache instead of base', () => {
+      const calls: number[] = [];
+      const vCache = new ValiCache(new ValidatorF('n', (s) => {
+        calls.push(1); return resolved([]); }));
+      asyncIt('no errors', tJoin([vCache.check('a'), vCache.check('a')])
+        .tn(r => r.flat())
+        .tnr(() => it('1 call', () => expect(calls).toEqual([1]))),
+              c => c.toEqual([]));
+    });
   });
 });
