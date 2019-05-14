@@ -10,7 +10,8 @@ module.exports = {
   // devtool: "source-map",
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
+    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
+    modules: ['src', 'node_modules']
   },
   module: require('./webpack.modules.js'),
   plugins: [

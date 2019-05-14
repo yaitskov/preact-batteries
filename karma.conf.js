@@ -13,7 +13,8 @@ module.exports = function(config) {
       mode: 'development',
       resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: [".tsx", ".js"]
+        extensions: [".tsx", ".js"],
+        modules: ['src', 'node_modules']
       },
       module: require('./webpack.modules.js')
     }
