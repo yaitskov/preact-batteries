@@ -1,6 +1,6 @@
 import { asyncIt, isA } from './test-utils';
 import { Invalid } from './invalid';
-import { Validator, Max, Min, Match, IntType, NotEmpty } from './validation';
+import { Validator, Max, Min, Match, NotNull, IntType, NotEmpty } from './validation';
 
 function pass(msg: string, validator: Validator, value: string) {
   asyncIt('pass ' + msg, validator.check(value), c => c.toEqual([]));
@@ -27,6 +27,13 @@ describe('validation', () => {
     pass('zero', new IntType(), '0');
     reject('negative', new IntType(), '-9');
     reject('letter', new IntType(), '1l1');
+  });
+
+  describe('not null', () => {
+    pass('0', new NotNull(), '0');
+    reject('null', new NotNull(), null);
+    pass('undefined', new NotNull(), undefined);
+    pass('empty string', new NotNull(), '');
   });
 
   describe('match', () => {
