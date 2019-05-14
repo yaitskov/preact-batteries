@@ -1,6 +1,8 @@
 import { asyncIt, isA } from './test-utils';
+import { resolved } from './abortable-promise';
 import { Invalid } from './invalid';
-import { Validator, Max, Min, Match, IntType, NotEmpty, ValiChain } from './validation';
+import { CustomValidator, InputCheckP } from './input-check-def';
+import { Validation, Validator, Max, Min, Match, IntType, NotEmpty, ValiChain } from './validation';
 
 function pass(msg: string, validator: Validator, value: string) {
   asyncIt('pass ' + msg, validator.check(value), c => c.toEqual([]));
@@ -8,6 +10,19 @@ function pass(msg: string, validator: Validator, value: string) {
 
 function reject(msg: string, validator: Validator, value: string) {
   asyncIt('reject ' + msg, validator.check(value), c => c.toEqual([isA(Invalid)]));
+}
+
+function exprCheck(expr: string): InputCheckP[] {
+  return [{on: 'c', mit: expr}];
+}
+
+function funcCheck(cv: CustomValidator): InputCheckP[] {
+  return [{on: 'c', mit: cv}];
+}
+
+function passReject(msg: string, validator: Validator, good: string, bad: string) {
+  pass(msg, validator, good);
+  reject(msg, validator, bad);
 }
 
 describe('validation', () => {
@@ -45,5 +60,15 @@ describe('validation', () => {
     pass('empty', new ValiChain([]), 'a');
     reject('last rejects', new ValiChain([new Match(/^a$/), new Match(/^b$/)]), 'a');
     reject('first rejects', new ValiChain([new Match(/^b$/), new Match(/^a$/)]), 'a');
+  });
+
+  describe('validation', () => {
+    passReject('expr non empty',
+               new Validation().build(exprCheck('!e'), 'f'), 'a', '');
+    passReject('expr non empty and captial',
+               new Validation().build(exprCheck('!e r:^[A-Z]$'), 'f'), 'A', 'a');
+    pass('func', new Validation().build(funcCheck((s) => resolved([])), 'f'), '8');
+    reject('func', new Validation().build(
+      funcCheck((s) => resolved([new Invalid('boo', 'custom', {})])), 'f'), '8');
   });
 });
