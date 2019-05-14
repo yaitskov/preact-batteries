@@ -6,7 +6,10 @@
   "scripts": {
     "start-server": "nodemon server.js",
     "check-types": "npx typescript",
-    "test": "karma start karma.conf.js"
+    "test-once": "karma start --single-run",
+    "test-watch": "karma start karma.conf.js",
+    "pbuild": "npm run-script check-types && npm run-script test-once && webpack-cli -p",
+    "dbuild": "npm run-script check-types && npm run-script test-once && webpack-cli"
   },
   "author": "",
   "license": "ISC",
