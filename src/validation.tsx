@@ -148,16 +148,6 @@ export class Match extends SyncValidator {
   }
 }
 
-export class NotNull extends SyncValidator {
-  name() { return '!n'; }
-  protected valid(val: string): boolean {
-    return val !== null;
-  }
-  protected msgTpl(): string {
-    return 'cannot be null'; // `value doesn't match ${this.p}`;
-  }
-}
-
 export class NotEmpty extends SyncValidator {
   name() { return `!e`; }
   protected valid(val: string): boolean {
@@ -178,7 +168,7 @@ export class IntType extends SyncValidator {
   }
 }
 
-class ValiChain implements Validator {
+export class ValiChain implements Validator {
   constructor(public sub: Validator[]) {
     console.log(`vali chain len = ${sub.length}`);
   }
@@ -197,7 +187,6 @@ const valFactories = {
   'max': (l) => new Max(+l),
   '!e': () => new NotEmpty(),
   'i':  () => new IntType(),
-  '!n': () => new NotNull(),
   'r': (pattern) => new Match(new RegExp(pattern))
 };
 

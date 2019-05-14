@@ -1,6 +1,6 @@
 import { asyncIt, isA } from './test-utils';
 import { Invalid } from './invalid';
-import { Validator, Max, Min, Match, NotNull, IntType, NotEmpty } from './validation';
+import { Validator, Max, Min, Match, IntType, NotEmpty, ValiChain } from './validation';
 
 function pass(msg: string, validator: Validator, value: string) {
   asyncIt('pass ' + msg, validator.check(value), c => c.toEqual([]));
@@ -29,23 +29,21 @@ describe('validation', () => {
     reject('letter', new IntType(), '1l1');
   });
 
-  describe('not null', () => {
-    pass('0', new NotNull(), '0');
-    reject('null', new NotNull(), null);
-    pass('undefined', new NotNull(), undefined);
-    pass('empty string', new NotNull(), '');
-  });
-
   describe('not empty', () => {
     pass('0', new NotEmpty(), '0');
     pass('letter', new NotEmpty(), 'a');
-    reject('null', new NotEmpty(), null);
-    reject('undefined', new NotEmpty(), undefined);
     reject('empty string', new NotEmpty(), '');
   });
 
   describe('match', () => {
     pass('exact', new Match(/^aaa$/), 'aaa');
     reject('sub', new Match(/^a$/), 'aaa');
+  });
+
+  describe('vali chain', () => {
+    pass('both pass', new ValiChain([new Match(/^a$/), new Match(/^.$/)]), 'a');
+    pass('empty', new ValiChain([]), 'a');
+    reject('last rejects', new ValiChain([new Match(/^a$/), new Match(/^b$/)]), 'a');
+    reject('first rejects', new ValiChain([new Match(/^b$/), new Match(/^a$/)]), 'a');
   });
 });
