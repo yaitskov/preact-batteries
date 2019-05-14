@@ -36,6 +36,14 @@ describe('validation', () => {
     pass('empty string', new NotNull(), '');
   });
 
+  describe('not empty', () => {
+    pass('0', new NotEmpty(), '0');
+    pass('letter', new NotEmpty(), 'a');
+    reject('null', new NotEmpty(), null);
+    reject('undefined', new NotEmpty(), undefined);
+    reject('empty string', new NotEmpty(), '');
+  });
+
   describe('match', () => {
     pass('exact', new Match(/^aaa$/), 'aaa');
     reject('sub', new Match(/^a$/), 'aaa');
