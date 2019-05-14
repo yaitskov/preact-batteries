@@ -1,17 +1,8 @@
 import { Tobj } from './typed-object';
 import { Thenable, resolved, tJoin } from './abortable-promise';
 import { InputCheckP } from './input-check-def';
+import { Invalid, CheckName, MessageTemplate } from './invalid';
 import { U } from './const';
-
-type MessageTemplate = string;
-type CheckName = string;
-
-
-export class Invalid {
-  constructor(public msgTmp: MessageTemplate,
-              public check: CheckName,
-              public params: Tobj<any>) {}
-}
 
 export interface Validator {
   name(): CheckName;

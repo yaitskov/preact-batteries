@@ -1,4 +1,4 @@
-import { Invalid } from './validation';
+import { Invalid } from './invalid';
 
 type FieldName = string;
 

@@ -4,7 +4,8 @@ import { InputIf, ValiFieldLi } from './input-if';
 import { tJoin, Thenable } from './abortable-promise';
 import { Container, inject } from './inject-1k';
 import { InputCheckP, CheckOn } from './input-check-def';
-import { Validation, Validator, Invalid } from './validation';
+import { Invalid } from './invalid';
+import { Validation, Validator } from './validation';
 import { grpBy } from './group-by';
 
 export class MetaInput {

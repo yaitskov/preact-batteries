@@ -1,4 +1,4 @@
-import { Invalid } from './validation';
+import { Invalid } from './invalid';
 import { Thenable } from './abortable-promise';
 
 // Key Up | Change | Submit
