@@ -10,3 +10,7 @@ export function asyncIt<T>(msg: string, v: Thenable<T>, c: (m: jasmine.Matchers<
     done();
   });
 }
+
+export function isA(t: any): any {
+  return jasmine.any(t) as any;
+}
