@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { MyCo } from './my-component';
-import { Container, inject } from './inject-1k';
+import { Container, inject } from './injection/inject-1k';
 import { Invalid } from './invalid';
 import { postJ } from './abortable-fetch';
 import { InputBox } from './input-box';

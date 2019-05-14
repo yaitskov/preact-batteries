@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { MyCo } from './my-component';
-import { Container, inject } from './inject-1k';
+import { Container, inject } from './injection/inject-1k';
 
 import { InputBox } from './input-box';
 import { InputOk } from './input-ok';

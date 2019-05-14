@@ -2,7 +2,7 @@ import { U } from './const';
 import { Tobj, forM, mapO } from './typed-object';
 import { InputIf, ValiFieldLi } from './input-if';
 import { tJoin, Thenable } from './abortable-promise';
-import { Container, inject } from './inject-1k';
+import { Container, inject } from './injection/inject-1k';
 import { InputCheckP, CheckOn } from './input-check-def';
 import { Invalid } from './invalid';
 import { Validation, Validator } from './validation';

@@ -1,5 +1,5 @@
 import { MyCo } from './my-component';
-import { Container, inject } from './inject-1k';
+import { Container, inject } from './injection/inject-1k';
 
 type Type = any;
 

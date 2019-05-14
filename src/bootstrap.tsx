@@ -1,5 +1,5 @@
 import { render, h, Component } from 'preact';
-import { Container, inject } from './inject-1k';
+import { Container, inject } from './injection/inject-1k';
 
 import { ToDoForm, ToDoFormP, ToDo } from './todo-form';
 import { MyCo } from './my-component';
