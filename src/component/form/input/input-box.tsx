@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { MyCo } from 'component/my-component';
-import { Wm } from './component/will-mount';
+import { Wm } from 'component/will-mount';
 import { Valiform, FormLevel } from 'component/form/validation/form-validation';
 
 /**
