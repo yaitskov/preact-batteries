@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { MyCo } from 'component/my-component';
 import { Wm } from './component/will-mount';
-import { Valiform, FormLevel } from './form-validation';
+import { Valiform, FormLevel } from 'component/form/validation/form-validation';
 
 /**
   draw scope for input listeners

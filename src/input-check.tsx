@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Valiform } from './form-validation';
+import { Valiform } from 'component/form/validation/form-validation';
 import { MyCo } from 'component/my-component';
 import { InputCheckP } from './input-check-def';
 

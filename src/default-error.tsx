@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { U } from './const';
-import { Valiform, MetaInput } from './form-validation';
+import { Valiform, MetaInput } from 'component/form/validation/form-validation';
 import { Tobj, mapO, emptyM, aHas, toMap } from './collection/typed-object';
 import { Invalid } from './invalid';
 import { ValiFieldLi } from './input-if';

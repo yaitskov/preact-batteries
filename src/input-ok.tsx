@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { U } from './const';
 import { MyCo } from 'component/my-component';
-import { Valiform, FormLevel } from './form-validation';
+import { Valiform, FormLevel } from 'component/form/validation/form-validation';
 import { InputOkP, InputIf } from './input-if';
 import { Invalid } from './invalid';
 

@@ -1,12 +1,12 @@
-import { U } from './const';
-import { Tobj, forM, mapO } from './collection/typed-object';
-import { InputIf, ValiFieldLi } from './input-if';
-import { tJoin, Thenable } from './async/abortable-promise';
-import { Container, inject } from './injection/inject-1k';
-import { InputCheckP, CheckOn } from './input-check-def';
-import { Invalid } from './invalid';
-import { Validation, Validator } from './validation';
-import { grpBy } from './collection/group-by';
+import { U } from 'const';
+import { Tobj, forM, mapO } from 'collection/typed-object';
+import { InputIf, ValiFieldLi } from 'input-if';
+import { tJoin, Thenable } from 'async/abortable-promise';
+import { Container, inject } from 'injection/inject-1k';
+import { InputCheckP, CheckOn } from 'input-check-def';
+import { Invalid } from 'invalid';
+import { Validation, Validator } from 'validation';
+import { grpBy } from 'collection/group-by';
 
 export class MetaInput {
   constructor(public input: InputIf,
