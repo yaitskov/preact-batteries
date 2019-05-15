@@ -4,7 +4,7 @@ import { Valiform, MetaInput } from './form-validation';
 import { Tobj, mapO, emptyM, aHas, toMap } from './collection/typed-object';
 import { Invalid } from './invalid';
 import { ValiFieldLi } from './input-if';
-import { MyCo } from './my-component';
+import { MyCo } from 'component/my-component';
 import { If } from './if';
 
 interface St {

@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { MyCo } from './my-component';
+import { MyCo } from 'component/my-component';
 import { Valiform, FormLevel } from './form-validation';
 
 export interface SubmitP {

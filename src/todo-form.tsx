@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { MyCo } from './my-component';
+import { MyCo } from 'component/my-component';
 import { Container, inject } from './injection/inject-1k';
 import { Sform } from './sform';
 import { Submit } from './submit';

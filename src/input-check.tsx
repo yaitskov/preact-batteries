@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { Valiform } from './form-validation';
-import { MyCo } from './my-component';
+import { MyCo } from 'component/my-component';
 import { InputCheckP } from './input-check-def';
 
 export class InputCheck extends MyCo<InputCheckP, {}> {
