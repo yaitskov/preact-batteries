@@ -1,5 +1,5 @@
-import {h} from 'preact';
-import {shallow} from 'preact-render-spy';
+import { h } from 'preact';
+import { shallow } from 'preact-render-spy';
 import { Wm } from './will-mount';
 
 

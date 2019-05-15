@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { MyCo } from './my-component';
+import { MyCo } from 'my-component';
 
 export interface WmP {
   c: () => void;

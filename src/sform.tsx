@@ -1,7 +1,7 @@
 import { h } from 'preact';
-import { MyCo } from './my-component';
-import { Wm } from './will-mount';
-import { Valiform, FormLevel } from './form-validation';
+import { MyCo } from 'my-component';
+import { Wm } from 'component/will-mount';
+import { Valiform, FormLevel } from 'form-validation';
 
 export interface SformP {
   data: object;
