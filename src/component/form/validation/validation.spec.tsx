@@ -1,8 +1,8 @@
-import { asyncIt, isA } from './test-utils';
-import { resolved, tJoin, AbrPro } from './async/abortable-promise';
-import { Invalid } from './invalid';
-import { CustomValidator, InputCheckP } from './input-check-def';
-import { ValiCache, ValidatorF, Validation, Validator, Max, Min, Match, IntType, NotEmpty, ValiChain } from './validation';
+import { asyncIt, isA } from 'test-utils';
+import { resolved, tJoin, AbrPro } from 'async/abortable-promise';
+import { Invalid } from 'invalid';
+import { CustomValidator, InputCheckP } from 'input-check-def';
+import { ValiCache, ValidatorF, Validation, Validator, Max, Min, Match, IntType, NotEmpty, ValiChain } from 'component/form/validation/validation';
 
 function pass(msg: string, validator: Validator, value: string) {
   asyncIt('pass ' + msg, validator.check(value), c => c.toEqual([]));

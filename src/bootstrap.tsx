@@ -6,7 +6,7 @@ import { MyCo } from 'component/my-component';
 import { Thenable } from './async/abortable-promise';
 import { postJ, geT } from './async/abortable-fetch';
 import { Valiform } from 'component/form/validation/form-validation';
-import { Validation } from './validation';
+import { Validation } from 'component/form/validation/validation';
 
 let container = new Container();
 
