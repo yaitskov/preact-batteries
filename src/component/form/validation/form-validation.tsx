@@ -4,7 +4,7 @@ import { InputIf, ValiFieldLi } from 'input-if';
 import { tJoin, Thenable } from 'async/abortable-promise';
 import { Container, inject } from 'injection/inject-1k';
 import { InputCheckP, CheckOn } from 'input-check-def';
-import { Invalid } from 'invalid';
+import { Invalid } from 'component/form/validation/invalid';
 import { Validation, Validator } from 'component/form/validation/validation';
 import { grpBy } from 'collection/group-by';
 

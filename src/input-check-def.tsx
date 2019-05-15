@@ -1,4 +1,4 @@
-import { Invalid } from './invalid';
+import { Invalid } from 'component/form/validation/invalid';
 import { Thenable } from './async/abortable-promise';
 
 // Key Up | Change | Submit

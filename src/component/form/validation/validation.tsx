@@ -1,7 +1,7 @@
 import { Tobj } from 'collection/typed-object';
 import { Thenable, resolved, tJoin } from 'async/abortable-promise';
 import { InputCheckP } from 'input-check-def';
-import { Invalid, CheckName, MessageTemplate } from 'invalid';
+import { Invalid, CheckName, MessageTemplate } from 'component/form/validation/invalid';
 import { U } from 'const';
 
 export interface Validator {

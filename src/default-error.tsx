@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { U } from './const';
 import { Valiform, MetaInput } from 'component/form/validation/form-validation';
 import { Tobj, mapO, emptyM, aHas, toMap } from './collection/typed-object';
-import { Invalid } from './invalid';
+import { Invalid } from 'component/form/validation/invalid';
 import { ValiFieldLi } from './input-if';
 import { MyCo } from 'component/my-component';
 import { If } from './if';

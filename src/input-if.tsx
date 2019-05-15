@@ -1,4 +1,4 @@
-import { Invalid } from './invalid';
+import { Invalid } from 'component/form/validation/invalid';
 
 type FieldName = string;
 

@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { MyCo } from 'component/my-component';
 import { Container, inject } from './injection/inject-1k';
-import { Invalid } from './invalid';
+import { Invalid } from 'component/form/validation/invalid';
 import { postJ } from './async/abortable-fetch';
 import { InputBox } from 'component/form/input/input-box';
 import { InputOk } from './input-ok';

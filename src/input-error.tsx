@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { U } from './const';
 import { Container, inject } from './injection/inject-1k';
 import { Valiform } from 'component/form/validation/form-validation';
-import { Invalid } from './invalid';
+import { Invalid } from 'component/form/validation/invalid';
 import { ValiFieldLi } from './input-if';
 import { MyCo } from 'component/my-component';
 import { If } from './if';

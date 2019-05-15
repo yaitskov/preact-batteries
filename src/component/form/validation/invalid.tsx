@@ -1,4 +1,4 @@
-import { Tobj } from './collection/typed-object';
+import { Tobj } from 'collection/typed-object';
 
 export type MessageTemplate = string;
 export type CheckName = string;

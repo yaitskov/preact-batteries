@@ -1,6 +1,6 @@
 import { asyncIt, isA } from 'test-utils';
 import { resolved, tJoin, AbrPro } from 'async/abortable-promise';
-import { Invalid } from 'invalid';
+import { Invalid } from 'component/form/validation/invalid';
 import { CustomValidator, InputCheckP } from 'input-check-def';
 import { ValiCache, ValidatorF, Validation, Validator, Max, Min, Match, IntType, NotEmpty, ValiChain } from 'component/form/validation/validation';
 
