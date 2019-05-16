@@ -1,4 +1,4 @@
-import { U } from 'const';
+import { U } from 'util/const';
 import { Tobj, forM, mapO } from 'collection/typed-object';
 import { InputIf, ValiFieldLi } from 'input-if';
 import { tJoin, Thenable } from 'async/abortable-promise';

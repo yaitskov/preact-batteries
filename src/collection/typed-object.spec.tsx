@@ -1,4 +1,4 @@
-import { U } from 'const';
+import { U } from 'util/const';
 import { unreachable } from 'test-utils';
 import { forM, mapO, emptyM, keysM, idx, aHas, toMap } from 'collection/typed-object';
 

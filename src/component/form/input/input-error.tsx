@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { U } from 'const';
+import { U } from 'util/const';
 import { Container, inject } from 'injection/inject-1k';
 import { Valiform } from 'component/form/validation/form-validation';
 import { Invalid } from 'component/form/validation/invalid';
