@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { MyCo } from 'component/my-component';
 import { Container, inject } from './injection/inject-1k';
-import { Sform } from './sform';
+import { Sform } from 'component/form/sform';
 import { Submit } from 'component/form/submit';
 import { ActionField } from './action-field';
 import { PriorityField } from './priority-field';
