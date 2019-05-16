@@ -1,6 +1,6 @@
 import { U } from 'util/const';
 import { Tobj, forM, mapO } from 'collection/typed-object';
-import { InputIf, ValiFieldLi } from 'input-if';
+import { InputIf, ValiFieldLi } from 'component/form/validation/input-if';
 import { tJoin, Thenable } from 'async/abortable-promise';
 import { Container, inject } from 'injection/inject-1k';
 import { InputCheckP, CheckOn } from 'input-check-def';

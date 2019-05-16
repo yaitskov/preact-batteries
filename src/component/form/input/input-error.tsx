@@ -3,7 +3,7 @@ import { U } from 'util/const';
 import { Container, inject } from 'injection/inject-1k';
 import { Valiform } from 'component/form/validation/form-validation';
 import { Invalid } from 'component/form/validation/invalid';
-import { ValiFieldLi } from 'input-if';
+import { ValiFieldLi } from 'component/form/validation/input-if';
 import { MyCo } from 'component/my-component';
 import { If } from 'component/if';
 
