@@ -9,7 +9,7 @@ import { InputCheck } from 'input-check';
 import { InpErr } from 'component/form/input/input-error';
 import { InpHint } from 'component/form/input/input-hint';
 import { IfErr } from 'if-error';
-import { DefaultErr } from 'default-error';
+import { DefaultErr } from 'component/form/validation/default-error';
 
 
 interface Errors {
