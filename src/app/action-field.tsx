@@ -1,15 +1,15 @@
 import { h } from 'preact';
 import { MyCo } from 'component/my-component';
-import { Container, inject } from './injection/inject-1k';
+import { Container, inject } from 'injection/inject-1k';
 import { Invalid } from 'component/form/validation/invalid';
-import { postJ } from './async/abortable-fetch';
+import { postJ } from 'async/abortable-fetch';
 import { InputBox } from 'component/form/input/input-box';
-import { InputOk } from './input-ok';
-import { InputCheck } from './input-check';
-import { InpErr } from './input-error';
-import { InpHint } from './input-hint';
-import { IfErr } from './if-error';
-import { DefaultErr } from './default-error';
+import { InputOk } from 'input-ok';
+import { InputCheck } from 'input-check';
+import { InpErr } from 'input-error';
+import { InpHint } from 'input-hint';
+import { IfErr } from 'if-error';
+import { DefaultErr } from 'default-error';
 
 
 interface Errors {

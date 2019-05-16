@@ -1,10 +1,10 @@
 import { h } from 'preact';
 import { MyCo } from 'component/my-component';
-import { Container, inject } from './injection/inject-1k';
+import { Container, inject } from 'injection/inject-1k';
 import { Sform } from 'component/form/sform';
 import { Submit } from 'component/form/submit';
-import { ActionField } from './action-field';
-import { PriorityField } from './priority-field';
+import { ActionField } from 'app/action-field';
+import { PriorityField } from 'app/priority-field';
 
 export interface ToDo {
   action: string;
