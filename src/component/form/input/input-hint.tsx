@@ -1,9 +1,9 @@
 import { h } from 'preact';
-import { U } from './const';
+import { U } from 'const';
 import { MyCo } from 'component/my-component';
 import { Invalid } from 'component/form/validation/invalid';
 import { Valiform } from 'component/form/validation/form-validation';
-import { ValiFieldLi } from './input-if';
+import { ValiFieldLi } from 'input-if';
 import { If } from 'component/if';
 
 interface InpHintSt {

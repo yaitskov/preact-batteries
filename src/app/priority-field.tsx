@@ -6,7 +6,7 @@ import { InputBox } from 'component/form/input/input-box';
 import { InputOk } from 'component/form/input/input-ok';
 import { InputCheck } from 'input-check';
 import { InpErr } from 'component/form/input/input-error';
-import { InpHint } from 'input-hint';
+import { InpHint } from 'component/form/input/input-hint';
 import { IfErr } from 'if-error';
 
 
