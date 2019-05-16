@@ -1,5 +1,4 @@
 import { Component, h } from 'preact';
-//import { MyCo } from 'component/my-component';
 
 export interface IfSt {
   f: boolean;
