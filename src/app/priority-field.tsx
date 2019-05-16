@@ -3,7 +3,7 @@ import { MyCo } from 'component/my-component';
 import { Container, inject } from 'injection/inject-1k';
 
 import { InputBox } from 'component/form/input/input-box';
-import { InputOk } from 'input-ok';
+import { InputOk } from 'component/form/input/input-ok';
 import { InputCheck } from 'input-check';
 import { InpErr } from 'input-error';
 import { InpHint } from 'input-hint';

@@ -1,8 +1,8 @@
 import { h } from 'preact';
-import { U } from './const';
+import { U } from 'const';
 import { MyCo } from 'component/my-component';
 import { Valiform, FormLevel } from 'component/form/validation/form-validation';
-import { InputOkP, InputIf } from './input-if';
+import { InputOkP, InputIf } from 'input-if';
 import { Invalid } from 'component/form/validation/invalid';
 
 interface InputOkS {
