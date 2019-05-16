@@ -6,7 +6,7 @@ import { postJ } from 'async/abortable-fetch';
 import { InputBox } from 'component/form/input/input-box';
 import { InputOk } from 'component/form/input/input-ok';
 import { InputCheck } from 'component/form/validation/input-check';
-import { InpErr } from 'component/form/input/input-error';
+import { InpErr } from 'component/form/validation/input-error';
 import { InpHint } from 'component/form/input/input-hint';
 import { IfErr } from 'component/form/validation/if-error';
 import { DefaultErr } from 'component/form/validation/default-error';
