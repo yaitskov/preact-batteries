@@ -1,4 +1,4 @@
-import { asyncIt, isA } from 'test-utils';
+import { asyncIt, isA } from 'util/test-utils';
 import { resolved, tJoin, AbrPro } from 'async/abortable-promise';
 import { Invalid } from 'component/form/validation/invalid';
 import { CustomValidator, InputCheckP } from 'input-check-def';

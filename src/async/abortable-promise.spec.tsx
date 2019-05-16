@@ -1,5 +1,5 @@
 import { resolved, tJoin, Thenable, AbrPro } from './abortable-promise';
-import { asyncIt } from 'test-utils';
+import { asyncIt } from 'util/test-utils';
 
 describe('promise', () => {
   describe('AbrPro', () => {
