@@ -3,7 +3,7 @@ import { Tobj, forM, mapO } from 'collection/typed-object';
 import { InputIf, ValiFieldLi } from 'component/form/validation/input-if';
 import { tJoin, Thenable } from 'async/abortable-promise';
 import { Container, inject } from 'injection/inject-1k';
-import { InputCheckP, CheckOn } from 'input-check-def';
+import { InputCheckP, CheckOn } from 'component/form/validation/input-check-def';
 import { Invalid } from 'component/form/validation/invalid';
 import { Validation, Validator } from 'component/form/validation/validation';
 import { grpBy } from 'collection/group-by';

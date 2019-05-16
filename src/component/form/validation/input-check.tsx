@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { Valiform } from 'component/form/validation/form-validation';
 import { MyCo } from 'component/my-component';
-import { InputCheckP } from 'input-check-def';
+import { InputCheckP } from 'component/form/validation/input-check-def';
 
 export class InputCheck extends MyCo<InputCheckP, {}> {
   // @ts-ignore TS2564
