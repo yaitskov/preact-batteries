@@ -1,10 +1,16 @@
+// karma.conf.js
+function getSpecs(specList) {
+  if (specList) {
+    return specList.split(',').map(file => `src/**/${file}.spec.tsx`);
+  }
+  return ["src/**/*.spec.tsx"];
+}
+
 module.exports = function(config) {
   config.set({
     browsers: ['ChromeHeadless'],
     frameworks: ['jasmine'],
-    files: [
-      "src/**/*.spec.tsx"
-    ],
+    files: getSpecs(process.env.KARMA_SPECS),
     plugins : ['karma-webpack', 'karma-jasmine', 'karma-chrome-launcher'],
     preprocessors: {
       "src/**/*.spec.tsx": ['webpack']
