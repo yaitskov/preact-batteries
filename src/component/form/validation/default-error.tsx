@@ -38,7 +38,11 @@ export class DefaultErr extends MyCo<{},  St> implements ValiFieldLi {
 
   invalid(inv: Invalid[]) {
     const shownChecks = this.meta.shownChecks();
-    this.st = {errs: toMap(inv.filter(i => aHas(i.check, shownChecks)), i => i.check, i => i.msgTmp) };
+    this.st = {
+      errs: toMap(inv.filter(i => !aHas(i.check, shownChecks)),
+                  i => i.check,
+                  i => i.msgTmp)
+    };
   }
 
   dirty() {

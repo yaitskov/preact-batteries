@@ -14,3 +14,23 @@ export function asyncIt<T>(msg: string, v: Thenable<T>, c: (m: jasmine.Matchers<
 export function isA(t: any): any {
   return jasmine.any(t) as any;
 }
+
+interface EventTarget {
+  value: string;
+}
+
+interface ChangeEvent {
+  preventDefault: () => void;
+  target: EventTarget;
+}
+
+export function changeEvent(value: string): ChangeEvent {
+  return {
+    preventDefault: () => {},
+    target: {value: value}
+  };
+}
+
+export function yieldRedraw(check: () => void) {
+  setTimeout(check, 0);
+}
