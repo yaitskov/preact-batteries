@@ -56,11 +56,11 @@ export function tFold<T>(thenables: ThenableFactory<T>[]): Thenable<T[]> {
     new Promise<T[]>(
       (ok, bad) => {
         function fld() {
-          if (thenables.length > 0) {
+          if (thenables.length) {
             pending[0] = thenables[0]();
             thenables.shift();
             pending[0].tnr(ts => {
-              if (ts.length > 0) {
+              if (ts.length) {
                 ok(ts);
               } else {
                 fld();

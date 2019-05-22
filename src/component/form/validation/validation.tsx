@@ -1,5 +1,5 @@
 import { Tobj } from 'collection/typed-object';
-import { Thenable, resolved, tJoin } from 'async/abortable-promise';
+import { Thenable, resolved, tFold } from 'async/abortable-promise';
 import { InputCheckP } from 'component/form/validation/input-check-def';
 import { Invalid, CheckName, MessageTemplate } from 'component/form/validation/invalid';
 import { U } from 'util/const';
@@ -177,7 +177,7 @@ export class ValiChain implements Validator {
   }
 
   check(val: string): Thenable<Invalid[]> {
-    return tJoin(this.sub.map(i => i.check(val))).tn((l) => l.flat());
+    return tFold(this.sub.map(i => () => i.check(val)));
   }
 }
 

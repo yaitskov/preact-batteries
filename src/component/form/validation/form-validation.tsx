@@ -1,7 +1,7 @@
 import { U } from 'util/const';
 import { Tobj, forM, mapO } from 'collection/typed-object';
 import { InputIf, ValiFieldLi } from 'component/form/validation/input-if';
-import { tJoin, Thenable } from 'async/abortable-promise';
+import { tJoin, tFold, Thenable } from 'async/abortable-promise';
 import { Container, inject } from 'injection/inject-1k';
 import { InputCheckP, CheckOn } from 'component/form/validation/input-check-def';
 import { Invalid } from 'component/form/validation/invalid';
@@ -78,8 +78,8 @@ export class FormLevel {
 
   private checkBy(events: CheckOn[], meta: MetaInput): Thenable<Invalid[]> {
     meta.fans.forEach(f => f.dirty());
-    return tJoin(events.filter(et => et in meta.check).map(et =>
-      meta.check[et].check(this.data[meta.input.getProps().a]))).tn(e => e.flat()).tnr(errors => {
+    return tFold(events.filter(et => et in meta.check).map(et =>
+      () => meta.check[et].check(this.data[meta.input.getProps().a]))).tnr(errors => {
         if (errors.length) {
           meta.fans.forEach(f => f.invalid(errors));
         } else {

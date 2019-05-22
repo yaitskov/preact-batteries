@@ -38,5 +38,8 @@ describe('promise', () => {
     asyncIt('merges empty',
             tFold([() => resolved([]), () => resolved([]), () => resolved([])]),
             c => c.toEqual([]));
+    asyncIt('merges first',
+            tFold([() => resolved([1]), () => resolved([])]),
+            c => c.toEqual([1]));
   });
 });

@@ -40,7 +40,7 @@ describe('DefaultError', () => {
     const dom = deep(
       <SformI data={data} onSend={e => resolved({})}>
         <InputBoxI>
-          <CheckI on="c" mit="r:^a$ !e">
+          <CheckI on="c" mit="!e r:^a$">
             <InputOkI a="action" />
           </CheckI>
           <InpErrI>
