@@ -47,3 +47,35 @@ export function tJoin<T>(thenables: Thenable<T>[]): Thenable<T[]> {
     Promise.all(thenables.map(t => t.p)),
     {abort: () => thenables.forEach(t => t.abort())});
 }
+
+export type ThenableFactory<T> = () => Thenable<T[]>;
+
+export function tFold<T>(thenables: ThenableFactory<T>[]): Thenable<T[]> {
+  const pending: Thenable<T[]>[] = [];
+  return new AbrPro<T[]>(
+    new Promise<T[]>(
+      (ok, bad) => {
+        function fld() {
+          if (thenables.length > 0) {
+            pending[0] = thenables[0]();
+            thenables.shift();
+            pending[0].tnr(ts => {
+              if (ts.length > 0) {
+                ok(ts);
+              } else {
+                fld();
+              }
+            });
+          } else {
+            ok([]);
+          }
+        }
+        fld();
+      }),
+    {
+      abort: () => {
+        thenables.length = 0;
+        pending.forEach(p => p.abort());
+      }
+    });
+}

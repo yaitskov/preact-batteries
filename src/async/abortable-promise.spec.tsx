@@ -1,4 +1,4 @@
-import { resolved, tJoin, Thenable, AbrPro } from './abortable-promise';
+import { resolved, tJoin, tFold, Thenable, AbrPro } from './abortable-promise';
 import { asyncIt } from 'util/test-utils';
 
 describe('promise', () => {
@@ -29,5 +29,14 @@ describe('promise', () => {
 
   describe('tJoin', () => {
     asyncIt('merges fulfilled promises', tJoin([resolved(1), resolved(2)]), c => c.toEqual([1,2]));
+  });
+
+  describe('tFold', () => {
+    asyncIt('merges till first non empty',
+            tFold([() => resolved([]), () => resolved([1,2]), () => resolved([3, 4])]),
+            c => c.toEqual([1, 2]));
+    asyncIt('merges empty',
+            tFold([() => resolved([]), () => resolved([]), () => resolved([])]),
+            c => c.toEqual([]));
   });
 });
