@@ -1,5 +1,6 @@
 
 
-- generate errors for validations without iferr (universal iferr)
++ generate errors for validations without iferr (universal iferr)
++ validation order & stop validation if 1 validator fails
+
 - delay on validations to prevent jerk button move (event queue delay tills next events or 100ms?)
-- validation order & stop validation if 1 validator fails
