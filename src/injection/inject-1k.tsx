@@ -61,7 +61,7 @@ export class Container {
     return this;
   }
 
-  private getByName(name: string, stack: string[]) {
+  getByName(name: string, stack: string[]): Bean {
     const b = this.onceBeans[name];
     if (b === undefined) {
       return this.newBean(name, stack);
@@ -76,7 +76,7 @@ export class Container {
     stack.push(name);
     const mb = this.beanFactories[name];
     if (mb === undefined) {
-      throw new Error(`no factory for bean ${name}`);
+      return this.noFactory(name);
     }
     const bean = new mb.clazz();
     if (mb.scope === once) {
@@ -86,12 +86,26 @@ export class Container {
     return mb.onInjected(bean, this);
   }
 
+  protected noFactory(name): Bean {
+    throw new Error(`no factory for bean ${name}`);
+  }
+
   injectDeps<T>(bean: T, stack: string[]): void {
     dir(bean).forEach((n) => {
       if (n[0] === '$') {
         bean[n] = this.getByName(n, stack);
       }
     });
+  }
+}
+
+export class FwdContainer extends Container {
+  constructor(private fwd: Container) {
+    super();
+  }
+
+  protected noFactory(name): Bean {
+    return this.fwd.getByName(name, []);
   }
 }
 

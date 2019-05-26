@@ -1,6 +1,6 @@
 import { Component, h } from 'preact';
 import { shallow } from 'preact-render-spy';
-import { Container, inject, many } from './inject-1k';
+import { Container, FwdContainer, inject, many } from './inject-1k';
 
 class Dep {
   public f: string = 'a';
@@ -54,5 +54,12 @@ describe('1k injection', () => {
     const InjectableComponentI = inject(InjectableComponent, container);
     const dom = shallow(<InjectableComponentI />);
     expect(dom.find('div').text()).toBe('a');
+  });
+
+  it('fwd to parent container', () => {
+    const beans = [new Bean(), new Bean()];
+    const container = new Container().bind([['dep', Dep, many]]);
+    beans.forEach(bean => new FwdContainer(container).injectDeps(bean, []));
+    expect(beans[0]['$dep'] !== beans[1]['$dep']).toBe(true);
   });
 });
