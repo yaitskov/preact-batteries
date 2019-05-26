@@ -1,6 +1,8 @@
+const path = require('path');
+const translationPlugin = require('./translation-plugin.js');
+
 module.exports = {
   rules: [
-    // Handle .ts and .tsx file via ts-loader.
     {
       test: /\.tsx?$/,
       exclude: /node_modules/,
@@ -18,7 +20,8 @@ module.exports = {
             ['@babel/plugin-proposal-throw-expressions'],
             ['@babel/proposal-object-rest-spread'],
             ['@babel/plugin-syntax-dynamic-import'],
-            ["@babel/transform-react-jsx", { "pragma": "h" }]
+            ["@babel/transform-react-jsx", { "pragma": "h" }],
+            translationPlugin
           ]
         }
       }

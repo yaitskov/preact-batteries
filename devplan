@@ -3,4 +3,25 @@
 + generate errors for validations without iferr (universal iferr)
 + validation order & stop validation if 1 validator fails
 
-- delay on validations to prevent jerk button move (event queue delay tills next events or 100ms?)
+0 delay on validations to prevent jerk button move (event queue delay tills next events or 100ms?)
+   0 due just setTimout 0 or 100 not working for change event not working.
+     solution is handle all events in a queue?
+
+- access to JSX components DOM during translation and storing files
+   consider eslint-plugin-preact-i18n as prototype
+   babel plugin
+
+  https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md
+
+  sample of project
+  https://github.com/MFCo/babel-plugin-css-generator-react-components
+
+  how catch async loading modules = await import?
+
+  https://webpack.js.org/loaders/babel-loader/
+
+
+https://angular.io/guide/i18n
+http://userguide.icu-project.org/formatparse/messages
+
+https://developer.mozilla.org/en-US/docs/Mozilla/Localization/Localization_and_Plurals
