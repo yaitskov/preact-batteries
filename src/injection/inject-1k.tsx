@@ -1,4 +1,4 @@
-import { Component, h } from 'preact';
+import { Tobj } from 'collection/typed-object';
 
 export interface Ctx {
 }
@@ -24,15 +24,15 @@ export interface Type<T> extends Function { new (...args: any[]): T; }
 export const once : Scope = 's';
 export const many : Scope = 'p';
 
-class MetaBean<T extends Bean> {
-  constructor(public clazz: Type<T>,
+class MetaBean {
+  constructor(public clazz: Type<Bean>,
               public scope: Scope,
-              public onInjected: (T, Container) => T) {}
+              public onInjected: (Bean, Container) => Bean) {}
 }
 
 export class Container {
-  private onceBeans: Map<string, Bean> = new Map<string, Bean>();
-  private beanFactories: Map<string, MetaBean<any>> = new Map<string, MetaBean<any>>();
+  private onceBeans: Tobj<Bean> = {};
+  private beanFactories: Tobj<MetaBean> = {};
 
   bind(beanDefs: BeanDef<Bean>[]): Container {
     beanDefs.forEach(beanDef => this.bean(beanDef[0], beanDef[1],
@@ -41,9 +41,9 @@ export class Container {
     return this;
   }
 
-  bean<T>(name: string, clazz: Type<T>,
+  bean<Bean>(name: string, clazz: Type<Bean>,
           scope: Scope = 's',
-          onInjected: OnInjected<T> = (o, g) => o): Container {
+          onInjected: OnInjected<Bean> = (o, g) => o): Container {
             name = '$' + name;
             if (this.beanFactories[name]) {
               throw new Error(`factory name [${name}] is busy`);
@@ -56,7 +56,7 @@ export class Container {
     return this.getByName('$' + name, []);
   }
 
-  public sBean(name: string, obj: object): Container {
+  public sBean(name: string, obj: Bean): Container {
     this.onceBeans['$' + name] = obj;
     return this;
   }
