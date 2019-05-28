@@ -15,6 +15,12 @@ app
   .get('/todos', (req, res) => {
     res.json({todos: todos});
   })
+  .get('/translation/pl/newTodo.json', (req, res) => {
+    res.json({'New TODO': 'Nowa sprawa'});
+  })
+  .get('/translation/pl/todoList.json', (req, res) => {
+    res.json({'Todos': 'Sprawy'});
+  })
   .get('/translation/pl/root.json', (req, res) => {
     res.json({'Terms of conditions': 'Warónki wykorzystania'});
   })

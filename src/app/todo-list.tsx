@@ -7,6 +7,7 @@ import { MyCo } from 'component/my-component';
 import { ToDo } from 'app/todo-form';
 import { ObList } from 'collection/observable-list';
 import { MainMenu } from 'app/main-menu';
+import { T } from 'i18n/translate-tag';
 
 interface TodoListSt {
   todos: ToDo[];
@@ -17,6 +18,8 @@ export default class TodoList extends MyCo<{}, TodoListSt> {
   $bundleName: string;
   // @ts-ignore
   $todoList: ObList<ToDo>;
+  // @ts-ignore
+  $container: Container;
 
   constructor(props) {
     super(props);
@@ -34,9 +37,10 @@ export default class TodoList extends MyCo<{}, TodoListSt> {
   }
 
   render() {
+    const TI = inject(T, this.$container);
     return <div>
       <MainMenu/>
-      <h1>Todos</h1>
+      <h1><TI m="Todos"/></h1>
       <p>Bundle: {this.$bundleName}</p>
       <ul>
         {this.st.todos.map(td => <li><b>{td.priority}:</b> {td.action}</li>)}

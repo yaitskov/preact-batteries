@@ -31,7 +31,7 @@ class MetaBean {
 }
 
 export class Container {
-  private onceBeans: Tobj<Bean> = {};
+  private onceBeans: Tobj<Bean> = {'$container': this};
   private beanFactories: Tobj<MetaBean> = {};
 
   bind(beanDefs: BeanDef<Bean>[]): Container {

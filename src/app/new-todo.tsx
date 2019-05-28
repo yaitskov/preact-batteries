@@ -8,6 +8,7 @@ import { ToDoForm, ToDoFormP, ToDo } from 'app/todo-form';
 import { MyCo } from 'component/my-component';
 
 import { ObList } from 'collection/observable-list';
+import { T } from 'i18n/translate-tag';
 
 
 function submitHandler(data: ToDo): Thenable<ToDo> {
@@ -39,12 +40,13 @@ export default class TodoGroup extends MyCo<{}, TodoGroupS> {
   }
 
   render() {
+    const TI = inject(T, this.$container);
     const ToDoFormI = inject(ToDoForm, this.$container);
     return <div>
       <MainMenu/>
-      <h1>New TODO: {this.$bundleName}</h1>
+      <h1><TI m="New TODO"/>: {this.$bundleName}</h1>
       <ToDoFormI todo={this.st.todo}
-                 onSubmit={td => submitHandler(td).tnr(t => this.$todoList.add(t))}/>
+                   onSubmit={td => submitHandler(td).tnr(t => this.$todoList.add(t))}/>
     </div>;
   }
 }
