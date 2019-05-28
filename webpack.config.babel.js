@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MergeAndFlushI18nPlugin = require('./merge-and-flush-i18n');
 
 module.exports = {
   entry: "./src/bootstrap.tsx",
@@ -15,6 +16,7 @@ module.exports = {
   },
   module: require('./webpack.modules.js'),
   plugins: [
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin(),
+    new MergeAndFlushI18nPlugin({}, {})
   ]
 };
