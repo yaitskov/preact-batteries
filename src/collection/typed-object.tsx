@@ -13,3 +13,6 @@ export const idx = <T extends {} >(e: T, a: T[]): number => a.indexOf(e);
 export const aHas = <T extends {} >(e: T, a: T[]): boolean => idx(e, a) >= 0;
 export const toMap = <T extends {}, V extends {} >(
   a: T[], keyF: (e: T) => string, valueF: (e: T) => V): Tobj<V> => a.reduce((m, e) => (m[keyF(e)] = valueF(e), m), {});
+
+
+export const deepEq = <T extends {}>(a: Tobj<T>, b: Tobj<T>): boolean => JSON.stringify(a) === JSON.stringify(b);

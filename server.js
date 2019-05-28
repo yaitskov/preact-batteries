@@ -15,6 +15,15 @@ app
   .get('/todos', (req, res) => {
     res.json({todos: todos});
   })
+  .get('/translation/pl/root.json', (req, res) => {
+    res.json({'Terms of conditions': 'Warónki wykorzystania'});
+  })
+  .get('/translation/ru/root.json', (req, res) => {
+    res.json({'Terms of conditions': 'Условия использования'});
+  })
+  .get('/translation/en/root.json', (req, res) => {
+    res.json({'Terms of conditions': 'Terms of conditions'});
+  })
   .post('/unique-action', (req, res) => {
     console.log(`check that action [${req.body.value}] is unique`);
     const collidingTodo = todos.find((todo) => todo.action === req.body.value);

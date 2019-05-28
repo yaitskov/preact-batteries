@@ -61,6 +61,11 @@ export class Container {
     return this;
   }
 
+  public sBeanInj(name: string, obj: Bean): Container {
+    this.injectDeps(obj, []);
+    return this.sBean(name, obj);
+  }
+
   getByName(name: string, stack: string[]): Bean {
     const b = this.onceBeans[name];
     if (b === undefined) {

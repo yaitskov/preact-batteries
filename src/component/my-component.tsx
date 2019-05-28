@@ -17,6 +17,14 @@ export abstract class MyCo<P, S> extends Component<P, S> {
     this.dMnt();
   }
 
+  componentDidUpdate(prevProps: P) {
+    this.onUp(prevProps);
+  }
+
+  protected onUp(prevProps: P): void {
+    // relax
+  }
+
   protected set st(newSt: S) {
     this.setState(newSt);
   }

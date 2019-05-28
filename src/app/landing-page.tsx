@@ -3,9 +3,9 @@ import { Router, Route, route } from 'preact-router';
 import AsyncRoute from 'preact-async-route';
 import { inject, FwdContainer, Container } from 'injection/inject-1k';
 import { MyCo } from 'component/my-component';
-import { Terms } from './terms-of-conditions';
+import { Terms } from 'app/terms-of-conditions';
 import { keysM } from 'collection/typed-object';
-
+import { I18Trans } from 'i18n/i18n-translator';
 
 export class LandingPage extends MyCo<{}, {}> {
   // @ts-ignore
@@ -13,7 +13,10 @@ export class LandingPage extends MyCo<{}, {}> {
 
   private inj(module: any, name: string): Component {
     console.log(`members ${JSON.stringify(keysM(module))}`);
-    return inject(module.default, new FwdContainer(this.$container).sBean('bundleName', name));
+    return inject(module.default,
+                  new FwdContainer(this.$container)
+                    .sBean('bundleName', name)
+                    .sBeanInj('i18Trans', new I18Trans()));
   }
 
   TodoList = async () => await import('./todo-list').then(m => this.inj(m, 'todoList'));

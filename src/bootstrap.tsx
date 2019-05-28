@@ -7,6 +7,8 @@ import { LandingPage } from 'app/landing-page';
 
 import { ToDo } from 'app/todo-form';
 import { ObList } from 'collection/observable-list';
+import { ObVar } from 'collection/observable-variable';
+import { I18Trans, LanguageCode } from 'i18n/i18n-translator';
 
 const container = new Container();
 
@@ -15,10 +17,13 @@ container
     [
       ['valiform', Valiform],
       ['validation', Validation],
+      ['i18Trans', I18Trans],
     ])
   .sBean('container', container)
   .sBean('bundleName', 'root')
+  .sBean('curLang', new ObVar<LanguageCode>('pl'))
   .sBean('todoList', new ObList<ToDo>());
+
 
 const LandingPageI = inject(LandingPage, container);
 
