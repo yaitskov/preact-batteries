@@ -19,9 +19,9 @@ export class LandingPage extends MyCo<{}, {}> {
                     .sBeanInj('i18Trans', new I18Trans()));
   }
 
-  TodoList = async () => await import('./todo-list').then(m => this.inj(m, 'todoList'));
+  TodoList = async () => await import('./todo-list').then(m => this.inj(m, 'todo-list'));
 
-  NewTodo = async () => await import('./new-todo').then(m => this.inj(m, 'newTodo'));
+  NewTodo = async () => await import('./new-todo').then(m => this.inj(m, 'new-todo'));
 
   render() {
     return <Router>

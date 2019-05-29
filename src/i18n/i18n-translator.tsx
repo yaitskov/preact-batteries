@@ -18,7 +18,7 @@ export class I18Trans {
 
   private dict: AtomicAsync<Tobj<TransPhrase>> = new AtomicAsync(
     () => ({lang: this.$curLang.val}),
-    p => geT(`/translation/${p.lang}/${this.$bundleName}.json`)
+    p => geT(`/translation/${this.$bundleName}/${p.lang}.json`)
       .tn(r => r.json()));
 
   public map(msgId: string): Thenable<TranslatedMessage> {

@@ -15,21 +15,6 @@ app
   .get('/todos', (req, res) => {
     res.json({todos: todos});
   })
-  .get('/translation/pl/newTodo.json', (req, res) => {
-    res.json({'New TODO': 'Nowa sprawa'});
-  })
-  .get('/translation/pl/todoList.json', (req, res) => {
-    res.json({'Todos': 'Sprawy'});
-  })
-  .get('/translation/pl/root.json', (req, res) => {
-    res.json({'Terms of conditions': 'Warónki wykorzystania'});
-  })
-  .get('/translation/ru/root.json', (req, res) => {
-    res.json({'Terms of conditions': 'Условия использования'});
-  })
-  .get('/translation/en/root.json', (req, res) => {
-    res.json({'Terms of conditions': 'Terms of conditions'});
-  })
   .post('/unique-action', (req, res) => {
     console.log(`check that action [${req.body.value}] is unique`);
     const collidingTodo = todos.find((todo) => todo.action === req.body.value);
@@ -47,6 +32,7 @@ app
   .get('/h', (req, res) => {
     res.send('<html><body><b>hello world</b></body></html>');
   })
+  .use('/translation', express.static('i18n-dicts'))
   .use('/', express.static('dist'));
 
 const port = 8084;
