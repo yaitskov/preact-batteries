@@ -19,6 +19,7 @@ container
       ['validation', Validation],
       ['i18Trans', I18Trans],
     ])
+  .sBean('bundlesCtx', {})
   .sBean('bundleName', 'bootstrap')
   .sBean('curLang', new ObVar<LanguageCode>('pl'))
   .sBean('todoList', new ObList<ToDo>());

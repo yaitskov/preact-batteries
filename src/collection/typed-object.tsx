@@ -16,3 +16,13 @@ export const toMap = <T extends {}, V extends {} >(
 
 
 export const deepEq = <T extends {}>(a: Tobj<T>, b: Tobj<T>): boolean => JSON.stringify(a) === JSON.stringify(b);
+
+export const gNew = <T extends {} >(obj: Tobj<T>,
+                                    key: string,
+                                    newV: () => T): T => {
+                                      let v = obj[key];
+                                      if (!v) {
+                                        v = obj[key] = newV();
+                                      }
+                                      return v;
+                                    };
