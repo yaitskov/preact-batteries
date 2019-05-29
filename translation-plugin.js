@@ -12,20 +12,27 @@ class DAG {
     this.sourceVertexes = {};
   }
 
-  newStaticEdge(src, dst) {
+  newEdge(src, dst) {
     let vertex = this.sourceVertexes[src];
-    if (!vertex) {
-      this.sourceVertexes[src] = vertex = {};
+    if (vertex) {
+      if (vertex.indexOf(dst) < 0) {
+        vertex.push(dst);
+      }
+    } else {
+      this.sourceVertexes[src] = vertex = [dst];
     }
-    vertex[dst] = 'static';
   }
 
-  newDynamicEdge(src, dst) {
-    let vertex = this.sourceVertexes[src];
-    if (!vertex) {
-      this.sourceVertexes[src] = vertex = {};
-    }
-    vertex[dst] = 'dynamic';
+  sources() {
+    return Object.keys(this.sourceVertexes);
+  }
+
+  entries() {
+    return Object.entries(this.sourceVertexes);
+  }
+
+  r(src) {
+    return this.sourceVertexes[src];
   }
 }
 
@@ -41,10 +48,22 @@ class Dictionaries {
     }
     fileDict[msgId] = [];
   }
+
+  entries(file) {
+    return Object.entries(this.dicts[file] || {});
+  }
 }
 
-function normalizedPath(state) {
-  return fPath.basename(state.file.opts.filename).replace(/[.]tsx$/, '');
+function newState() {
+  return {
+    dynamicImports: new DAG(),
+    staticImports: new DAG(),
+    dicts: new Dictionaries()
+  };
+}
+
+function normalizedPath(state, params) {
+  return state.file.opts.filename.substring(params.rootPrefixLength).replace(/[.]tsx$/, '');
 }
 
 function expandPath(source, mayBeLocalDest) {
@@ -65,42 +84,42 @@ function fatalErr(msg, path, state) {
  in file ${state.file.opts.filename}`);
 }
 
-exports.default = function (_ref) {
-  const dag = new DAG();
-  const dicts = new Dictionaries();
-  //var t = _ref.types;
-
-  return {
-    visitor: {
-      Program: {
-        exit(path, state) {
-          console.log(`File graph of ${state.file.opts.filename}:\n${json(dag.sourceVertexes)}`);
-          console.log(`Dictionaries:\n${json(dicts.dicts)}`);
-        }
-      },
-      ImportDeclaration: {
-        enter(path, state) {
-          if (path.node.source.type === 'StringLiteral') {
-            const source = normalizedPath(state);
-            dag.newStaticEdge(source,
-                              expandPath(source, path.node.source.value));
-          } else {
-            throw fatalErr(
-              `import must have literal string argument but ${path.node.source.type}`,
-              path, state);
+function makeVisitorFactory(result, params) {
+  return () => {
+    let insideAwait = false;
+    return {
+      visitor: {
+        Program: {
+          exit(path, state) {
+            // console.log(`File graph of ${state.file.opts.filename}:\n${json(dag.sourceVertexes)}`);
+            // console.log(`Dictionaries:\n${json(dicts.dicts)}`);
           }
-        }
-      },
-      AwaitExpression: {
-        enter(path, state) {
-          const arg = path.node.argument;
-          if (arg.type === 'CallExpression') {
-            if (arg.type === 'Import') {
+        },
+        ImportDeclaration: {
+          enter(path, state) {
+            if (path.node.source.type === 'StringLiteral') {
+              const source = normalizedPath(state, params);
+              result.staticImports.newEdge(source,
+                                           expandPath(source, path.node.source.value));
+            } else {
+              throw fatalErr(
+                `import must have literal string argument but ${path.node.source.type}`,
+                path, state);
+            }
+          }
+        },
+        CallExpression: {
+          enter(path, state) {
+            if (!insideAwait) {
+              return;
+            }
+            const arg = path.node;
+            if (arg.callee.type === 'Import') {
               if (arg.arguments.length === 1) {
                 if (arg.arguments[0].type === 'StringLiteral') {
-                  const source = normalizedPath(state);
-                  dag.newDynamicEdge(source,
-                                     expandPath(source, arg.arguments[0].value));
+                  const source = normalizedPath(state, params);
+                  result.dynamicImports.newEdge(source,
+                                                expandPath(source, arg.arguments[0].value));
                 } else {
                   throw fatalErr(`dynamic import accepts just literal string`,
                                  path, state);
@@ -110,37 +129,46 @@ exports.default = function (_ref) {
                   `only 1 literal string is supported, but ${json(arg.arguments)}.`,
                   path, state);
               }
+            } else if (arg.callee.type === 'MemberExpression') {
+              // skip ok
             } else {
-              console.log(`skip call expression with calle ${arg.type}`);
+              console.log(`skip callexpression with calle ${arg.callee.type}`);
             }
-          } else {
-            console.log(`skip await expression with ${path.node.argument.type}`);
           }
-        }
-      },
-      JSXElement: {
-        enter(path, state) {
-          const oEl = path.node.openingElement;
-          if (oEl.name.name === 'TI') {
-            if (oEl.attributes.length === 1) {
-              const attr = oEl.attributes[0];
-              if (attr.name.name !== 'm') {
-                throw fatalErr('TI tag must have attribute (m)', path, state);
-              }
-              const attrVal = attr.value;
-              if (attrVal.type === 'StringLiteral') {
-                const fileName = normalizedPath(state);
-                console.log(`file name ${fileName} => ${state.file.opts.filename}`);
-                dicts.newEntry(fileName, attrVal.value);
+        },
+        AwaitExpression: {
+          enter(path, state) {
+            insideAwait = true;
+          },
+          exit() {
+            insideAwait = false;
+          }
+        },
+        JSXElement: {
+          enter(path, state) {
+            const oEl = path.node.openingElement;
+            if (oEl.name.name === 'TI') {
+              if (oEl.attributes.length === 1) {
+                const attr = oEl.attributes[0];
+                if (attr.name.name !== 'm') {
+                  throw fatalErr('TI tag must have attribute (m)', path, state);
+                }
+                const attrVal = attr.value;
+                if (attrVal.type === 'StringLiteral') {
+                  const fileName = normalizedPath(state, params);
+                  result.dicts.newEntry(fileName, attrVal.value);
+                } else {
+                  throw fatalErr('attribute m of TI must be a string literal', path, state);
+                }
               } else {
-                throw fatalErr('attribute m of TI must be a string literal', path, state);
+                throw fatalErr('TI tag must have 1 attribute (m)', path, state);
               }
-            } else {
-              throw fatalErr('TI tag must have 1 attribute (m)', path, state);
             }
           }
         }
       }
-    }
+    };
   };
-};
+}
+
+module.exports = { makeVisitorFactory, newState };

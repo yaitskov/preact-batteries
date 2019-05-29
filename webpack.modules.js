@@ -1,8 +1,8 @@
 const path = require('path');
-const translationPlugin = require('./translation-plugin.js');
 
-module.exports = {
-  rules: [
+function makeModule(extraBabelPlugins) {
+  return {
+    rules: [
     {
       test: /\.tsx?$/,
       exclude: /node_modules/,
@@ -21,10 +21,13 @@ module.exports = {
             ['@babel/proposal-object-rest-spread'],
             ['@babel/plugin-syntax-dynamic-import'],
             ["@babel/transform-react-jsx", { "pragma": "h" }],
-            translationPlugin
+            ...extraBabelPlugins
           ]
         }
       }
     }
-  ]
-};
+    ]
+  };
+}
+
+module.exports = makeModule;

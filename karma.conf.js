@@ -1,4 +1,5 @@
-// karma.conf.js
+const makeWebPackModule = require('./webpack.modules.js');
+
 function getSpecs(specList) {
   if (specList) {
     return specList.split(',').map(file => `src/**/${file}.spec.tsx`);
@@ -22,7 +23,7 @@ module.exports = function(config) {
         extensions: [".tsx", ".js"],
         modules: ['src', 'node_modules']
       },
-      module: require('./webpack.modules.js')
+      module: makeWebPackModule([])
     }
   });
 };
