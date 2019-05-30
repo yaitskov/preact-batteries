@@ -5,8 +5,8 @@ import { Thenable } from 'async/abortable-promise';
 import { inject, Container } from 'injection/inject-1k';
 import { MainMenu } from 'app/main-menu';
 import { ToDoForm, ToDoFormP, ToDo } from 'app/todo-form';
-import { MyCo } from 'component/my-component';
-
+import { InjSubCom } from 'injection/inject-sub-components';
+import { VoidIf } from 'collection/typed-object';
 import { ObList } from 'collection/observable-list';
 import { T } from 'i18n/translate-tag';
 
@@ -26,13 +26,11 @@ interface TodoGroupS {
   todo: ToDo;
 }
 
-export default class TodoGroup extends MyCo<{}, TodoGroupS> {
+export default class TodoGroup extends InjSubCom<VoidIf, TodoGroupS> {
   // @ts-ignore
   $bundleName: string;
   // @ts-ignore
   $todoList: ObList<ToDo>;
-  // @ts-ignore
-  $container: Container;
 
   constructor(props) {
     super(props);
@@ -40,13 +38,12 @@ export default class TodoGroup extends MyCo<{}, TodoGroupS> {
   }
 
   render() {
-    const TI = inject(T, this.$container);
-    const ToDoFormI = inject(ToDoForm, this.$container);
+    const [TI, ToDoFormI]  = this.c2(T, ToDoForm);
     return <div>
       <MainMenu/>
       <h1><TI m="New TODO"/>: {this.$bundleName}</h1>
       <ToDoFormI todo={this.st.todo}
-                   onSubmit={td => submitHandler(td).tnr(t => this.$todoList.add(t))}/>
+                 onSubmit={td => submitHandler(td).tnr(t => this.$todoList.add(t))}/>
     </div>;
   }
 }

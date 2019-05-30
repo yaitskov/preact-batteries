@@ -8,6 +8,10 @@ export abstract class InjSubCom<P, S> extends MyCo<P, S> {
   // @ts-ignore TS2564
   protected $container: Container;
 
+  protected c2<A extends Component, B extends Component>(a: Instantiable<A>, b: Instantiable<B>): [Instantiable<A>, Instantiable<B>] {
+    return [this.c(a), this.c(b)];
+  }
+
   protected c3<A extends Component, B extends Component, C extends Component>(
     a: Instantiable<A>,
     b: Instantiable<B>,

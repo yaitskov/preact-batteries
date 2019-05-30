@@ -9,16 +9,17 @@ import { InpHint } from 'component/form/input/input-hint';
 import { IfErr } from 'component/form/validation/if-error';
 import { DefaultErr } from 'component/form/validation/default-error';
 import { InjSubCom } from 'injection/inject-sub-components';
-import { VoidIf } from 'collection/typed-object';
 
 interface Errors {
   errors: Invalid[];
 }
 
-export class ActionField extends InjSubCom<VoidIf, VoidIf> {
+export class ActionField extends InjSubCom<{}, {}> {
   render() {
-    const [DefaultErrI, InputBoxI, InputOkI, CheckI] = this.c4(DefaultErr, InputBox, InputOk, InputCheck);
-    const [InpErrI, IfErrI, InpHintI] = this.c3(InpErr, IfErr, InpHint);
+    const [DefaultErrI, InputBoxI, InputOkI, CheckI] =
+      this.c4(DefaultErr, InputBox, InputOk, InputCheck);
+    const [InpErrI, IfErrI, InpHintI] =
+      this.c3(InpErr, IfErr, InpHint);
 
     return <InputBoxI>
       <label>

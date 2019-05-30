@@ -1,25 +1,23 @@
 import { h } from 'preact';
-import { Container, inject } from 'injection/inject-1k';
 
 import { geT } from 'async/abortable-fetch';
 
-import { MyCo } from 'component/my-component';
+import { InjSubCom } from 'injection/inject-sub-components';
 import { ToDo } from 'app/todo-form';
 import { ObList } from 'collection/observable-list';
 import { MainMenu } from 'app/main-menu';
 import { T } from 'i18n/translate-tag';
+import { VoidIf } from 'collection/typed-object';
 
 interface TodoListSt {
   todos: ToDo[];
 }
 
-export default class TodoList extends MyCo<{}, TodoListSt> {
+export default class TodoList extends InjSubCom<VoidIf, TodoListSt> {
   // @ts-ignore
   $bundleName: string;
   // @ts-ignore
   $todoList: ObList<ToDo>;
-  // @ts-ignore
-  $container: Container;
 
   constructor(props) {
     super(props);
@@ -37,7 +35,7 @@ export default class TodoList extends MyCo<{}, TodoListSt> {
   }
 
   render() {
-    const TI = inject(T, this.$container);
+    const TI = this.c(T);
     return <div>
       <MainMenu/>
       <h1><TI m="Todos"/></h1>

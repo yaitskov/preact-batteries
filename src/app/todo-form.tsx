@@ -1,6 +1,5 @@
 import { h } from 'preact';
-import { MyCo } from 'component/my-component';
-import { Container, inject } from 'injection/inject-1k';
+import { InjSubCom } from 'injection/inject-sub-components';
 import { Sform } from 'component/form/sform';
 import { Submit } from 'component/form/submit';
 import { ActionField } from 'app/action-field';
@@ -12,19 +11,14 @@ export interface ToDo {
 }
 
 export interface ToDoFormP {
-  onSubmit: (d: object) => void;
+  onSubmit: (d: ToDo) => void;
   todo: ToDo;
 }
 
-export class ToDoForm extends MyCo<ToDoFormP, {}> {
-  // @ts-ignore TS2564
-  private $container: Container;
-
+export class ToDoForm extends InjSubCom<ToDoFormP, {}> {
   render() {
-    const SformI = inject(Sform, this.$container);
-    const SubmitI = inject(Submit, this.$container);
-    const ActionFieldI = inject(ActionField, this.$container);
-    const PriorityFieldI = inject(PriorityField, this.$container);
+    const [SformI, SubmitI, ActionFieldI, PriorityFieldI] =
+      this.c4(Sform, Submit, ActionField, PriorityField);
 
     return <SformI data={this.props.todo}
                    onSend={e => this.props.onSubmit(this.props.todo)}>

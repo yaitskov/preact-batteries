@@ -1,4 +1,4 @@
-import { Tobj } from 'collection/typed-object';
+import { Tobj, Instantiable } from 'collection/typed-object';
 
 export interface Ctx {
 }
@@ -114,10 +114,10 @@ export class FwdContainer extends Container {
   }
 }
 
-export const inject = (T: any, container: Container): any => (
-  class Enhance extends T {
+export const inject = <IT extends {}> (T: Instantiable<IT>, container: Container): Instantiable<IT> => (
+  class Enhance extends (T as any) {
     constructor(props) {
       super(props);
       container.injectDeps(this, []);
     }
-  });
+  }) as Instantiable<IT>;

@@ -34,6 +34,3 @@ export const isStr = (o: any) => typeof o === 'string';
 
 export const ifStrE = <T extends ({} | void)> (o: any, strF: (s: string) => T, otherF: () => T): T =>
   isStr(o) ? strF(o as string) : otherF();
-
-export interface VoidIf {
-}

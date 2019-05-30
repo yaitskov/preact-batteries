@@ -2,11 +2,12 @@ import { h } from 'preact';
 import { MyCo } from 'component/my-component';
 import { Wm } from 'component/will-mount';
 import { Valiform, FormLevel } from 'component/form/validation/form-validation';
+import { VoidIf } from 'collection/typed-object';
 
 /**
-  draw scope for input listeners
-*/
-export class InputBox extends MyCo<{}, {}> {
+   draw scope for input listeners
+ */
+export class InputBox extends MyCo<VoidIf, VoidIf> {
   // @ts-ignore
   $valiform: Valiform;
   // @ts-ignore
