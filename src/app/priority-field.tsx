@@ -7,9 +7,8 @@ import { InputCheck } from 'component/form/validation/input-check';
 import { InpErr } from 'component/form/validation/input-error';
 import { InpHint } from 'component/form/input/input-hint';
 import { IfErr } from 'component/form/validation/if-error';
-import { VoidIf } from 'collection/typed-object';
 
-export class PriorityField extends InjSubCom<VoidIf, VoidIf> {
+export class PriorityField extends InjSubCom<{}, {}> {
   render() {
     const [InputBoxI, InputOkI, CheckI] = this.c3(InputBox, InputOk, InputCheck);
     const [InpErrI, IfErrI, InpHintI] = this.c3(InpErr, IfErr, InpHint);

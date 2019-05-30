@@ -7,13 +7,12 @@ import { ToDo } from 'app/todo-form';
 import { ObList } from 'collection/observable-list';
 import { MainMenu } from 'app/main-menu';
 import { T } from 'i18n/translate-tag';
-import { VoidIf } from 'collection/typed-object';
 
 interface TodoListSt {
   todos: ToDo[];
 }
 
-export default class TodoList extends InjSubCom<VoidIf, TodoListSt> {
+export default class TodoList extends InjSubCom<{}, TodoListSt> {
   // @ts-ignore
   $bundleName: string;
   // @ts-ignore

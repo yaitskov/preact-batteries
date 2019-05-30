@@ -6,7 +6,6 @@ import { inject, Container } from 'injection/inject-1k';
 import { MainMenu } from 'app/main-menu';
 import { ToDoForm, ToDoFormP, ToDo } from 'app/todo-form';
 import { InjSubCom } from 'injection/inject-sub-components';
-import { VoidIf } from 'collection/typed-object';
 import { ObList } from 'collection/observable-list';
 import { T } from 'i18n/translate-tag';
 
@@ -26,7 +25,7 @@ interface TodoGroupS {
   todo: ToDo;
 }
 
-export default class TodoGroup extends InjSubCom<VoidIf, TodoGroupS> {
+export default class TodoGroup extends InjSubCom<{}, TodoGroupS> {
   // @ts-ignore
   $bundleName: string;
   // @ts-ignore

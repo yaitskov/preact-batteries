@@ -5,14 +5,13 @@ import { Invalid } from 'component/form/validation/invalid';
 import { Valiform } from 'component/form/validation/form-validation';
 import { ValiFieldLi } from 'component/form/validation/input-if';
 import { If } from 'component/if';
-import { VoidIf } from 'collection/typed-object';
 
 interface InpHintSt {
   show: boolean;
 }
 
 // show children if field is invalid
-export class InpHint extends MyCo<VoidIf, InpHintSt> implements ValiFieldLi {
+export class InpHint extends MyCo<{}, InpHintSt> implements ValiFieldLi {
   // @ts-ignore TS2564
   $valiform: Valiform;
 
