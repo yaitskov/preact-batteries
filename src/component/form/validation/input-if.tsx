@@ -3,8 +3,8 @@ import { Invalid } from 'component/form/validation/invalid';
 type FieldName = string;
 
 export interface InputOkP {
-  style: string;
-  cls: string;
+  style?: string;
+  cls?: string;
   a: FieldName;
 }
 

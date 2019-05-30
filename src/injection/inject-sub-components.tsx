@@ -1,25 +1,33 @@
+import { Component } from 'preact';
+import { Instantiable } from 'collection/typed-object';
 import { MyCo } from 'component/my-component';
 import { Container, inject } from './inject-1k';
 
-type Type = any;
-
 export abstract class InjSubCom<P, S> extends MyCo<P, S> {
-  protected subComs: Map<Type, object> = new Map<Type, object>();
+  protected comps: Map<any, any>  = new Map<any, any>();
   // @ts-ignore TS2564
   protected $container: Container;
 
-  componentWillMount() {
-    this.injectSubComponents();
-    this.wMnt();
-  }
+  protected c3<A extends Component, B extends Component, C extends Component>(
+    a: Instantiable<A>,
+    b: Instantiable<B>,
+    c: Instantiable<C>): [Instantiable<A>, Instantiable<B>, Instantiable<C>] {
+      return [this.c(a), this.c(b), this.c(c)];
+    }
 
-  protected injectSubComponents() {
-    this.subComTypes().forEach(t => this.subComs[t] = inject(t, this.$container));
-  }
+  protected c4<A extends Component, B extends Component, C extends Component, D extends Component>(
+    a: Instantiable<A>,
+    b: Instantiable<B>,
+    c: Instantiable<C>,
+    d: Instantiable<D>): [Instantiable<A>, Instantiable<B>, Instantiable<C>, Instantiable<D>] {
+      return [this.c(a), this.c(b), this.c(c), this.c(d)];
+    }
 
-  protected abstract subComTypes(): Type[];
-
-  protected sCom(t: Type): object {
-    return this.subComs[t];
+  protected c<T extends Component>(t: Instantiable<T>): Instantiable<T> {
+    let com = this.comps.get(t);
+    if (!com) {
+      this.comps.set(t, com = inject(t, this.$container));
+    }
+    return com;
   }
 }

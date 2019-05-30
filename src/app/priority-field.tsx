@@ -1,6 +1,5 @@
 import { h } from 'preact';
-import { MyCo } from 'component/my-component';
-import { Container, inject } from 'injection/inject-1k';
+import { InjSubCom } from 'injection/inject-sub-components';
 
 import { InputBox } from 'component/form/input/input-box';
 import { InputOk } from 'component/form/input/input-ok';
@@ -8,22 +7,12 @@ import { InputCheck } from 'component/form/validation/input-check';
 import { InpErr } from 'component/form/validation/input-error';
 import { InpHint } from 'component/form/input/input-hint';
 import { IfErr } from 'component/form/validation/if-error';
+import { VoidIf } from 'collection/typed-object';
 
-
-export class PriorityField extends MyCo<{}, {}> {
-  // @ts-ignore TS2564
-  private $container: Container;
-
-  wMnt() {
-  }
-
+export class PriorityField extends InjSubCom<VoidIf, VoidIf> {
   render() {
-    const InputBoxI = inject(InputBox, this.$container);
-    const InputOkI = inject(InputOk, this.$container);
-    const CheckI = inject(InputCheck, this.$container);
-    const InpErrI = inject(InpErr, this.$container);
-    const IfErrI = inject(IfErr, this.$container);
-    const InpHintI = inject(InpHint, this.$container);
+    const [InputBoxI, InputOkI, CheckI] = this.c3(InputBox, InputOk, InputCheck);
+    const [InpErrI, IfErrI, InpHintI] = this.c3(InpErr, IfErr, InpHint);
 
     return <InputBoxI>
       <label>

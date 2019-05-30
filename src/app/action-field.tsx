@@ -1,6 +1,4 @@
 import { h } from 'preact';
-import { MyCo } from 'component/my-component';
-import { Container, inject } from 'injection/inject-1k';
 import { Invalid } from 'component/form/validation/invalid';
 import { postJ } from 'async/abortable-fetch';
 import { InputBox } from 'component/form/input/input-box';
@@ -10,27 +8,17 @@ import { InpErr } from 'component/form/validation/input-error';
 import { InpHint } from 'component/form/input/input-hint';
 import { IfErr } from 'component/form/validation/if-error';
 import { DefaultErr } from 'component/form/validation/default-error';
-
+import { InjSubCom } from 'injection/inject-sub-components';
+import { VoidIf } from 'collection/typed-object';
 
 interface Errors {
   errors: Invalid[];
 }
 
-export class ActionField extends MyCo<{}, {}> {
-  // @ts-ignore TS2564
-  private $container: Container;
-
-  wMnt() {
-  }
-
+export class ActionField extends InjSubCom<VoidIf, VoidIf> {
   render() {
-    const DefaultErrI = inject(DefaultErr, this.$container);
-    const InputBoxI = inject(InputBox, this.$container);
-    const InputOkI = inject(InputOk, this.$container);
-    const CheckI = inject(InputCheck, this.$container);
-    const InpErrI = inject(InpErr, this.$container);
-    const IfErrI = inject(IfErr, this.$container);
-    const InpHintI = inject(InpHint, this.$container);
+    const [DefaultErrI, InputBoxI, InputOkI, CheckI] = this.c4(DefaultErr, InputBox, InputOk, InputCheck);
+    const [InpErrI, IfErrI, InpHintI] = this.c3(InpErr, IfErr, InpHint);
 
     return <InputBoxI>
       <label>

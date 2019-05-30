@@ -7,13 +7,11 @@ import { ValiFieldLi } from 'component/form/validation/input-if';
 import { MyCo } from 'component/my-component';
 import { If } from 'component/if';
 
-
 interface InpErrSt {
   show: boolean;
 }
 
 interface InpErrP {
-  name: string;
 }
 
 // show children if field is invalid
@@ -33,7 +31,6 @@ export class InpErr extends MyCo<InpErrP, InpErrSt> implements ValiFieldLi {
   }
 
   wMnt() {
-    console.log(`inp err will mount ${this.props.name}`);
     this.$valiform.topForm().addFan(this);
   }
 
