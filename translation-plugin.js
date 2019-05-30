@@ -107,7 +107,13 @@ class JsxTranslator {
         this.result.dicts.newEntry(
           normalizedPath(state, this.params),
           msgTplAttr.value.value,
-          Object.keys(attrIndex).filter(k => k !== 'm').sort());
+          Object.keys(attrIndex)
+            .map(k => {
+              if (k.length > 5) {
+                throw fatalErr(`message parameter ${k} is too long. Max 5 letters`, path, state);
+              }
+              return k;
+            }).filter(k => k !== 'm').sort());
       }
     }
   }

@@ -15,7 +15,7 @@ const _evalTpl = (tpl: Msg, params: EvalParams, buf: StringOrNum[]) => {
             const r = [];
             for (let i = 0; i < tpl.length; ++i) {
               const item = tpl[i];
-              if (item in params) {
+              if (item.length < 6 && item in params) {
                 const nextItem = tpl[i + 1];
                 const val = params[item];
                 if (isObj(nextItem)) {
