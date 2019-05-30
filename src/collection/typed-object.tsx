@@ -26,3 +26,10 @@ export const gNew = <T extends {} >(obj: Tobj<T>,
                                       }
                                       return v;
                                     };
+
+export const isAr = (o: any) => Array.isArray(o);
+export const isObj = (o: any) => typeof o === 'object';
+export const isStr = (o: any) => typeof o === 'string';
+
+export const ifStrE = <T extends ({} | void)> (o: any, strF: (s: string) => T, otherF: () => T): T =>
+  isStr(o) ? strF(o as string) : otherF();

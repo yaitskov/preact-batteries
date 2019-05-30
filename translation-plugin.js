@@ -7,6 +7,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+function json(o) {
+  return JSON.stringify(o, null, 2);
+}
+
 class DAG {
   constructor() {
     this.sourceVertexes = {};
@@ -41,12 +45,20 @@ class Dictionaries {
     this.dicts = {};
   }
 
-  newEntry(fileName, msgId) {
+  newEntry(fileName, msgId, paramNames) {
     let fileDict = this.dicts[fileName];
     if (!fileDict) {
       this.dicts[fileName] = fileDict = {};
     }
-    fileDict[msgId] = [];
+    let existingParams = fileDict[msgId];
+    if (existingParams) {
+      if (json(existingParams) != json(paramNames)) {
+        throw new Error(
+          `Params of message ${fileName}:${msgId} doesn't match:\n${json(existingParams)}\nvs:\n${json(paramNames)}`);
+      }
+    } else {
+      fileDict[msgId] = paramNames;
+    }
   }
 
   entries(file) {
@@ -74,96 +86,142 @@ function expandPath(source, mayBeLocalDest) {
   }
 }
 
-function json(o) {
-  return JSON.stringify(o, null, 2);
-}
-
 function fatalErr(msg, path, state) {
   return new Error(`${msg};
  Line ${json(path.node.loc)}
  in file ${state.file.opts.filename}`);
 }
 
+class JsxTranslator {
+  constructor(result, params) {
+    this.result = result;
+    this.params = params;
+  }
+
+  translate(path, state) {
+    const oEl = path.node.openingElement;
+    if (oEl.name.name === this.params.tagName) {
+      const attrIndex = this.indexAttrsByName(oEl.attributes);
+      const msgTplAttr = attrIndex['m'];
+      if (this.checkMsgTplAttr(msgTplAttr, path, state)) {
+        this.result.dicts.newEntry(
+          normalizedPath(state, this.params),
+          msgTplAttr.value.value,
+          Object.keys(attrIndex).filter(k => k !== 'm').sort());
+      }
+    }
+  }
+
+  checkMsgTplAttr(msgTplAttr, path, state) {
+    if (!msgTplAttr) {
+      throw fatalErr(
+        `${this.params.tagName} tag must have attribute (m) for message template`,
+        path, state);
+    }
+    if (msgTplAttr.type === 'JSXExpressionContainer') {
+      // skill variable message template
+      return false;
+    } else if (msgTplAttr.value.type !== 'StringLiteral') {
+      throw fatalErr(
+        `m attribute must be string literal or expression but got ${msgTplAttr.value.type}`,
+        path, state);
+    }
+    return true;
+  }
+
+  indexAttrsByName(attrs) {
+    const result = {};
+    attrs.forEach(attr => result[attr.name.name] = attr);
+    return result;
+  }
+}
+
+class BundleTranslator {
+  constructor(result, params) {
+    this.result = result;
+    this.params = params;
+    this.insideAwait = false;
+  }
+
+  translateCall(path, state) {
+    if (!this.insideAwait) {
+      return;
+    }
+    const arg = path.node;
+    if (arg.callee.type === 'Import') {
+      if (arg.arguments.length === 1) {
+        if (arg.arguments[0].type === 'StringLiteral') {
+          const source = normalizedPath(state, this.params);
+          this.result.dynamicImports.newEdge(
+            source,
+            expandPath(source, arg.arguments[0].value));
+        } else {
+          throw fatalErr(`dynamic import accepts just literal string`,
+                         path, state);
+        }
+      } else {
+        throw fatalErr(
+          `only 1 literal string is supported, but ${json(arg.arguments)}.`,
+          path, state);
+      }
+    } else if (arg.callee.type === 'MemberExpression') {
+      // skip ok
+    } else {
+      console.log(`skip callexpression with calle ${arg.callee.type}`);
+    }
+  }
+
+  translateImport(path, state) {
+    if (path.node.source.type === 'StringLiteral') {
+      const source = normalizedPath(state, this.params);
+      this.result.staticImports.newEdge(
+        source, (source, path.node.source.value));
+    } else {
+      throw fatalErr(
+        `import must have literal string argument but ${path.node.source.type}`,
+        path, state);
+    }
+  }
+
+  enterAwait() {
+    this.insideAwait = true;
+  }
+
+  leaveAwait() {
+    this.insideAwait = false;
+  }
+}
+
 function makeVisitorFactory(result, params) {
   return () => {
-    let insideAwait = false;
+    params.tagName = params.tagName || 'TI';
+
+    const jsxTranslator = new JsxTranslator(result, params);
+    const bundleTranslator = new BundleTranslator(result, params);
+
     return {
       visitor: {
-        Program: {
-          exit(path, state) {
-            // console.log(`File graph of ${state.file.opts.filename}:\n${json(dag.sourceVertexes)}`);
-            // console.log(`Dictionaries:\n${json(dicts.dicts)}`);
-          }
-        },
         ImportDeclaration: {
           enter(path, state) {
-            if (path.node.source.type === 'StringLiteral') {
-              const source = normalizedPath(state, params);
-              result.staticImports.newEdge(source,
-                                           expandPath(source, path.node.source.value));
-            } else {
-              throw fatalErr(
-                `import must have literal string argument but ${path.node.source.type}`,
-                path, state);
-            }
+            bundleTranslator.translateImport(path, state);
           }
         },
         CallExpression: {
           enter(path, state) {
-            if (!insideAwait) {
-              return;
-            }
-            const arg = path.node;
-            if (arg.callee.type === 'Import') {
-              if (arg.arguments.length === 1) {
-                if (arg.arguments[0].type === 'StringLiteral') {
-                  const source = normalizedPath(state, params);
-                  result.dynamicImports.newEdge(source,
-                                                expandPath(source, arg.arguments[0].value));
-                } else {
-                  throw fatalErr(`dynamic import accepts just literal string`,
-                                 path, state);
-                }
-              } else {
-                throw fatalErr(
-                  `only 1 literal string is supported, but ${json(arg.arguments)}.`,
-                  path, state);
-              }
-            } else if (arg.callee.type === 'MemberExpression') {
-              // skip ok
-            } else {
-              console.log(`skip callexpression with calle ${arg.callee.type}`);
-            }
+            bundleTranslator.translateCall(path, state);
           }
         },
         AwaitExpression: {
-          enter(path, state) {
-            insideAwait = true;
+          enter() {
+            bundleTranslator.enterAwait();
           },
           exit() {
-            insideAwait = false;
+            bundleTranslator.leaveAwait();
           }
         },
         JSXElement: {
           enter(path, state) {
-            const oEl = path.node.openingElement;
-            if (oEl.name.name === 'TI') {
-              if (oEl.attributes.length === 1) {
-                const attr = oEl.attributes[0];
-                if (attr.name.name !== 'm') {
-                  throw fatalErr('TI tag must have attribute (m)', path, state);
-                }
-                const attrVal = attr.value;
-                if (attrVal.type === 'StringLiteral') {
-                  const fileName = normalizedPath(state, params);
-                  result.dicts.newEntry(fileName, attrVal.value);
-                } else {
-                  throw fatalErr('attribute m of TI must be a string literal', path, state);
-                }
-              } else {
-                throw fatalErr('TI tag must have 1 attribute (m)', path, state);
-              }
-            }
+            jsxTranslator.translate(path, state);
           }
         }
       }

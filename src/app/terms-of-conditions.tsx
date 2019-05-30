@@ -16,7 +16,7 @@ export class Terms extends MyCo<{}, {}> {
 
     return <div>
       <MainMenu/>
-      <h1><TI m="Terms of conditions" /></h1>
+      <h1><TI m="Terms of conditions" name="Daniil" /></h1>
       <p>No WARRANTY!</p>
       <p>Bundle is: {this.$bundleName}</p>
     </div>;
