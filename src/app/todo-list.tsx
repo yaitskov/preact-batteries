@@ -8,6 +8,8 @@ import { ObList } from 'collection/observable-list';
 import { MainMenu } from 'app/main-menu';
 import { T } from 'i18n/translate-tag';
 
+import css from './todo-list.css';
+
 interface TodoListSt {
   todos: ToDo[];
 }
@@ -35,12 +37,13 @@ export default class TodoList extends InjSubCom<{}, TodoListSt> {
 
   render() {
     const TI = this.c(T);
+    console.log(`bordered ${JSON.stringify(css.toString())}`);
     return <div>
       <MainMenu/>
       <h1><TI m="Todos"/></h1>
       <p>Bundle: {this.$bundleName}</p>
       <ul>
-        {this.st.todos.map(td => <li><b>{td.priority}:</b> {td.action}</li>)}
+        {this.st.todos.map(td => <li class={css.bordered}><b>{td.priority}:</b> {td.action}</li>)}
       </ul>
     </div>;
   }
