@@ -1,11 +1,12 @@
-import { h } from 'preact';
+import { h, Component } from 'preact';
 import { InjSubCom } from 'injection/inject-sub-components';
-//import bulma from 'app/bulma.css';
-//import css from '../todo-list.css';
+import { T } from 'i18n/translate-tag';
 import bulma from 'bulma/css/bulma.css';
+import { SuperElement } from 'component/types';
 
 export interface TitleMainMenuP {
   title: string;
+  menuItems: SuperElement[];
 }
 
 interface TitleMainMenuS {
@@ -13,6 +14,7 @@ interface TitleMainMenuS {
 
 export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
   render() {
+    const IT = this.c(T);
     return <nav class={bulma.navbar} role="navigation" aria-label="main navigation">
       <div class={bulma.navbarBrand}>
         <a class={bulma.navbarItem} href="https://bulma.io">
@@ -20,14 +22,14 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
         </a>
 
         <a role="button" class={bulma.navbarBurger}
-           aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+           aria-label="menu" aria-expanded="false" data-target="mainMenuAnchor">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
       </div>
 
-      <div id="navbarBasicExample" class={bulma.navbarMenu + ' ' + bulma.isActive}>
+      <div id="mainMenuAnchor" class={bulma.navbarMenu + ' ' + bulma.isActive}>
         <div class={bulma.navbarStart}>
           <a class={bulma.navbarItem}>
             {this.props.title}
@@ -35,23 +37,11 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
 
           <div class={bulma.navbarItem + ' ' + bulma.hasDropdown + ' ' + bulma.isHoverable}>
             <a class={bulma.navbarLink}>
-              More
+              <IT m="Menu" />
             </a>
 
             <div class={bulma.navbarDropdown}>
-              <a class={bulma.navbarItem}>
-                Drafting
-              </a>
-              <a class={bulma.navbarItem}>
-                Watch Games
-              </a>
-              <a class={bulma.navbarItem}>
-                Participation
-              </a>
-              <hr class={bulma.navbarDivider}/>
-              <a class={bulma.navbarItem}>
-                My judgement
-              </a>
+              {this.props.menuItems}
             </div>
           </div>
         </div>
