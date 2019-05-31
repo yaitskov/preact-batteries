@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MergeAndFlushI18nPlugin = require('./merge-and-flush-i18n');
 const BrotliPlugin = require('brotli-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+
 
 const makeWebPackModule = require('./webpack.modules.js');
 const translationPlugin = require('./translation-plugin.js');
@@ -43,6 +45,7 @@ module.exports = {
       test: /\.js$|\.css$|\.html$/,
       threshold: 1024,
       minRatio: 0.8
-    })
+    }),
+    new ForkTsCheckerWebpackPlugin()
   ]
 };
