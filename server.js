@@ -37,7 +37,15 @@ app
   .use('/',  expressStaticGzip(`${__dirname}/dist`, {
     enableBrotli: true,
     orderPreference: ['br', 'gzip']
-  }));
+  }))
+  .get('/*', function(req, res) {
+    res.sendFile(`${__dirname}/dist/index.html`,
+                 err =>  {
+                   if (err) {
+                     res.status(500).send(err);
+                   }
+                 });
+  });
 
 const port = 8084;
 app.listen(port, () => {
