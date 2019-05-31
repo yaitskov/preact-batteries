@@ -1,5 +1,30 @@
 const path = require('path');
 
+const cssLoaders = [
+  /* try mini-css-extract-plugin instead of style-loader for prod  */
+  {
+    loader: 'style-loader',
+    options: {
+      hmr: false
+    }
+  },
+  {
+    loader: 'css-modules-typescript-loader',
+    options: {
+      mode: 'emit' // 'verify' | 'emit'
+    }
+  },
+  {
+    loader: 'css-loader',
+    options: {
+      camelCase: true,
+      modules: true,
+      localIdentName: '[local]',
+      importLoaders: 1
+    }
+  }
+];
+
 function makeModule(extraBabelPlugins) {
   return {
     rules: [
@@ -28,27 +53,11 @@ function makeModule(extraBabelPlugins) {
       },
       {
         test: /\.css$/i,
-        use: [
-          {
-            loader: 'style-loader',
-            options: {
-              hmr: false
-            }
-          },
-          {
-            loader: 'css-modules-typescript-loader',
-            options: {
-              mode: 'emit' // 'verify' | 'emit'
-            }
-          },
-          {
-            loader: 'css-loader',
-	    options: {
-	      modules: true,
-              importLoaders: 1
-            }
-          }
-        ]
+        use: cssLoaders
+      },
+      {
+        test: /\.s[ac]ss$/,
+        use: [...cssLoaders, 'sass-loader']
       }
     ]
   };
