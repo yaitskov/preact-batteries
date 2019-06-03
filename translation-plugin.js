@@ -93,29 +93,110 @@ function fatalErr(msg, path, state) {
 }
 
 class JsxTranslator {
-  constructor(result, params) {
+  constructor(result, params, types) {
     this.result = result;
     this.params = params;
+    this.types = types;
+    this.cleanAttributeIndex();
   }
 
   translate(path, state) {
     const oEl = path.node.openingElement;
     if (oEl.name.name === this.params.tagName) {
-      const attrIndex = this.indexAttrsByName(oEl.attributes);
-      const msgTplAttr = attrIndex['m'];
-      if (this.checkMsgTplAttr(msgTplAttr, path, state)) {
-        this.result.dicts.newEntry(
-          normalizedPath(state, this.params),
-          msgTplAttr.value.value,
-          Object.keys(attrIndex)
-            .map(k => {
-              if (k.length > 5) {
-                throw fatalErr(`message parameter ${k} is too long. Max 5 letters`, path, state);
-              }
-              return k;
-            }).filter(k => k !== 'm').sort());
+      this.translationTag(oEl, path, state);
+    } else {
+      this.translationAttribute(oEl, path, state);
+    }
+  }
+
+  newDictEntry(path, state, msgTemplate, msgTemplateParamNames) {
+    this.result.dicts.newEntry(
+      normalizedPath(state, this.params),
+      msgTemplate,
+      Object.keys(msgTemplateParamNames)
+        .map(k => {
+          if (k.length > 5) {
+            throw fatalErr(`message parameter ${k} is too long. Max 5 letters`, path, state);
+          }
+          return k;
+        }).filter(k => k !== 'm').sort());
+  }
+
+  translationTag(oEl, path, state) {
+    const attrIndex = this.indexAttrsByName(oEl.attributes);
+    const msgTplAttr = attrIndex['m'];
+    if (this.checkMsgTplAttr(msgTplAttr, path, state)) {
+      this.newDictEntry(
+        path, state,
+        msgTplAttr.value.value,
+        attrIndex);
+    }
+  }
+
+  translationAttribute(oEl, path, state) {
+    for (let attr of oEl.attributes) {
+      const match = attr.name.name.match(/^(t[$].+)$/);
+      if (match) {
+        if (attr.value.type != 'StringLiteral') {
+          throw fatalErr(
+            `attribute translation supports just literal strings, but ${attr.value.type}`,
+            path, state);
+        }
+        const idx = this.newTransAttribute(path, state, attr.value.value);
+        // attr.name = this.types.jsxIdentifier(match[1]);
+        attr.value = this.types.jsxExpressionContainer(
+          this.types.memberExpression(
+            this.types.memberExpression(
+              this.types.memberExpression(
+                this.types.thisExpression(),
+                this.types.identifier("st"),
+                false),
+              this.types.identifier("at"),
+              false),
+            this.types.numericLiteral(idx),
+            true));
+        // replace literal with {}name
       }
     }
+  }
+
+  newTransAttribute(path, state, attrText) {
+    const existingIdx = this.idIndex[attrText];
+    if (existingIdx !== undefined) {
+      return existingIdx;
+    }
+    const newIdx = this.idIndex[attrText] = this.foundPhrases.length;
+    this.newDictEntry(path, state, attrText, []);
+    this.foundPhrases.push(attrText);
+    return newIdx;
+  }
+
+  cleanAttributeIndex() {
+    this.idIndex = {};
+    this.foundPhrases = [];
+  }
+
+  ensureAttributeIndexFlushed(path, state) {
+    if (this.foundPhrases.length) {
+      throw fatalErr(
+        `Declair empty [at] method after all tag methods. Found phrases: ${this.foundPhrases.join(', ')}.`,
+        path, state);
+    }
+  }
+
+  generateInitAtBody(path, state) {
+    if (this.foundPhrases.length === 0) {
+      return;
+    }
+
+    path.node.body = this.types.blockStatement(
+      [
+        this.types.returnStatement(
+          this.types.arrayExpression(
+            this.foundPhrases.map(
+              phrase => this.types.stringLiteral(phrase))))
+      ]);
+    this.cleanAttributeIndex();
   }
 
   checkMsgTplAttr(msgTplAttr, path, state) {
@@ -199,10 +280,10 @@ class BundleTranslator {
 }
 
 function makeVisitorFactory(result, params) {
-  return () => {
+  return ({types}) => {
     params.tagName = params.tagName || 'TI';
 
-    const jsxTranslator = new JsxTranslator(result, params);
+    const jsxTranslator = new JsxTranslator(result, params, types);
     const bundleTranslator = new BundleTranslator(result, params);
 
     return {
@@ -210,6 +291,20 @@ function makeVisitorFactory(result, params) {
         ImportDeclaration: {
           enter(path, state) {
             bundleTranslator.translateImport(path, state);
+          }
+        },
+        ClassMethod: {
+          enter(path, state) {
+            if (path.node.key.name === 'at') {
+              jsxTranslator.generateInitAtBody(path, state);
+            } else {
+              // console.log(`skip method ${path.node.key.name}`);
+            }
+          }
+        },
+        ClassDeclaration: {
+          exit(path, state) {
+            jsxTranslator.ensureAttributeIndexFlushed(path, state);
           }
         },
         CallExpression: {

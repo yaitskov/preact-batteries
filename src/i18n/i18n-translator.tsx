@@ -24,4 +24,8 @@ export class I18Trans {
   public map(msgId: string): Thenable<TranslatedMessage> {
     return this.dict.val().tn(dic => dic[msgId] || msgId);
   }
+
+  public bulkMap(msgIds: string[]): Thenable<TranslatedMessage[]> {
+    return this.dict.val().tn(dic => msgIds.map(msgId => dic[msgId] || msgId));
+  }
 }
