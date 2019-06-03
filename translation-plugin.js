@@ -74,13 +74,17 @@ function newState() {
   };
 }
 
+function enforceRightSlash(s) {
+  return s.replace(/\\+/g, '/');
+}
+
 function normalizedPath(state, params) {
-  return state.file.opts.filename.substring(params.rootPrefixLength).replace(/[.]tsx$/, '');
+  return enforceRightSlash(state.file.opts.filename.substring(params.rootPrefixLength).replace(/[.]tsx$/, ''));
 }
 
 function expandPath(source, mayBeLocalDest) {
   if (mayBeLocalDest.startsWith('.')) {
-    return fPath.normalize(`${fPath.dirname(source)}${fPath.sep}${mayBeLocalDest}`);
+    return enforceRightSlash(fPath.normalize(`${fPath.dirname(source)}/${mayBeLocalDest}`));
   } else {
     return mayBeLocalDest;
   }

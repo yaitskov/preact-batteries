@@ -20,7 +20,7 @@ class MergeAndFlushI18nPlugin {
   }
 
   doMergeAndFlush() {
-    // this.logInputData();
+    this.logInputData();
     const rootFiles = this.findRootFiles();
     this.checkStaticRootsAndBundleNames(rootFiles);
     this.mkdir(this.transFolder);
@@ -56,9 +56,9 @@ class MergeAndFlushI18nPlugin {
   }
 
   flushDictionary(rootFile, dictionary) {
-    const folder = `${this.transFolder}${fPath.sep}${fPath.basename(rootFile)}`;
+    const folder = `${this.transFolder}/${fPath.basename(rootFile)}`;
     this.mkdir(folder);
-    fs.writeFileSync(`${folder}${fPath.sep}index.json`, JSON.stringify(dictionary));
+    fs.writeFileSync(`${folder}/index.json`, JSON.stringify(dictionary));
   }
 
   mkdir(folder) {
