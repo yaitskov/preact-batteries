@@ -20,7 +20,7 @@ class MergeAndFlushI18nPlugin {
   }
 
   doMergeAndFlush() {
-    this.logInputData();
+    // this.logInputData();
     const rootFiles = this.findRootFiles();
     this.checkStaticRootsAndBundleNames(rootFiles);
     this.mkdir(this.transFolder);

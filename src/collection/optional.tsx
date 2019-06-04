@@ -1,7 +1,5 @@
-
-export function nic<T>(): Opt<T> {
-  return new Opt<T>(null);
-}
+export const opt = <T extends {} >(v: T | null): Opt<T> => new Opt(v);
+export const nic = <T extends {} >(): Opt<T> => opt<T>(null);
 
 export class Opt<T> {
   private has: boolean;
@@ -28,5 +26,11 @@ export class Opt<T> {
 
   public cls(): void {
     this.has = false;
+  }
+
+  public ifV(f: (v: T) => void): void {
+    if (this.has) {
+      f(this.v as T);
+    }
   }
 }

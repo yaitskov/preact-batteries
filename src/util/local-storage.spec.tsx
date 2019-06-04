@@ -1,4 +1,5 @@
 import { LocalStorage } from './local-storage';
+import { opt } from 'collection/optional';
 
 describe('local-storage-wrapper',
 	() => {
@@ -11,6 +12,6 @@ describe('local-storage-wrapper',
 		 it('store get match', () => {
 		 	 const ls = new LocalStorage();
 			 ls.store('hello', 'world');
-		   expect(ls.get('hello')).toBe('world');
+		   expect(ls.get('hello')).toEqual(opt('world'));
   	});
 });
