@@ -9,12 +9,18 @@ import { ToDo } from 'app/todo-form';
 import { ObList } from 'collection/observable-list';
 import { ObVar } from 'collection/observable-variable';
 import { I18Trans, LanguageCode } from 'i18n/i18n-translator';
+import { UserAuth } from 'app/auth/user-auth';
+import { LocalStorage } from 'app/persistence/local-storage';
+import { CommonUtil } from 'app/common-util';
 
 const container = new Container();
 
 container
   .bind(
     [
+      ['cutil', CommonUtil],
+      ['locStore', LocalStorage],
+      ['userAuth', UserAuth],
       ['valiform', Valiform],
       ['validation', Validation],
       ['i18Trans', I18Trans],

@@ -1,11 +1,14 @@
 import { h, Component } from 'preact';
+import { Link } from 'preact-router';
 import { InjSubCom } from 'injection/inject-sub-components';
 import { T } from 'i18n/translate-tag';
 import bulma from 'bulma/css/bulma.css';
 import { SuperElement } from 'component/types';
+import { UserAuth } from 'app/auth/user-auth';
+import { If } from 'component/if';
 
 export interface TitleMainMenuP {
-  title: string;
+  t$title: string;
   menuItems: SuperElement[];
 }
 
@@ -13,6 +16,9 @@ interface TitleMainMenuS {
 }
 
 export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
+  // @ts-ignore
+  private $userAuth: UserAuth;
+
   render() {
     const IT = this.c(T);
     return <nav class={bulma.navbar} role="navigation" aria-label="main navigation">
@@ -32,7 +38,7 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
       <div id="mainMenuAnchor" class={bulma.navbarMenu + ' ' + bulma.isActive}>
         <div class={bulma.navbarStart}>
           <a class={bulma.navbarItem}>
-            {this.props.title}
+            {this.props.t$title}
           </a>
 
           <div class={bulma.navbarItem + ' ' + bulma.hasDropdown + ' ' + bulma.isHoverable}>
@@ -48,14 +54,16 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
 
         <div class={bulma.navbarEnd}>
           <div class={bulma.navbarItem}>
-            <div class={bulma.buttons}>
-              <a class={bulma.button + ' ' + bulma.isPrimary}>
-                <strong>Sign up</strong>
-              </a>
-              <a class={bulma.button + ' ' + bulma.isLight}>
-                Log in
-              </a>
-            </div>
+            <If f={!this.$userAuth.isAuthenticated()}>
+              <div class={bulma.buttons}>
+                <Link class={bulma.button + ' ' + bulma.isPrimary} href="/sign-up">
+                  <strong>Sign up</strong>
+                </Link>
+                <Link class={bulma.button + ' ' + bulma.isLight} href="/sign-in">
+                  Log in
+                </Link>
+              </div>
+            </If>
           </div>
         </div>
       </div>

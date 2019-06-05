@@ -28,11 +28,17 @@ export class LandingPage extends InjSubCom<{}, {}> {
 
   NewTodo = async () => await import('./new-todo').then(m => this.inj(m as AsyncModule, 'new-todo'));
 
+  SignUp = async () => await import('app/page/sign-up/sign-up').then(m => this.inj(m as AsyncModule, 'sign-up'));
+
+  // SignIn = async () => await import('./app/page/sign-in').then(m => this.inj(m as AsyncModule, 'sign-in'));
+  // <AsyncRoute path='/sign-in' getComponent={this.SignIn} />
+
   render() {
     return <Router>
       <Route path='/' component={this.c(Terms)} />
       <AsyncRoute path='/todo-list' getComponent={this.TodoList} />
       <AsyncRoute path='/new-todo' getComponent={this.NewTodo} />
+      <AsyncRoute path='/sign-up' getComponent={this.SignUp} />
     </Router>;
   }
 }

@@ -45,7 +45,7 @@ class Dictionaries {
     this.dicts = {};
   }
 
-  newEntry(fileName, msgId, paramNames) {
+  newEntry(fileName, msgId, paramNames, path, state) {
     let fileDict = this.dicts[fileName];
     if (!fileDict) {
       this.dicts[fileName] = fileDict = {};
@@ -53,8 +53,9 @@ class Dictionaries {
     let existingParams = fileDict[msgId];
     if (existingParams) {
       if (json(existingParams) != json(paramNames)) {
-        throw new Error(
-          `Params of message ${fileName}:${msgId} doesn't match:\n${json(existingParams)}\nvs:\n${json(paramNames)}`);
+        throw fatalErr(
+          `Params of message ${fileName}:${msgId} doesn't match:\n${json(existingParams)}\nvs:\n${json(paramNames)}`,
+          path, state);
       }
     } else {
       fileDict[msgId] = paramNames;
@@ -123,7 +124,9 @@ class JsxTranslator {
             throw fatalErr(`message parameter ${k} is too long. Max 5 letters`, path, state);
           }
           return k;
-        }).filter(k => k !== 'm').sort());
+        }).filter(k => k !== 'm').sort(),
+      path,
+      state);
   }
 
   translationTag(oEl, path, state) {

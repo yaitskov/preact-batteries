@@ -12,6 +12,14 @@ export class Opt<T> {
     return !this.has;
   }
 
+  public el(e: T): T {
+    return this.has ? (this.v as T) : e;
+  }
+
+  public get full(): boolean {
+    return this.has;
+  }
+
   public get val(): T {
     if (this.has) {
       return this.v as T;
@@ -31,6 +39,14 @@ export class Opt<T> {
   public ifV(f: (v: T) => void): void {
     if (this.has) {
       f(this.v as T);
+    }
+  }
+
+  public ifVE(f: (v: T) => void, o: () => void): void {
+    if (this.has) {
+      f(this.v as T);
+    } else {
+      o();
     }
   }
 }

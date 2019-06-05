@@ -3,7 +3,7 @@ import { MyCo } from 'component/my-component';
 import { Valiform, FormLevel } from 'component/form/validation/form-validation';
 
 export interface SubmitP {
-  text: string;
+  t$text: string;
 }
 
 export class Submit extends MyCo<SubmitP, {}> {
@@ -26,6 +26,6 @@ export class Submit extends MyCo<SubmitP, {}> {
   }
 
   render() {
-    return <input type="submit" value={this.props.text} onClick={this.onClick} />;
+    return <input type="submit" value={this.props.t$text} onClick={this.onClick} />;
   }
 }
