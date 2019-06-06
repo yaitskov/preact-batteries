@@ -9,6 +9,8 @@ import { DefaultErr } from 'component/form/validation/default-error';
 import { InjSubCom } from 'injection/inject-sub-components';
 import { T } from 'i18n/translate-tag';
 
+import bulma from 'bulma/css/bulma.css';
+
 export const ValidEmailRegex = '^[_A-Za-z0-9]+([.][_A-Za-z0-9]+)*@[A-Za-z0-9-]+([.][A-Za-z0-9-]+)*([.][A-Za-z]{2,4})$';
 
 export class EmailField extends InjSubCom<{}, {}> {
@@ -18,7 +20,7 @@ export class EmailField extends InjSubCom<{}, {}> {
     const [TI, InpErrI, IfErrI, InpHintI] = this.c4(T, InpErr, IfErr, InpHint);
 
     return <InputBoxI>
-      <label>
+      <label class={bulma.label}>
         <TI m="Email" />
         <CheckI on="c" mit={`r:${ValidEmailRegex}`}>
           <InputOkI a="email" />

@@ -5,6 +5,8 @@ import { Valiform, FormLevel } from 'component/form/validation/form-validation';
 import { InputOkP, InputIf } from 'component/form/validation/input-if';
 import { Invalid } from 'component/form/validation/invalid';
 
+import bulma from 'bulma/css/bulma.css';
+
 interface InputOkS {
   val: string;
 }
@@ -52,7 +54,9 @@ export class InputOk extends MyCo<InputOkP, InputOkS> implements InputIf {
   }
 
   render(p, st) {
-    return <input value={st.val} onChange={this.onChng} onKeyUp={this.onKeyUp} />;
+    return <div class={bulma.control}>
+      <input class={bulma.input} value={st.val} onChange={this.onChng} onKeyUp={this.onKeyUp} />
+    </div>;
   }
 
   updateVal(v: string) {

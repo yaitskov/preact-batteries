@@ -8,6 +8,8 @@ import { DefaultErr } from 'component/form/validation/default-error';
 import { InjSubCom } from 'injection/inject-sub-components';
 import { T } from 'i18n/translate-tag';
 
+import bulma from 'bulma/css/bulma.css';
+
 export class FullNameField extends InjSubCom<{}, {}> {
   render() {
     const [DefaultErrI, InputBoxI, InputOkI, CheckI] =
@@ -15,7 +17,7 @@ export class FullNameField extends InjSubCom<{}, {}> {
     const [TI, InpErrI, IfErrI] = this.c3(T, InpErr, IfErr);
 
     return <InputBoxI>
-      <label>
+      <label class={bulma.label}>
         <TI m="Fullname" />
         <CheckI on="c" mit="max:40 min:3 !e">
             <InputOkI a="fullName" />

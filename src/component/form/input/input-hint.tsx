@@ -6,6 +6,8 @@ import { Valiform } from 'component/form/validation/form-validation';
 import { ValiFieldLi } from 'component/form/validation/input-if';
 import { If } from 'component/if';
 
+import bulma from 'bulma/css/bulma.css';
+
 interface InpHintSt {
   show: boolean;
 }
@@ -51,6 +53,6 @@ export class InpHint extends MyCo<{}, InpHintSt> implements ValiFieldLi {
 
   render() {
     // @ts-ignore
-    return <If f={this.state.show}>{this.props.children}</If>;
+    return <If f={this.state.show}><p class={bulma.help}>{this.props.children}</p></If>;
   }
 }

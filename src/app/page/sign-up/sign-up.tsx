@@ -9,6 +9,8 @@ import { TransCom, TransComS } from 'i18n/trans-component';
 import { CommonUtil } from 'app/common-util';
 import { I18Trans } from 'i18n/i18n-translator';
 
+import bulma from 'bulma/css/bulma.css';
+
 interface SignUpP {
 }
 
@@ -58,11 +60,13 @@ export default class SignUp extends TransCom<SignUpP, SignUpS> {
 
   render() {
     const [TI, SignUpFormI, TitleMainMenuI]  = this.c3(T, SignUpForm, TitleMainMenu);
-    return <div>
-      <TitleMainMenuI t$title="Sign-Up" menuItems={[]} />
-      <SignUpFormI regReq={this.st.regReq}
+    return <section class="section">
+      <div class={bulma.container}>
+        <TitleMainMenuI t$title="Sign-Up" menuItems={[]} />
+        <SignUpFormI regReq={this.st.regReq}
                    onSubmit={rr => this.submitHandler(rr)}/>
-    </div>;
+      </div>
+    </section>;
   }
 
   at(): string[] { return []; }

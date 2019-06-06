@@ -9,6 +9,8 @@ import { DefaultErr } from 'component/form/validation/default-error';
 import { InjSubCom } from 'injection/inject-sub-components';
 import { T } from 'i18n/translate-tag';
 
+import bulma from 'bulma/css/bulma.css';
+
 export const ValidPhoneRegex = '^[+]?([0-9]+[\\s-]?)+$';
 
 export class PhoneField extends InjSubCom<{}, {}> {
@@ -18,7 +20,7 @@ export class PhoneField extends InjSubCom<{}, {}> {
     const [TI, InpErrI, IfErrI, InpHintI] = this.c4(T, InpErr, IfErr, InpHint);
 
     return <InputBoxI>
-      <label>
+      <label class={bulma.label}>
         <TI m="Phone" />
         <CheckI on="c" mit={`r:${ValidPhoneRegex}`}>
           <InputOkI a="phone" />

@@ -7,6 +7,8 @@ import { ValiFieldLi } from 'component/form/validation/input-if';
 import { MyCo } from 'component/my-component';
 import { If } from 'component/if';
 
+import bulma from 'bulma/css/bulma.css';
+
 interface St {
   errs: Tobj<string>;
 }
@@ -56,7 +58,7 @@ export class DefaultErr extends MyCo<{},  St> implements ValiFieldLi {
   render() {
     // @ts-ignore
     return <If f={!emptyM(this.st.errs)}>
-      {mapO(this.st.errs, ([k, m]) => <div class={"err-" + k}>{m}</div>)}
+      {mapO(this.st.errs, ([k, m]) => <p class={bulma.help + ' ' + bulma['is-danger'] +  ' err-' + k}>{m}</p>)}
     </If>;
   }
 }

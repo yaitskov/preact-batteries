@@ -3,6 +3,8 @@ import { MyCo } from 'component/my-component';
 import { Wm } from 'component/will-mount';
 import { Valiform, FormLevel } from 'component/form/validation/form-validation';
 
+import bulma from 'bulma/css/bulma.css';
+
 /**
    draw scope for input listeners
  */
@@ -25,6 +27,6 @@ export class InputBox extends MyCo<{}, {}> {
 
   render() {
     // @ts-ignore
-    return <div>{this.props.children}<Wm c={() => this.flush()}/></div>; //[0];
+    return <div class={bulma.field}>{this.props.children}<Wm c={() => this.flush()}/></div>; //[0];
   }
 }

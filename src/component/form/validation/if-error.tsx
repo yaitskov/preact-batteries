@@ -5,6 +5,8 @@ import { Invalid } from 'component/form/validation/invalid';
 import { ValiFieldLi } from 'component/form/validation/input-if';
 import { If } from 'component/if';
 
+import bulma from 'bulma/css/bulma.css';
+
 interface IfErrSt {
   show: boolean;
 }
@@ -54,6 +56,6 @@ export class IfErr extends MyCo<IfErrP, IfErrSt> implements ValiFieldLi {
 
   render() {
     // @ts-ignore
-    return <If f={this.st.show}>{this.props.children}</If>;
+    return <If f={this.st.show}><p class={bulma.help + ' ' + bulma['is-danger']}>{this.props.children}</p></If>;
   }
 }
