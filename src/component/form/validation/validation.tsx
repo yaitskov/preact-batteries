@@ -120,6 +120,26 @@ export class Max extends SyncValidator {
   }
 }
 
+export class Range implements Validator {
+  constructor(public mn: number, public mx: number) {
+  }
+
+  name(): string { return 'rng'; }
+
+  public check(val: string): Thenable<Invalid[]> {
+    return resolved(this.syncCheck(val));
+  }
+
+  protected syncCheck(val: string): Invalid[] {
+    if (val.length > this.mx) {
+      return [new Invalid(`longer than ${this.mx}`, this.name(), {})];
+    } else if (val.length < this.mn) {
+      return [new Invalid(`shorter than ${this.mn}`, this.name(), {})];
+    }
+    return [];
+  }
+}
+
 export class Min extends SyncValidator {
   constructor(public mn: number) {
     super();
@@ -140,7 +160,7 @@ export class Match extends SyncValidator {
   }
   name() { return 'r'; }
   protected valid(val: string): boolean {
-    return this.p.test(val);
+    return !val || this.p.test(val);
   }
   protected msgTpl(): string {
     return `value doesn't match ${this.p}`;
@@ -160,7 +180,7 @@ export class NotEmpty extends SyncValidator {
 export class IntType extends SyncValidator {
   name() { return 'i'; }
   protected valid(val: string): boolean {
-    return !!(''+val).match(/^[0-9]{1,10}$/);
+    return !val || !!(''+val).match(/^[0-9]{1,10}$/);
   }
   protected msgTpl(): string {
     return `field is not integer number`;
@@ -184,6 +204,7 @@ export class ValiChain implements Validator {
 const valFactories = {
   'min': (l) => new Min(+l),
   'max': (l) => new Max(+l),
+  'rng': (mn, mx) => new Range(+mn, +mx),
   '!e': () => new NotEmpty(),
   'i':  () => new IntType(),
   'r': (pattern) => new Match(new RegExp(pattern))

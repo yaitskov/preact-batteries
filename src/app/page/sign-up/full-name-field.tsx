@@ -19,7 +19,7 @@ export class FullNameField extends InjSubCom<{}, {}> {
     return <InputBoxI>
       <label class={bulma.label}>
         <TI m="Fullname" />
-        <CheckI on="c" mit="max:40 min:3 !e">
+        <CheckI on="c" mit="rng:3:40 !e">
           <InputOkI a="fullName" />
         </CheckI>
       </label>
