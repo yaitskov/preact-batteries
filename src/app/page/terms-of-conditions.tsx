@@ -10,7 +10,7 @@ import bulma from 'bulma/css/bulma.css';
 export interface TermsS extends TransComS {
 }
 
-export class Terms extends TransCom<{}, TermsS> {
+export default class Terms extends TransCom<{}, TermsS> {
   // @ts-ignore
   $bundleName: string;
 
