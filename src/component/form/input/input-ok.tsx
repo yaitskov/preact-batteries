@@ -60,11 +60,11 @@ export class InputOk extends MyCo<InputOkP, InputOkS> implements InputIf {
   }
 
   updateVal(v: string) {
-    const oldSt = this.state;
-    if (oldSt && oldSt.val !== v) {
-      this.form.change(this, '', v);
-      this.setState({val: v});
-    }
+    // const oldSt = this.state;
+    //if (oldSt && oldSt.val !== v) {
+    this.form.change(this, '', v);
+    this.setState({val: v});
+  //}
   }
 
   empty() {

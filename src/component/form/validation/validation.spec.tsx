@@ -85,7 +85,6 @@ describe('validation', () => {
         .tnr(() => it('2 call', () => expect(calls).toEqual(['a', 'b']))),
               c => c.toEqual([]));
     });
-
     describe('interrupt progress', () => {
       const abortCalls: string[] = [];
       const vCache = new ValiCache(

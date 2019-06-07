@@ -89,21 +89,28 @@ export class ValidatorF implements Validator {
   }
 }
 
-abstract class SyncValidator implements Validator {
+abstract class SkipEmptyValidator implements Validator {
+  protected abstract chkNE(val: string): Thenable<Invalid[]>;
+
+  public abstract name(): string;
+
+  public check(val: string): Thenable<Invalid[]> {
+    return !val ? resolved([]) : this.chkNE(val);
+  }
+}
+
+abstract class SyncValidator extends SkipEmptyValidator {
   protected abstract valid(val: string): boolean;
   protected abstract msgTpl(): string;
 
   public abstract name(): string;
 
-  public check(val: string): Thenable<Invalid[]> {
+  public chkNE(val: string): Thenable<Invalid[]> {
     return resolved(this.syncCheck(val));
   }
 
   protected syncCheck(val: string): Invalid[] {
-    if (this.valid(val)) {
-      return [];
-    }
-    return [new Invalid(this.msgTpl(), this.name(), {})];
+    return this.valid(val) ? [] : [new Invalid(this.msgTpl(), this.name(), {})];
   }
 }
 
@@ -120,13 +127,14 @@ export class Max extends SyncValidator {
   }
 }
 
-export class Range implements Validator {
+export class Range extends SkipEmptyValidator {
   constructor(public mn: number, public mx: number) {
+    super();
   }
 
   name(): string { return 'rng'; }
 
-  public check(val: string): Thenable<Invalid[]> {
+  public chkNE(val: string): Thenable<Invalid[]> {
     return resolved(this.syncCheck(val));
   }
 
@@ -160,27 +168,25 @@ export class Match extends SyncValidator {
   }
   name() { return 'r'; }
   protected valid(val: string): boolean {
-    return !val || this.p.test(val);
+    return this.p.test(val);
   }
   protected msgTpl(): string {
     return `value doesn't match ${this.p}`;
   }
 }
 
-export class NotEmpty extends SyncValidator {
+export class NotEmpty implements Validator {
   name() { return `!e`; }
-  protected valid(val: string): boolean {
-    return !!val && val !== '';
-  }
-  protected msgTpl(): string {
-    return `field is required`;
+
+  public check(val: string): Thenable<Invalid[]> {
+    return resolved(!!val ? [] : [new Invalid('field is required', this.name(), {})]);
   }
 }
 
 export class IntType extends SyncValidator {
   name() { return 'i'; }
   protected valid(val: string): boolean {
-    return !val || !!(''+val).match(/^[0-9]{1,10}$/);
+    return val.match(/^[0-9]{1,10}$/) as any;
   }
   protected msgTpl(): string {
     return `field is not integer number`;

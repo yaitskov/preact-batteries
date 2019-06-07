@@ -72,7 +72,11 @@ export class FormLevel {
     this.data[p.a] = newV;
     const meta: MetaInput = this.inputByName[p.a];
     if (meta) {
-      this.checkBy(events, meta);
+      if (newV) {
+        this.checkBy(events, meta);
+      } else {
+        meta.fans.forEach(f => f.empty());
+      }
     }
   }
 
@@ -93,7 +97,11 @@ export class FormLevel {
     this.data[p.a] = newV;
     const meta: MetaInput = this.inputByName[p.a];
     if (meta) {
-      this.checkBy(['k', 'c'], meta);
+      if (newV) {
+        this.checkBy(['k', 'c'], meta);
+      } else {
+        meta.fans.forEach(f => f.empty());
+      }
     }
   }
 
