@@ -1,4 +1,5 @@
 export const opt = <T extends {} >(v: T | null): Opt<T> => new Opt(v);
+export const optS = (v: string | null): Opt<string> => new Opt(v ? v : null);
 export const nic = <T extends {} >(): Opt<T> => opt<T>(null);
 
 export class Opt<T> {
