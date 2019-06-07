@@ -1,6 +1,6 @@
 import { U } from 'util/const';
 import { unreachable } from 'util/test-utils';
-import { forM, mapO, emptyM, keysM, idx, aHas, toMap } from 'collection/typed-object';
+import { isObj, forM, mapO, emptyM, keysM, idx, aHas, toMap } from 'collection/typed-object';
 
 
 describe('typed object:', () => {
@@ -28,6 +28,14 @@ describe('typed object:', () => {
     it('zero', () => expect(idx(1, [1, 2])).toBe(0));
     it('last', () => expect(idx(2, [1, 2])).toBe(1));
     it('missing', () => expect(idx(3, [1, 2])).toBe(-1));
+  });
+
+  describe('isObj', () => {
+    it('{} is obj', () => expect(isObj({})).toBe(true));
+    it('undefined is not obj', () => expect(isObj(undefined)).toBe(false));
+    it('null is not obj', () => expect(isObj(null)).toBe(false));
+    it('123 is not obj', () => expect(isObj(123)).toBe(false));
+    it('"hello" is not obj', () => expect(isObj("hello")).toBe(false));
   });
 
   describe('aHas', () => {
