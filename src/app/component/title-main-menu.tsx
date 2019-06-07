@@ -6,6 +6,7 @@ import bulma from 'bulma/css/bulma.css';
 import { SuperElement } from 'component/types';
 import { UserAuth } from 'app/auth/user-auth';
 import { If } from 'component/if';
+import { LogoutBtn } from 'app/component/logout-button';
 
 export interface TitleMainMenuP {
   t$title: string;
@@ -20,7 +21,7 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
   private $userAuth: UserAuth;
 
   render() {
-    const IT = this.c(T);
+    const [IT, LogoutBtnI] = this.c2(T, LogoutBtn);
     return <nav class={bulma.navbar} role="navigation" aria-label="main navigation">
       <div class={bulma.navbarBrand}>
         <a class={bulma.navbarItem} href="https://bulma.io">
@@ -54,16 +55,19 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
 
         <div class={bulma.navbarEnd}>
           <div class={bulma.navbarItem}>
-            <If f={!this.$userAuth.isAuthenticated()}>
-              <div class={bulma.buttons}>
+            <div class={bulma.buttons}>
+              <If f={!this.$userAuth.isAuthenticated()}>
                 <Link class={bulma.button + ' ' + bulma.isPrimary} href="/sign-up">
                   <strong>Sign up</strong>
                 </Link>
                 <Link class={bulma.button + ' ' + bulma.isLight} href="/sign-in">
                   Log in
                 </Link>
-              </div>
-            </If>
+              </If>
+              <If f={this.$userAuth.isAuthenticated()}>
+                <LogoutBtnI/>
+              </If>
+            </div>
           </div>
         </div>
       </div>
