@@ -1,52 +1,50 @@
 import { h, Component } from 'preact';
+
 import { Router, Route, route } from 'preact-router';
 import AsyncRoute from 'preact-async-route';
-import { inject, FwdContainer } from 'injection/inject-1k';
+import { inject, Container } from 'injection/inject-1k';
 import { InjSubCom } from 'injection/inject-sub-components';
 import { Instantiable, gNew, Tobj, keysM } from 'collection/typed-object';
-import { I18Trans } from 'i18n/i18n-translator';
+//import { I18Trans } from 'i18n/i18n-translator';
 
 interface AsyncModule {
-  default: Instantiable<Component>;
+  default: (name: string, mainContainer: Container) => Instantiable<Component>;
+  //  default: Instantiable<Component>;
 }
 
 //import { LandingPage } from 'app/landing-page';
 
 export class MainCom extends InjSubCom<{}, {}> {
   // @ts-ignore
-  $bundlesCtx: Tobj<FwdContainer>;
+  // $bundlesCtx: Tobj<FwdContainer>;
 
   private inj(module: AsyncModule, name: string): Instantiable<Component> {
-    return inject(module.default,
-                  gNew(this.$bundlesCtx,
-                       name,
-                       () => new FwdContainer(this.$container)
-                         .sBean('bundleName', name)
-                         .sBeanInj('i18Trans', new I18Trans())));
+    return module.default(name, this.$container);
   }
 
   LPG = async () => await import('./page/landing-page')
     .then(m => this.inj(m as AsyncModule, 'landing-page'));
 
-  Terms = async () => await import('./page/terms-of-conditions')
-    .then(m => this.inj(m as AsyncModule, 'terms-of-conditions'));
+  /* Terms = async () => await import('./page/terms-of-conditions')
+   *   .then(m => this.inj(m as AsyncModule, 'terms-of-conditions'));
+   */
+  // TodoList = async () => await import('./todo-list').then(m => this.inj(m as AsyncModule, 'todo-list'));
 
-  TodoList = async () => await import('./todo-list').then(m => this.inj(m as AsyncModule, 'todo-list'));
+  //  NewTodo = async () => await import('./new-todo').then(m => this.inj(m as AsyncModule, 'new-todo'));
 
-  NewTodo = async () => await import('./new-todo').then(m => this.inj(m as AsyncModule, 'new-todo'));
-
-  SignUp = async () => await import('app/page/sign-up/sign-up').then(m => this.inj(m as AsyncModule, 'sign-up'));
+  // SignUp = async () => await import('app/page/sign-up/sign-up').then(m => this.inj(m as AsyncModule, 'sign-up'));
 
   // SignIn = async () => await import('./app/page/sign-in').then(m => this.inj(m as AsyncModule, 'sign-in'));
   // <AsyncRoute path='/sign-in' getComponent={this.SignIn} />
   // <Route path='/' component={this.c(Terms)} />
+  /* <AsyncRoute path='/terms' getComponent={this.Terms} />
+   * <AsyncRoute path='/todo-list' getComponent={this.TodoList} />
+   * <AsyncRoute path='/new-todo' getComponent={this.NewTodo} />
+   * <AsyncRoute path='/sign-up' getComponent={this.SignUp} />*/
+
   render() {
     return <Router>
       <AsyncRoute path='/' getComponent={this.LPG} />
-      <AsyncRoute path='/terms' getComponent={this.Terms} />
-      <AsyncRoute path='/todo-list' getComponent={this.TodoList} />
-      <AsyncRoute path='/new-todo' getComponent={this.NewTodo} />
-      <AsyncRoute path='/sign-up' getComponent={this.SignUp} />
     </Router>;
   }
 }

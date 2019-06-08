@@ -8,7 +8,7 @@ import { UserAuth } from 'app/auth/user-auth';
 import { LocalStorage } from 'app/persistence/local-storage';
 import { CommonUtil } from 'app/common-util';
 import { Container, inject } from 'injection/inject-1k';
-
+import { SignUpSr } from 'app/auth/sign-up-service';
 
 export const container = new Container();
 
@@ -16,6 +16,7 @@ container
   .bind(
     [
       ['cutil', CommonUtil],
+      ['signUp', SignUpSr],
       ['locStore', LocalStorage],
       ['userAuth', UserAuth],
       ['valiform', Valiform],

@@ -81,8 +81,6 @@ export class UserAuth {
     this.$locStore.store(MyName, name);
     this.$locStore.store(MyType, type);
     email.ifV(e => this.$locStore.store(MyEmail, e));
-
-    window.history.go(-1);
     /* this.returnOnAuth.ifVE(
      *   p => {
      *     route(p);
