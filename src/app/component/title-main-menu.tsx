@@ -85,7 +85,7 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
               <If f={this.$userAuth.isAuthenticated()}>
                 <LogoutBtnI/>
               </If>
-              <ChooseLangBtnI css="is-light" />
+              <ChooseLangBtnI css={bulma.button + ' ' + bulma.isLight} />
             </div>
           </div>
         </div>

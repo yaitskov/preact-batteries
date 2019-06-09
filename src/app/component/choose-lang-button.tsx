@@ -5,7 +5,7 @@ import { ObVar } from 'collection/observable-variable';
 import { MyCo } from 'component/my-component';
 
 export interface ChooseLangBtnP {
-  css?: string;
+  css: string;
 }
 
 export class ChooseLangBtn extends MyCo<ChooseLangBtnP, {}> {
@@ -17,6 +17,7 @@ export class ChooseLangBtn extends MyCo<ChooseLangBtnP, {}> {
   }
 
   render() {
-    return <FlagBtn href="/lang" css={this.props.css} flag={this.$curLang.val} />;
+    // @ts-ignore
+    return <FlagBtn href="/lang" css={this.props.css} flag={this.$curLang.val}>{this.props.children}</FlagBtn>;
   }
 }
