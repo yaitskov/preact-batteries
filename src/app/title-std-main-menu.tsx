@@ -26,8 +26,7 @@ export class TitleStdMainMenu extends TransCom<TitleStdMainMenuP, TransComS> {
         [
           <NavbarLinkItem path="/draft" t$label="Draft to coming tournaments" />,
           <NavbarLinkItem path="/watch" t$label="Watch ongoing tournaments" />,
-          <hr class={bulma.navbarDivider}/>,
-          <NavbarLinkItem path="/terms" t$label="Terms of service" />
+          <hr class={bulma.navbarDivider}/>
         ]
       } />;
   }

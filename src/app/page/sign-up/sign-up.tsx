@@ -10,6 +10,8 @@ import { SignUpForm, UserRegReq } from 'app/page/sign-up/sign-up-form';
 import { TitleStdMainMenu } from 'app/title-std-main-menu';
 import { TransCom, TransComS } from 'i18n/trans-component';
 
+import { Footer } from 'app/component/footer';
+
 import bulma from 'bulma/bulma.sass';
 
 interface SignUpP {
@@ -40,7 +42,7 @@ export class SignUpCom extends TransCom<SignUpP, SignUpS> {
   }
 
   render() {
-    const [TI, SignUpFormI, TitleStdMainMenuI]  = this.c3(T, SignUpForm, TitleStdMainMenu);
+    const [TI, SignUpFormI, TitleStdMainMenuI, FooterI]  = this.c4(T, SignUpForm, TitleStdMainMenu, Footer);
     return <div>
       <TitleStdMainMenuI t$title="Sign-Up"/>
       <section class="section">
@@ -49,6 +51,7 @@ export class SignUpCom extends TransCom<SignUpP, SignUpS> {
                        onSubmit={rr => this.submitHandler(rr)}/>
         </div>
       </section>
+      <FooterI/>
     </div>;
   }
 

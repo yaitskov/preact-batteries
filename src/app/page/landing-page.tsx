@@ -8,6 +8,7 @@ import { TitleStdMainMenu } from 'app/title-std-main-menu';
 import { T } from 'i18n/translate-tag';
 import { MyCo } from 'component/my-component';
 import { SignUpSr } from 'app/auth/sign-up-service';
+import { Footer } from 'app/component/footer';
 
 import bulma from 'app/style/my-bulma.sass';
 
@@ -91,7 +92,7 @@ export class LandingPage extends TransCom<{}, LandingPageS> {
   }
 
   render() {
-    const [TI, TitleStdMainMenuI] = this.c2(T, TitleStdMainMenu);
+    const [TI, TitleStdMainMenuI, FooterI] = this.c3(T, TitleStdMainMenu, Footer);
     return <div>
       <TitleStdMainMenuI t$title="Welcome to Cloud-Sport"/>
       <SecCon>
@@ -157,6 +158,7 @@ export class LandingPage extends TransCom<{}, LandingPageS> {
           </Link>
         </div>
       </SecCon>
+      <FooterI/>
     </div>;
   }
 
