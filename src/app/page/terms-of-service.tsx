@@ -16,9 +16,6 @@ export interface TermsS extends TransComS {
 }
 
 export class Terms extends TransCom<{}, TermsS> {
-  // @ts-ignore
-  $bundleName: string;
-
   constructor(props) {
     super(props);
     this.st = {at: this.at()};
@@ -76,5 +73,5 @@ export class Terms extends TransCom<{}, TermsS> {
 }
 
 export default function loadBundle(bundleName: string, mainContainer: Container): Instantiable<Terms> {
-  return regBundleCtx(name, mainContainer, Terms, (o) => o);
+  return regBundleCtx(bundleName, mainContainer, Terms, (o) => o);
 }

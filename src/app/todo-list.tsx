@@ -52,5 +52,5 @@ export class TodoList extends InjSubCom<{}, TodoListSt> {
 }
 
 export default function loadBundle(bundleName: string, mainContainer: Container): Instantiable<TodoList> {
-  return regBundleCtx(name, mainContainer, TodoList, (o) => o);
+  return regBundleCtx(bundleName, mainContainer, TodoList, (o) => o);
 }

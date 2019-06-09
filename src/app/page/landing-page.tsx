@@ -150,5 +150,5 @@ export class LandingPage extends TransCom<{}, LandingPageS> {
 }
 
 export default function loadBundle(bundleName: string, mainContainer: Container): Instantiable<LandingPage> {
-  return regBundleCtx(name, mainContainer, LandingPage, (o) => o);
+  return regBundleCtx(bundleName, mainContainer, LandingPage, (o) => o);
 }

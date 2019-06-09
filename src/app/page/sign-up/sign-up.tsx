@@ -59,5 +59,5 @@ export class SignUpCom extends TransCom<SignUpP, SignUpS> {
 }
 
 export default function loadBundle(bundleName: string, mainContainer: Container): Instantiable<SignUpCom> {
-  return regBundleCtx(name, mainContainer, SignUpCom, (o) => o);
+  return regBundleCtx(bundleName, mainContainer, SignUpCom, (o) => o);
 }

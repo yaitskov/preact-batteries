@@ -49,5 +49,5 @@ export class TodoGroup extends InjSubCom<{}, TodoGroupS> {
 }
 
 export default function loadBundle(bundleName: string, mainContainer: Container): Instantiable<TodoGroup> {
-  return regBundleCtx(name, mainContainer, TodoGroup, (o) => o);
+  return regBundleCtx(bundleName, mainContainer, TodoGroup, (o) => o);
 }
