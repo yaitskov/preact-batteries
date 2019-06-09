@@ -5,7 +5,7 @@ import { Valiform, FormLevel } from 'component/form/validation/form-validation';
 import { InputOkP, InputIf } from 'component/form/validation/input-if';
 import { Invalid } from 'component/form/validation/invalid';
 
-import bulma from 'bulma/css/bulma.css';
+import bulma from 'bulma/bulma.sass';
 
 interface InputOkS {
   val: string;

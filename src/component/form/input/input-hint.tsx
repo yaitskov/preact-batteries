@@ -6,7 +6,7 @@ import { Valiform } from 'component/form/validation/form-validation';
 import { ValiFieldLi } from 'component/form/validation/input-if';
 import { If } from 'component/if';
 
-import bulma from 'bulma/css/bulma.css';
+import bulma from 'bulma/bulma.sass';
 
 interface InpHintSt {
   show: boolean;

@@ -8,7 +8,7 @@ import { DefaultErr } from 'component/form/validation/default-error';
 import { InjSubCom } from 'injection/inject-sub-components';
 import { T } from 'i18n/translate-tag';
 
-import bulma from 'bulma/css/bulma.css';
+import bulma from 'bulma/bulma.sass';
 
 export class FullNameField extends InjSubCom<{}, {}> {
   render() {

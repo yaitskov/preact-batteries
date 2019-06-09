@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { MyCo } from 'component/my-component';
 import { Valiform, FormLevel } from 'component/form/validation/form-validation';
 
-import bulma from 'bulma/css/bulma.css';
+import bulma from 'bulma/bulma.sass';
 
 export interface SubmitP {
   t$text: string;

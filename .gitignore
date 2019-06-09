@@ -1,7 +1,6 @@
 i18n-dicts/**/index.json
 src/**/*.css.d.ts
+src/**/*.sass.d.ts
 /node_modules
 /dist
 /#*#
-
-

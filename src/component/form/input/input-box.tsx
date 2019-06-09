@@ -3,7 +3,7 @@ import { MyCo } from 'component/my-component';
 import { Wm } from 'component/will-mount';
 import { Valiform, FormLevel } from 'component/form/validation/form-validation';
 
-import bulma from 'bulma/css/bulma.css';
+import bulma from 'bulma/bulma.sass';
 
 /**
    draw scope for input listeners

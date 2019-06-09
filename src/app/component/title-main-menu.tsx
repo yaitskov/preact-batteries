@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 import { Link } from 'preact-router';
 import { InjSubCom } from 'injection/inject-sub-components';
 import { T } from 'i18n/translate-tag';
-import bulma from 'bulma/css/bulma.css';
+import bulma from 'bulma/bulma.sass';
 import { SuperElement } from 'component/types';
 import { UserAuth } from 'app/auth/user-auth';
 import { If } from 'component/if';

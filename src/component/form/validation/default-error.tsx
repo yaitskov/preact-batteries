@@ -7,7 +7,7 @@ import { ValiFieldLi } from 'component/form/validation/input-if';
 import { MyCo } from 'component/my-component';
 import { If } from 'component/if';
 
-import bulma from 'bulma/css/bulma.css';
+import bulma from 'bulma/bulma.sass';
 
 interface St {
   errs: Tobj<string>;

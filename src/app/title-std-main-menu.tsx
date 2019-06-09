@@ -3,7 +3,7 @@ import { TitleMainMenu } from 'app/component/title-main-menu';
 import { TransCom, TransComS } from 'i18n/trans-component';
 import { NavbarLinkItem } from 'app/component/navbar-link-item';
 
-import bulma from 'bulma/css/bulma.css';
+import bulma from 'bulma/bulma.sass';
 
 export interface TitleStdMainMenuP {
   t$title: string;

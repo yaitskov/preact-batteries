@@ -9,7 +9,8 @@ import { T } from 'i18n/translate-tag';
 import { MyCo } from 'component/my-component';
 import { SignUpSr } from 'app/auth/sign-up-service';
 
-import bulma from 'bulma/css/bulma.css';
+//import bulma from 'bulma/bulma.sass';
+import bulma from 'app/style/my-bulma.sass';
 
 export interface LandingPageS extends TransComS {
 }

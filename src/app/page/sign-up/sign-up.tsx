@@ -10,7 +10,7 @@ import { SignUpForm, UserRegReq } from 'app/page/sign-up/sign-up-form';
 import { TitleStdMainMenu } from 'app/title-std-main-menu';
 import { TransCom, TransComS } from 'i18n/trans-component';
 
-import bulma from 'bulma/css/bulma.css';
+import bulma from 'bulma/bulma.sass';
 
 interface SignUpP {
 }

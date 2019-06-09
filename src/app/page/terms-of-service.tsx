@@ -6,7 +6,7 @@ import { regBundleCtx } from 'injection/bundle';
 import { TitleStdMainMenu } from 'app/title-std-main-menu';
 import { TransCom, TransComS } from 'i18n/trans-component';
 
-import bulma from 'bulma/css/bulma.css';
+import bulma from 'bulma/bulma.sass';
 
 export interface TermsS extends TransComS {
 }
