@@ -28,9 +28,9 @@ export class Footer extends InjSubCom<{}, {}> {
           </div>
           <div class={bulma.column}>
             <p>
-              <Link href="https://github.com/yaitskov/ping-pong/issues">
+              <a href="https://github.com/yaitskov/ping-pong/issues">
                 <TI m="Support" />
-              </Link>
+              </a>
             </p>
           </div>
         </div>
