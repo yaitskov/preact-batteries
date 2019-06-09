@@ -9,6 +9,8 @@ import { T } from 'i18n/translate-tag';
 import { MyCo } from 'component/my-component';
 import { SignUpSr } from 'app/auth/sign-up-service';
 import { Footer } from 'app/component/footer';
+import { Par } from 'app/component/paragraph';
+import { SecCon } from 'app/component/section-container';
 
 import bulma from 'app/style/my-bulma.sass';
 
@@ -56,24 +58,6 @@ class TileLine extends MyCo<{}, {}> {
 class CS extends MyCo<{}, {}> {
   render() {
     return <span>Cloud-Sport</span>;
-  }
-}
-
-class Par extends MyCo<{}, {}> {
-  render() {
-    // @ts-ignore
-    return <p class={bulma.content + ' ' + bulma.isMedium}>{this.props.children}</p>;
-  }
-}
-
-interface SecConP {
-  css?: string;
-}
-
-class SecCon extends MyCo<SecConP, {}> {
-  render() {
-    // @ts-ignore
-    return <section class={bulma.section + ' ' + this.props.css}><div class={bulma.container}>{this.props.children}</div></section>;
   }
 }
 
