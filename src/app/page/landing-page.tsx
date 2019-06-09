@@ -9,7 +9,6 @@ import { T } from 'i18n/translate-tag';
 import { MyCo } from 'component/my-component';
 import { SignUpSr } from 'app/auth/sign-up-service';
 
-//import bulma from 'bulma/bulma.sass';
 import bulma from 'app/style/my-bulma.sass';
 
 export interface LandingPageS extends TransComS {
@@ -33,8 +32,8 @@ const colors: Tobj<string> = {
 
 class Tile extends MyCo<TileP, {}> {
   render() {
-    return <div class={bulma.tile + ' ' + bulma['is-parent']}>
-      <article class={bulma.tile + ' ' + bulma['is-child'] + ' ' + bulma.notification + ' ' + colors[this.props.color]}>
+    return <div class={bulma.tile + ' ' + bulma.isParent}>
+      <article class={bulma.tile + ' ' + bulma.isChild + ' ' + bulma.notification + ' ' + colors[this.props.color]}>
         <p class={bulma.title}>
           {this.props.t$title}
         </p>
@@ -49,7 +48,7 @@ class Tile extends MyCo<TileP, {}> {
 class TileLine extends MyCo<{}, {}> {
   render() {
     // @ts-ignore
-    return <div class={bulma.tile + ' ' + bulma['is-ancestor']}>{this.props.children}</div>;
+    return <div class={bulma.tile + ' ' + bulma.isAncestor}>{this.props.children}</div>;
   }
 }
 
@@ -62,14 +61,18 @@ class CS extends MyCo<{}, {}> {
 class Par extends MyCo<{}, {}> {
   render() {
     // @ts-ignore
-    return <p class={bulma.content + ' ' + bulma['is-medium']}>{this.props.children}</p>;
+    return <p class={bulma.content + ' ' + bulma.isMedium}>{this.props.children}</p>;
   }
 }
 
-class SecCon extends MyCo<{}, {}> {
+interface SecConP {
+  css?: string;
+}
+
+class SecCon extends MyCo<SecConP, {}> {
   render() {
     // @ts-ignore
-    return <section class={bulma.section}><div class={bulma.container}>{this.props.children}</div></section>;
+    return <section class={bulma.section + ' ' + this.props.css}><div class={bulma.container}>{this.props.children}</div></section>;
   }
 }
 
@@ -110,7 +113,7 @@ export class LandingPage extends TransCom<{}, LandingPageS> {
         </Par>
       </SecCon>
 
-      <SecCon>
+      <SecCon css={bulma.noTop}>
         <TileLine>
           <Tile t$title="No paper"
                 t$body="track a tournament with a phone and save time on printing blanks and rewriting protocols due mistakes"
