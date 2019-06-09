@@ -1,8 +1,9 @@
 import { h } from 'preact';
 import { postJ } from 'async/abortable-fetch';
 import { Thenable } from 'async/abortable-promise';
-
-import { inject, Container } from 'injection/inject-1k';
+import { Instantiable } from 'collection/typed-object';
+import { regBundleCtx } from 'injection/bundle';
+import { Container } from 'injection/inject-1k';
 import { MainMenu } from 'app/main-menu';
 import { ToDoForm, ToDoFormP, ToDo } from 'app/todo-form';
 import { InjSubCom } from 'injection/inject-sub-components';
@@ -25,7 +26,7 @@ interface TodoGroupS {
   todo: ToDo;
 }
 
-export default class TodoGroup extends InjSubCom<{}, TodoGroupS> {
+export class TodoGroup extends InjSubCom<{}, TodoGroupS> {
   // @ts-ignore
   $bundleName: string;
   // @ts-ignore
@@ -45,4 +46,8 @@ export default class TodoGroup extends InjSubCom<{}, TodoGroupS> {
                  onSubmit={td => submitHandler(td).tnr(t => this.$todoList.add(t))}/>
     </div>;
   }
+}
+
+export default function loadBundle(bundleName: string, mainContainer: Container): Instantiable<TodoGroup> {
+  return regBundleCtx(name, mainContainer, TodoGroup, (o) => o);
 }

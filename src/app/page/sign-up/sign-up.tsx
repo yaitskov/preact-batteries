@@ -1,8 +1,13 @@
 import { h } from 'preact';
 import { T } from 'i18n/translate-tag';
+
+import { Container } from 'injection/inject-1k'
+import { Instantiable } from 'collection/typed-object';
+import { regBundleCtx } from 'injection/bundle';
+
 import { Thenable } from 'async/abortable-promise';
 import { SignUpForm, UserRegReq } from 'app/page/sign-up/sign-up-form';
-import { TitleMainMenu } from 'app/component/title-main-menu';
+import { TitleStdMainMenu } from 'app/title-std-main-menu';
 import { TransCom, TransComS } from 'i18n/trans-component';
 
 import bulma from 'bulma/css/bulma.css';
@@ -14,7 +19,7 @@ interface SignUpS extends TransComS {
   regReq: UserRegReq;
 }
 
-export default class SignUp extends TransCom<SignUpP, SignUpS> {
+export class SignUpCom extends TransCom<SignUpP, SignUpS> {
   // @ts-ignore
   private $signUp: SignUpSr;
 
@@ -35,15 +40,21 @@ export default class SignUp extends TransCom<SignUpP, SignUpS> {
   }
 
   render() {
-    const [TI, SignUpFormI, TitleMainMenuI]  = this.c3(T, SignUpForm, TitleMainMenu);
-    return <section class="section">
-      <div class={bulma.container}>
-        <TitleMainMenuI t$title="Sign-Up" menuItems={[]} />
-        <SignUpFormI regReq={this.st.regReq}
-                   onSubmit={rr => this.submitHandler(rr)}/>
-      </div>
-    </section>;
+    const [TI, SignUpFormI, TitleStdMainMenuI]  = this.c3(T, SignUpForm, TitleStdMainMenu);
+    return <div>
+      <TitleStdMainMenuI t$title="Sign-Up"/>
+      <section class="section">
+        <div class={bulma.container}>
+          <SignUpFormI regReq={this.st.regReq}
+                       onSubmit={rr => this.submitHandler(rr)}/>
+        </div>
+      </section>
+    </div>;
   }
 
   at(): string[] { return []; }
+}
+
+export default function loadBundle(bundleName: string, mainContainer: Container): Instantiable<SignUpCom> {
+  return regBundleCtx(name, mainContainer, SignUpCom, (o) => o);
 }

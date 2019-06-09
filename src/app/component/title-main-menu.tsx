@@ -24,7 +24,7 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
     const [IT, LogoutBtnI] = this.c2(T, LogoutBtn);
     return <nav class={bulma.navbar} role="navigation" aria-label="main navigation">
       <div class={bulma.navbarBrand}>
-        <a class={bulma.navbarItem} href="https://bulma.io">
+        <a class={bulma.navbarItem} href="/">
           <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"/>
         </a>
 

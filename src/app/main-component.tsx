@@ -25,26 +25,26 @@ export class MainCom extends InjSubCom<{}, {}> {
   LPG = async () => await import('./page/landing-page')
     .then(m => this.inj(m as AsyncModule, 'landing-page'));
 
-  /* Terms = async () => await import('./page/terms-of-conditions')
-   *   .then(m => this.inj(m as AsyncModule, 'terms-of-conditions'));
-   */
-  // TodoList = async () => await import('./todo-list').then(m => this.inj(m as AsyncModule, 'todo-list'));
+  Terms = async () => await import('./page/terms-of-service')
+    .then(m => this.inj(m as AsyncModule, 'terms-of-service'));
 
-  //  NewTodo = async () => await import('./new-todo').then(m => this.inj(m as AsyncModule, 'new-todo'));
+  TodoList = async () => await import('./todo-list').then(m => this.inj(m as AsyncModule, 'todo-list'));
 
-  // SignUp = async () => await import('app/page/sign-up/sign-up').then(m => this.inj(m as AsyncModule, 'sign-up'));
+  NewTodo = async () => await import('./new-todo').then(m => this.inj(m as AsyncModule, 'new-todo'));
+
+  SignUp = async () => await import('app/page/sign-up/sign-up').then(m => this.inj(m as AsyncModule, 'sign-up'));
 
   // SignIn = async () => await import('./app/page/sign-in').then(m => this.inj(m as AsyncModule, 'sign-in'));
   // <AsyncRoute path='/sign-in' getComponent={this.SignIn} />
   // <Route path='/' component={this.c(Terms)} />
-  /* <AsyncRoute path='/terms' getComponent={this.Terms} />
-   * <AsyncRoute path='/todo-list' getComponent={this.TodoList} />
-   * <AsyncRoute path='/new-todo' getComponent={this.NewTodo} />
-   * <AsyncRoute path='/sign-up' getComponent={this.SignUp} />*/
 
   render() {
     return <Router>
       <AsyncRoute path='/' getComponent={this.LPG} />
+      <AsyncRoute path='/terms' getComponent={this.Terms} />
+      <AsyncRoute path='/todo-list' getComponent={this.TodoList} />
+      <AsyncRoute path='/new-todo' getComponent={this.NewTodo} />
+      <AsyncRoute path='/sign-up' getComponent={this.SignUp} />
     </Router>;
   }
 }

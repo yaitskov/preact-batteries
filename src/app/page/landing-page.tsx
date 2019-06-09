@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { Link, route } from 'preact-router';
 import { regBundleCtx } from 'injection/bundle';
-import { Container } from 'injection/inject-1k'
+import { Container } from 'injection/inject-1k';
 import { Tobj, Instantiable } from 'collection/typed-object';
 import { TransCom, TransComS } from 'i18n/trans-component';
 import { TitleStdMainMenu } from 'app/title-std-main-menu';
