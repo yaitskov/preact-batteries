@@ -140,16 +140,37 @@ class JsxTranslator {
     }
   }
 
+  forwardsTranslatedProperty(attr) {
+    if (attr.value.type === 'JSXExpressionContainer') {
+      const exp = attr.value.expression;
+      if (exp.type === 'MemberExpression') {
+        if (exp.object.type === 'MemberExpression') {
+          if (exp.object.object.type === 'ThisExpression') {
+            if (exp.object.property.type === 'Identifier') {
+              if (exp.property.type === 'Identifier') {
+                if (exp.property.name.match(/^t[$].+$/)) {
+                  return true;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }
+
   translationAttribute(oEl, path, state) {
     for (let attr of oEl.attributes) {
       const match = attr.name.name.match(/^(t[$].+)$/);
       if (match) {
         if (attr.value.type != 'StringLiteral') {
-          // console.log(`skip `);
-          return;
-          // throw fatalErr(
-          //   `attribute translation supports just literal strings, but ${attr.value.type}`,
-          //   path, state);
+          if (this.forwardsTranslatedProperty(attr)) {
+            return;
+          }
+          throw fatalErr(
+            `non literal values for translatable attributes (prefixes with t$) allowed only if this.props.t$...`,
+            path, state);
         }
         const idx = this.newTransAttribute(path, state, attr.value.value);
         // attr.name = this.types.jsxIdentifier(match[1]);
