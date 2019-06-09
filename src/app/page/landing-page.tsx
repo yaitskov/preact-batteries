@@ -139,6 +139,18 @@ export class LandingPage extends TransCom<{}, LandingPageS> {
           <Tile t$title="Crowdless"
                 t$body="aren't you tired of participants hanging around your desk waiting for their turn and constantly asking boring repetitive questions?! Give them an opportunity to relax in a cafe nearby before the next match starts and don't worry about missing their turn" color="green" />
         </TileLine>
+
+        <TileLine>
+          <Tile t$title="Free"
+                t$body="amature tournaments are low budget events"
+                color="turquoise" />
+          <Tile t$title="Flexible"
+                t$body="often clubs adhere to some free interpretation of official sport rules, which complicates using traditional ridgid systems, but here you have rule designer and can reflect the unique club culture"
+                color="yellow" />
+          <Tile t$title="Understandable"
+                t$body="group ranking follows drill down approach and explains every decision in ordering rivals."
+                color="blue" />
+        </TileLine>
       </SecCon>
 
       <SecCon>
