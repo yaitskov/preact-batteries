@@ -16,6 +16,8 @@ const visitorFactory = translationPlugin.makeVisitorFactory(
     rootPrefixLength: `${fPath.dirname(__filename)}${fPath.sep}src${fPath.sep}`.length
   });
 
+const compressedFilesPattern = /\.(js|css|html|svg)$/;
+
 module.exports = {
   entry: "./src/bootstrap.tsx",
   output: {
@@ -26,7 +28,9 @@ module.exports = {
   // devtool: "source-map",
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js", '.css', '.sass', '.png'],
+    extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js',
+                 '.css', '.sass',
+                 '.png', '.svg'],
     modules: ['src', 'node_modules']
   },
   module: makeWebPackModule([ visitorFactory ]),
@@ -40,13 +44,13 @@ module.exports = {
     new CompressionPlugin({
       filename: '[path].gz[query]',
       algorithm: 'gzip',
-      test: /\.js$|\.css$|\.html$/,
+      test: compressedFilesPattern,
       threshold: 1024,
       minRatio: 0.8
     }),
     new BrotliPlugin({
       asset: '[path].br[query]',
-      test: /\.js$|\.css$|\.html$/,
+      test: compressedFilesPattern,
       threshold: 1024,
       minRatio: 0.8
     }),

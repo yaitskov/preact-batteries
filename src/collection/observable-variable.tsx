@@ -7,8 +7,9 @@ export class ObVar<T> {
   constructor(private v: T) {
   }
 
-  public onSet(sw: SetWatcher<T>) {
+  public onSet(sw: SetWatcher<T>): ObVar<T> {
     this.watchers.push(sw);
+    return this;
   }
 
   public set val(newValue: T) {

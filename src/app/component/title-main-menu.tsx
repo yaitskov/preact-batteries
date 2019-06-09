@@ -6,6 +6,7 @@ import { SuperElement } from 'component/types';
 import { UserAuth } from 'app/auth/user-auth';
 import { If } from 'component/if';
 import { LogoutBtn } from 'app/component/logout-button';
+import { ChooseLangBtn } from 'app/component/choose-lang-button';
 
 import bulma from 'bulma/bulma.sass';
 
@@ -35,7 +36,7 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
   }
 
   render() {
-    const [IT, LogoutBtnI] = this.c2(T, LogoutBtn);
+    const [TI, LogoutBtnI, ChooseLangBtnI] = this.c3(T, LogoutBtn, ChooseLangBtn);
     const active = this.st.showMenu ? bulma.isActive : '';
     return <nav class={bulma.navbar} role="navigation" aria-label="main navigation">
       <div class={bulma.navbarBrand}>
@@ -59,7 +60,7 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
         <div class={bulma.navbarStart}>
           <div class={bulma.navbarItem + ' ' + bulma.hasDropdown + ' ' + bulma.isHoverable}>
             <a class={bulma.navbarLink}>
-              <IT m="Menu" />
+              <TI m="Menu" />
             </a>
 
             <div class={bulma.navbarDropdown}>
@@ -73,15 +74,18 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
             <div class={bulma.buttons}>
               <If f={!this.$userAuth.isAuthenticated()}>
                 <Link class={bulma.button + ' ' + bulma.isPrimary} href="/sign-up">
-                  <strong>Sign up</strong>
+                  <strong>
+                    <TI m="Sign up" />
+                  </strong>
                 </Link>
                 <Link class={bulma.button + ' ' + bulma.isLight} href="/sign-in">
-                  Log in
+                  <TI m="Log in" />
                 </Link>
               </If>
               <If f={this.$userAuth.isAuthenticated()}>
                 <LogoutBtnI/>
               </If>
+              <ChooseLangBtnI css="is-light" />
             </div>
           </div>
         </div>

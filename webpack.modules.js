@@ -60,9 +60,9 @@ function makeModule(extraBabelPlugins) {
         use: [...cssLoaders, 'sass-loader']
       },
       {
-        test: /\.png$/i,
+        test: /\.(png|svg)$/i,
         use: {
-            loader: 'file-loader',
+          loader: 'file-loader',
           options: {}
         }
       }

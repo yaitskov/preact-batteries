@@ -6,7 +6,7 @@ import { Tobj, emptyM } from 'collection/typed-object';
 import { AtomicAsync } from 'async/atomic-async';
 
 type TransPhrase = string;
-export type LanguageCode = string;
+export type LanguageCode = 'ru' | 'en' | 'pl' | 'de';
 type TranslatedMessage = string;
 
 export class I18Trans {

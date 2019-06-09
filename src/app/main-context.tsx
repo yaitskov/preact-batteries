@@ -12,12 +12,13 @@ import { SignUpSr } from 'app/auth/sign-up-service';
 
 export const container = new Container();
 
+const locStore = new LocalStorage();
+
 container
   .bind(
     [
       ['cutil', CommonUtil],
       ['signUp', SignUpSr],
-      ['locStore', LocalStorage],
       ['userAuth', UserAuth],
       ['valiform', Valiform],
       ['validation', Validation],
@@ -25,5 +26,10 @@ container
     ])
   .sBean('bundlesCtx', {})
   .sBean('bundleName', 'bootstrap')
-  .sBean('curLang', new ObVar<LanguageCode>('pl'))
+  .sBean('locStore', locStore)
+  .sBean('curLang', new ObVar<LanguageCode>(locStore.get('myLang').el('pl') as LanguageCode)
+    .onSet(lang => {
+      locStore.store('myLang', lang);
+      window.location.reload();
+    }))
   .sBean('todoList', new ObList<ToDo>());

@@ -4,39 +4,39 @@ import { Opt, opt } from 'collection/optional';
 export class LocalStorage {
   private ls: Storage;
 
-	constructor() {
-		this.ls = localStorage;
-	}
+  constructor() {
+    this.ls = localStorage;
+  }
 
-	public store(key: string, value: string): void {
-		this.ls.setItem(key, value);
-	}
+  public store(key: string, value: string): void {
+    this.ls.setItem(key, value);
+  }
 
-	public get(key: string): Opt<string> {
-		return opt(this.ls.getItem(key));
-	}
+  public get(key: string): Opt<string> {
+    return opt(this.ls.getItem(key));
+  }
 
-	public clearAll(): void {
+  public clearAll(): void {
     while (this.ls.length > 0) {
       this.ls.removeItem(this.ls.key(0) as string);
     }
-	}
+  }
 
-	public drop(key: string): void {
-		this.ls.removeItem(key);
-	}
+  public drop(key: string): void {
+    this.ls.removeItem(key);
+  }
 
-	public allKeys(): string[] {
-		const result: string[] = [];
-		for (var i = 0; i < this.ls.length; ++i) {
+  public allKeys(): string[] {
+    const result: string[] = [];
+    for (var i = 0; i < this.ls.length; ++i) {
       result.push(this.ls.key(i) as string);
-		}
-		return result;
-	}
+    }
+    return result;
+  }
 
-	public asMap(): Tobj<string> {
-		const result = {};
-		this.allKeys().forEach(key => this.get(key).ifV(v => result[key] = v));
-		return result;
-	}
+  public asMap(): Tobj<string> {
+    const result = {};
+    this.allKeys().forEach(key => this.get(key).ifV(v => result[key] = v));
+    return result;
+  }
 }
