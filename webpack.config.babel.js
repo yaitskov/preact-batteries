@@ -31,7 +31,9 @@ module.exports = {
   },
   module: makeWebPackModule([ visitorFactory ]),
   plugins: [
-    new HtmlWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      meta: {viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'}
+    }),
     new MergeAndFlushI18nPlugin(state),
     new CompressionPlugin({
       filename: '[path].gz[query]',
