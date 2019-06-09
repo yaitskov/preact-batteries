@@ -40,6 +40,9 @@ app
     enableBrotli: true,
     orderPreference: ['br', 'gzip']
   }))
+  .get('/translation/*', (req, res) => {
+    res.status(404).send('File not found');
+  })
   .get('/*', function(req, res) {
     res.sendFile(`${__dirname}/dist/index.html`,
                  err =>  {
