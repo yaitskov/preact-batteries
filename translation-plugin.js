@@ -145,9 +145,11 @@ class JsxTranslator {
       const match = attr.name.name.match(/^(t[$].+)$/);
       if (match) {
         if (attr.value.type != 'StringLiteral') {
-          throw fatalErr(
-            `attribute translation supports just literal strings, but ${attr.value.type}`,
-            path, state);
+          // console.log(`skip `);
+          return;
+          // throw fatalErr(
+          //   `attribute translation supports just literal strings, but ${attr.value.type}`,
+          //   path, state);
         }
         const idx = this.newTransAttribute(path, state, attr.value.value);
         // attr.name = this.types.jsxIdentifier(match[1]);

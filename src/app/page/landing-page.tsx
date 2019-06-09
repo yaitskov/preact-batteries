@@ -4,8 +4,7 @@ import { regBundleCtx } from 'injection/bundle';
 import { Container } from 'injection/inject-1k'
 import { Tobj, Instantiable } from 'collection/typed-object';
 import { TransCom, TransComS } from 'i18n/trans-component';
-import { TitleMainMenu } from 'app/component/title-main-menu';
-import { NavbarLinkItem } from 'app/component/navbar-link-item';
+import { TitleStdMainMenu } from 'app/title-std-main-menu';
 import { T } from 'i18n/translate-tag';
 import { MyCo } from 'component/my-component';
 import { SignUpSr } from 'app/auth/sign-up-service';
@@ -34,14 +33,14 @@ const colors: Tobj<string> = {
 class Tile extends MyCo<TileP, {}> {
   render() {
     return <div class={bulma.tile + ' ' + bulma['is-parent']}>
-    <article class={bulma.tile + ' ' + bulma['is-child'] + ' ' + bulma.notification + ' ' + colors[this.props.color]}>
-      <p class={bulma.title}>
-        {this.props.t$title}
-      </p>
-      <p class={bulma.content}>
-        {this.props.t$body}
-      </p>
-    </article>
+      <article class={bulma.tile + ' ' + bulma['is-child'] + ' ' + bulma.notification + ' ' + colors[this.props.color]}>
+        <p class={bulma.title}>
+          {this.props.t$title}
+        </p>
+        <p class={bulma.content}>
+          {this.props.t$body}
+        </p>
+      </article>
     </div>;
   }
 }
@@ -88,19 +87,9 @@ export class LandingPage extends TransCom<{}, LandingPageS> {
   }
 
   render() {
-    const [TI, TitleMainMenuI] = this.c2(T, TitleMainMenu);
+    const [TI, TitleStdMainMenuI] = this.c2(T, TitleStdMainMenu);
     return <div>
-      <TitleMainMenuI
-        t$title="Welcome to Cloud-Sport"
-        menuItems={
-          [
-            <NavbarLinkItem path="/draft" t$label="Draft to coming tournaments" />,
-            <NavbarLinkItem path="/watch" t$label="Watch ongoing tournaments" />,
-            <hr class={bulma.navbarDivider}/>,
-            <NavbarLinkItem path="/terms" t$label="Terms of service" />
-          ]
-        } />
-
+      <TitleStdMainMenuI t$title="Welcome to Cloud-Sport"/>
       <SecCon>
         <h1 class={bulma.title}>What is <CS/>?</h1>
         <Par>
@@ -157,7 +146,7 @@ export class LandingPage extends TransCom<{}, LandingPageS> {
         <div class={bulma.buttons + ' ' + bulma['is-centered']}>
           <button class={bulma.button + ' ' + bulma['is-primary'] + ' ' + bulma['is-large']}
                   onClick={this.regAsReferee}>
-            <TI m="Create tournament"/>
+            <TI m="Create demo tournament"/>
           </button>
           <Link class={bulma.button + ' ' + bulma['is-large']} href="/features">
             <TI m="Detailed feature list"/>
