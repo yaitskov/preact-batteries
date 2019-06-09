@@ -58,6 +58,13 @@ function makeModule(extraBabelPlugins) {
       {
         test: /\.s[ac]ss$/,
         use: [...cssLoaders, 'sass-loader']
+      },
+      {
+        test: /\.png$/i,
+        use: {
+            loader: 'file-loader',
+          options: {}
+        }
       }
     ]
   };

@@ -26,12 +26,14 @@ module.exports = {
   // devtool: "source-map",
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js", '.css', '.sass'],
+    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js", '.css', '.sass', '.png'],
     modules: ['src', 'node_modules']
   },
   module: makeWebPackModule([ visitorFactory ]),
   plugins: [
     new HtmlWebpackPlugin({
+      title: 'Cloud-Sport',
+      favicon: 'favicon.png',
       meta: {viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'}
     }),
     new MergeAndFlushI18nPlugin(state),

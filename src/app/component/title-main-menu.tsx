@@ -9,6 +9,8 @@ import { LogoutBtn } from 'app/component/logout-button';
 
 import bulma from 'bulma/bulma.sass';
 
+import logo from 'app/icons/logo.png';
+
 export interface TitleMainMenuP {
   t$title: string;
   menuItems: SuperElement[];
@@ -38,7 +40,11 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
     return <nav class={bulma.navbar} role="navigation" aria-label="main navigation">
       <div class={bulma.navbarBrand}>
         <a class={bulma.navbarItem} href="/">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"/>
+          <img src={logo} />
+        </a>
+
+        <a class={bulma.navbarItem} href="#">
+          {this.props.t$title}
         </a>
 
         <a role="button" class={bulma.navbarBurger} onClick={this.toggleMenu}
@@ -51,10 +57,6 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
 
       <div id="mainMenuAnchor" class={bulma.navbarMenu + ' ' + active}>
         <div class={bulma.navbarStart}>
-          <a class={bulma.navbarItem}>
-            {this.props.t$title}
-          </a>
-
           <div class={bulma.navbarItem + ' ' + bulma.hasDropdown + ' ' + bulma.isHoverable}>
             <a class={bulma.navbarLink}>
               <IT m="Menu" />
