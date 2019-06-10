@@ -13,7 +13,10 @@ export class ObVar<T> {
   }
 
   public set val(newValue: T) {
-    this.v = newValue;
+    if (this.v !== newValue) {
+      this.v = newValue;
+      this.watchers.forEach(watcher => watcher(newValue));
+    }
   }
 
   public get val(): T {

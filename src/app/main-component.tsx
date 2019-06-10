@@ -31,6 +31,9 @@ export class MainCom extends InjSubCom<{}, {}> {
   Privacy = async () => await import('./page/privacy')
     .then(m => this.inj(m as AsyncModule, 'privacy'));
 
+  Lang = async () => await import('./page/pick-language')
+    .then(m => this.inj(m as AsyncModule, 'pick-language'));
+
   TodoList = async () => await import('./todo-list').then(m => this.inj(m as AsyncModule, 'todo-list'));
 
   NewTodo = async () => await import('./new-todo').then(m => this.inj(m as AsyncModule, 'new-todo'));
@@ -46,6 +49,7 @@ export class MainCom extends InjSubCom<{}, {}> {
       <AsyncRoute path='/' getComponent={this.LPG} />
       <AsyncRoute path='/terms' getComponent={this.Terms} />
       <AsyncRoute path='/privacy' getComponent={this.Privacy} />
+      <AsyncRoute path='/lang' getComponent={this.Lang} />
       <AsyncRoute path='/todo-list' getComponent={this.TodoList} />
       <AsyncRoute path='/new-todo' getComponent={this.NewTodo} />
       <AsyncRoute path='/sign-up' getComponent={this.SignUp} />

@@ -30,6 +30,6 @@ container
   .sBean('curLang', new ObVar<LanguageCode>(locStore.get('myLang').el('pl') as LanguageCode)
     .onSet(lang => {
       locStore.store('myLang', lang);
-      window.location.reload();
+      window.history.go(-1);
     }))
   .sBean('todoList', new ObList<ToDo>());

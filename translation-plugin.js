@@ -235,7 +235,7 @@ class JsxTranslator {
         `${this.params.tagName} tag must have attribute (m) for message template`,
         path, state);
     }
-    if (msgTplAttr.type === 'JSXExpressionContainer') {
+    if (msgTplAttr.value.type === 'JSXExpressionContainer') {
       // skill variable message template
       return false;
     } else if (msgTplAttr.value.type !== 'StringLiteral') {

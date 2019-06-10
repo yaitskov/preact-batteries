@@ -2,13 +2,16 @@ import { h } from 'preact';
 import { Link } from 'preact-router';
 import { InjSubCom } from 'injection/inject-sub-components';
 import { T } from 'i18n/translate-tag';
-import { ChooseLangBtn } from 'app/component/choose-lang-button';
+import { CountryFlag } from 'app/component/country-flag';
 
 import bulma from 'app/style/my-bulma.sass';
 
 export class Footer extends InjSubCom<{}, {}> {
+  // @ts-ignore
+  private $curLang: ObVar<LanguageCode>;
+
   render() {
-    const [TI, ChooseLangBtnI] = this.c2(T, ChooseLangBtn);
+    const TI = this.c(T);
 
     return <footer class={bulma.footer}>
       <div class={bulma.content + ' ' + bulma.hasTextCentered}>
@@ -36,9 +39,10 @@ export class Footer extends InjSubCom<{}, {}> {
           </div>
           <div class={bulma.column}>
             <p>
-              <ChooseLangBtnI css="">
-          &nbsp;&nbsp;<TI m="Language" />
-              </ChooseLangBtnI>
+              <Link href="/lang">
+                <CountryFlag code={this.$curLang.val} />
+                <TI m="Language" />
+              </Link>
             </p>
           </div>
         </div>

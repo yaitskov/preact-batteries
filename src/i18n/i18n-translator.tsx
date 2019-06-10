@@ -9,6 +9,8 @@ type TransPhrase = string;
 export type LanguageCode = 'ru' | 'en' | 'pl' | 'de';
 type TranslatedMessage = string;
 
+export const LANG_CODES: LanguageCode[] = ['ru', 'en', 'pl', 'de'];
+
 export class I18Trans {
   // @ts-ignore
   private $curLang: ObVar<LanguageCode>;

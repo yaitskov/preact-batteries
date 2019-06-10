@@ -6,7 +6,7 @@ import { SuperElement } from 'component/types';
 import { UserAuth } from 'app/auth/user-auth';
 import { If } from 'component/if';
 import { LogoutBtn } from 'app/component/logout-button';
-import { ChooseLangBtn } from 'app/component/choose-lang-button';
+import { CountryFlag } from 'app/component/country-flag';
 
 import bulma from 'bulma/bulma.sass';
 
@@ -23,6 +23,9 @@ interface TitleMainMenuS {
 
 export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
   // @ts-ignore
+  private $curLang: ObVar<LanguageCode>;
+
+  // @ts-ignore
   private $userAuth: UserAuth;
 
   toggleMenu() {
@@ -36,7 +39,7 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
   }
 
   render() {
-    const [TI, LogoutBtnI, ChooseLangBtnI] = this.c3(T, LogoutBtn, ChooseLangBtn);
+    const [TI, LogoutBtnI] = this.c2(T, LogoutBtn);
     const active = this.st.showMenu ? bulma.isActive : '';
     return <nav class={bulma.navbar} role="navigation" aria-label="main navigation">
       <div class={bulma.navbarBrand}>
@@ -85,7 +88,9 @@ export class TitleMainMenu extends InjSubCom<TitleMainMenuP, TitleMainMenuS> {
               <If f={this.$userAuth.isAuthenticated()}>
                 <LogoutBtnI/>
               </If>
-              <ChooseLangBtnI css={bulma.button + ' ' + bulma.isLight} />
+              <Link href="/lang" class={bulma.button + ' ' + bulma.isLight}>
+                <CountryFlag code={this.$curLang.val} />
+              </Link>
             </div>
           </div>
         </div>
