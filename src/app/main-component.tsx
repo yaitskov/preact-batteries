@@ -37,11 +37,17 @@ export class MainCom extends InjSubCom<{}, {}> {
   Lang = async () => await import('./page/pick-language')
     .then(m => this.inj(m as AsyncModule, 'pick-language'));
 
-  TodoList = async () => await import('./todo-list').then(m => this.inj(m as AsyncModule, 'todo-list'));
+  ChooseSport = async () => await import('./page/tournament/choose-sport')
+    .then(m => this.inj(m as AsyncModule, 'choose-sport'));
 
-  NewTodo = async () => await import('./new-todo').then(m => this.inj(m as AsyncModule, 'new-todo'));
+  SignUp = async () => await import('app/page/sign-up/sign-up')
+    .then(m => this.inj(m as AsyncModule, 'sign-up'));
 
-  SignUp = async () => await import('app/page/sign-up/sign-up').then(m => this.inj(m as AsyncModule, 'sign-up'));
+  TodoList = async () => await import('./todo-list')
+    .then(m => this.inj(m as AsyncModule, 'todo-list'));
+
+  NewTodo = async () => await import('./new-todo')
+    .then(m => this.inj(m as AsyncModule, 'new-todo'));
 
   // SignIn = async () => await import('./app/page/sign-in').then(m => this.inj(m as AsyncModule, 'sign-in'));
   // <AsyncRoute path='/sign-in' getComponent={this.SignIn} />
@@ -50,6 +56,7 @@ export class MainCom extends InjSubCom<{}, {}> {
   render() {
     return <Router>
       <AsyncRoute path='/' getComponent={this.LPG} />
+      <AsyncRoute path='/tournament-new-choose-sport' getComponent={this.ChooseSport} />
       <AsyncRoute path='/terms' getComponent={this.Terms} />
       <AsyncRoute path='/features' getComponent={this.Features} />
       <AsyncRoute path='/privacy' getComponent={this.Privacy} />

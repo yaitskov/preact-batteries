@@ -66,7 +66,7 @@ export class LandingPage extends TransCom<{}, LandingPageS> {
   private $signUp: SignUpSr;
 
   regAsReferee() {
-    this.$signUp.signUpAnonymous().tn(o => route('/new-tournament'));
+    this.$signUp.signUpAnonymous().tn(o => route('/tournament-new-choose-sport'));
   }
 
   constructor(props) {
