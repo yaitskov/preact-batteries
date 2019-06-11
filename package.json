@@ -18,8 +18,10 @@
     "body-parser": "^1.19.0",
     "bulma": "^0.7.5",
     "flag-icon-css": "^3.3.0",
+    "flatpickr": "^4.6.1",
     "linkstate": "^1.1.1",
     "preact": "^8.4.2",
+    "preact-flatpickr": "^1.0.3",
     "webpack": "^4.28.1"
   },
   "devDependencies": {
