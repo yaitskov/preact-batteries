@@ -6,6 +6,8 @@ import { Instantiable } from 'collection/typed-object';
 import { T } from 'i18n/translate-tag';
 import { TitleStdMainMenu } from 'app/title-std-main-menu';
 import { TransCom, TransComS } from 'i18n/trans-component';
+import { SecCon } from 'app/component/section-container';
+
 import bulma from 'app/style/my-bulma.sass';
 
 class ChooseSport extends TransCom<{}, TransComS> {
@@ -22,18 +24,19 @@ class ChooseSport extends TransCom<{}, TransComS> {
     return <div>
       <TitleStdMainMenuI t$title="Choose sport"/>
 
-      <ul class={bulma.list}>
-        <li class={bulma.listItem}>
+      <SecCon>
+        <h1 class={bulma.title}>
+          <TI m="Choose sport"/>
+        </h1>
+        <div class={bulma.buttons}>
           <Link href="/tournament/new/tennis" class={bulma.button + ' ' + bulma.isPrimary}>
             <TI m="Tennis" />
           </Link>
-        </li>
-        <li class={bulma.listItem}>
           <Link href="/tournament/new/ping-pong" class={bulma.button + ' ' + bulma.isPrimary}>
             <TI m="Ping-Pong" />
           </Link>
-        </li>
-      </ul>
+        </div>
+      </SecCon>
     </div>;
   }
 
