@@ -66,7 +66,7 @@ export class LandingPage extends TransCom<{}, LandingPageS> {
   private $signUp: SignUpSr;
 
   regAsReferee() {
-    this.$signUp.signUpAnonymous().tn(o => route('/tournament-new-choose-sport'));
+    this.$signUp.signUpAnonymous().tn(o => route('/tournament/new/choose-sport'));
   }
 
   constructor(props) {
@@ -137,7 +137,7 @@ export class LandingPage extends TransCom<{}, LandingPageS> {
                   onClick={this.regAsReferee}>
             <TI m="Create demo tournament"/>
           </button>
-          <Link class={bulma.button + ' ' + bulma['is-large']} href="/features">
+          <Link class={bulma.button + ' ' + bulma['is-large']} href="/features/all">
             <TI m="Detailed feature list"/>
           </Link>
         </div>

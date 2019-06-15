@@ -56,9 +56,9 @@ export class MainCom extends InjSubCom<{}, {}> {
   render() {
     return <Router>
       <AsyncRoute path='/' getComponent={this.LPG} />
-      <AsyncRoute path='/tournament-new-choose-sport' getComponent={this.ChooseSport} />
+      <AsyncRoute path='/tournament/new/choose-sport' getComponent={this.ChooseSport} />
       <AsyncRoute path='/terms' getComponent={this.Terms} />
-      <AsyncRoute path='/features' getComponent={this.Features} />
+      <AsyncRoute path='/features/all' getComponent={this.Features} />
       <AsyncRoute path='/privacy' getComponent={this.Privacy} />
       <AsyncRoute path='/lang' getComponent={this.Lang} />
       <AsyncRoute path='/todo-list' getComponent={this.TodoList} />

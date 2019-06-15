@@ -21,7 +21,8 @@ const compressedFilesPattern = /\.(js|css|html|svg)$/;
 module.exports = {
   entry: "./src/bootstrap.tsx",
   output: {
-    filename: "./bundle.js"
+    filename: "./bundle.js",
+    publicPath: "/"
   },
   mode: 'development',
   // Enable sourcemaps for debugging webpack's output.
