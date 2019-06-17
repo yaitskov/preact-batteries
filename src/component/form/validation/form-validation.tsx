@@ -72,21 +72,19 @@ export class FormLevel {
     this.data[p.a] = newV;
     const meta: MetaInput = this.inputByName[p.a];
     if (meta) {
-      if (newV) {
-        this.checkBy(events, meta);
-      } else {
-        meta.fans.forEach(f => f.empty());
-      }
+      this.checkBy(events, meta);
     }
   }
 
   private checkBy(events: CheckOn[], meta: MetaInput): Thenable<Invalid[]> {
-    meta.fans.forEach(f => f.dirty());
+    const fieldName = meta.input.getProps().a;
+    const fieldValue = this.data[fieldName];
+    meta.fans.forEach(f => f.empty());
     return tFold(events.filter(et => et in meta.check).map(et =>
-      () => meta.check[et].check(this.data[meta.input.getProps().a]))).tnr(errors => {
+      () => meta.check[et].check(fieldValue))).tnr(errors => {
         if (errors.length) {
           meta.fans.forEach(f => f.invalid(errors));
-        } else {
+        } else if (fieldValue !== '') {
           meta.fans.forEach(f => f.valid());
         }
       });
@@ -97,11 +95,7 @@ export class FormLevel {
     this.data[p.a] = newV;
     const meta: MetaInput = this.inputByName[p.a];
     if (meta) {
-      if (newV) {
-        this.checkBy(['k', 'c'], meta);
-      } else {
-        meta.fans.forEach(f => f.empty());
-      }
+      this.checkBy(['k', 'c'], meta); //.tn(o => meta.fans.forEach(f => f.forceUpdate()));
     }
   }
 

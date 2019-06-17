@@ -26,7 +26,7 @@ export abstract class MyCo<P, S> extends Component<P, S> {
   }
 
   protected set st(newSt: S) {
-    this.setState(newSt);
+    this.setState(newSt); //, () => this.forceUpdate());
   }
 
   protected get st(): S {

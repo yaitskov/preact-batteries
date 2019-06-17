@@ -1,12 +1,18 @@
 import { Component, h } from 'preact';
+import { jne } from 'collection/join-non-empty';
 
 export interface IfSt {
   f: boolean;
+  css?: string;
 }
 
 export class If extends Component<IfSt> {
   render() {
-    // @ts-ignore
-    return <div style={{ display: this.props.f ? 'block' : 'none' }}>{this.props.children}</div>;
+    return <div class={jne(this.props.css)}
+                style={{ display: this.props.f ? 'block' : 'none' }}>
+      {
+        this.props.children // @ts-ignore
+      }
+    </div>;
   }
 }

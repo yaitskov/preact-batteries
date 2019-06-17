@@ -39,13 +39,13 @@ export class InpErr extends MyCo<InpErrP, InpErrSt> implements ValiFieldLi {
   }
 
   valid() {
-    console.log(`valid => false`);
+    console.log(`input error valid`);
     this.st = {show: false};
   }
 
   invalid(inv: Invalid[]) {
-    console.log(`invalid => true`);
-    this.st = {show: true};
+    console.log(`input error invalid`);
+    this.ust(s => ({...s, show: true}));
   }
 
   dirty() {
@@ -53,14 +53,16 @@ export class InpErr extends MyCo<InpErrP, InpErrSt> implements ValiFieldLi {
   }
 
   empty() {
-    console.log(`empty => false`);
+    console.log(`input error empty`);
     this.st = {show: false};
   }
 
   render() {
-    // @ts-ignore
-    return <If f={this.st.show} class="errors">
-      { this.props.children as any }
+    console.log('input error render');
+    return <If f={this.st.show} css="errors">
+      {
+        this.props.children // @ts-ignore
+      }
     </If>;
   }
 }

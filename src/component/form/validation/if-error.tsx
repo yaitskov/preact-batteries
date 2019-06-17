@@ -1,4 +1,5 @@
 import { h } from 'preact';
+import { jne } from 'collection/join-non-empty';
 import { MyCo } from 'component/my-component';
 import { Valiform } from 'component/form/validation/form-validation';
 import { Invalid } from 'component/form/validation/invalid';
@@ -39,11 +40,11 @@ export class IfErr extends MyCo<IfErrP, IfErrSt> implements ValiFieldLi {
   }
 
   valid() {
-    this.st = {show: false};
+    this.ust(s => ({...s, show: false}));
   }
 
   invalid(inv: Invalid[]) {
-    this.st = {show: inv.filter(i => i.check == this.chkN()).length > 0};
+    this.ust(s => ({...s, show: inv.filter(i => i.check == this.chkN()).length > 0}));
   }
 
   dirty() {
@@ -55,7 +56,12 @@ export class IfErr extends MyCo<IfErrP, IfErrSt> implements ValiFieldLi {
   }
 
   render() {
-    // @ts-ignore
-    return <If f={this.st.show}><p class={bulma.help + ' ' + bulma['is-danger']}>{this.props.children}</p></If>;
+    return <If f={this.st.show}>
+      <p class={jne(bulma.help, bulma.isDanger)}>
+        {
+          this.props.children // @ts-ignore
+        }
+      </p>
+    </If>;
   }
 }

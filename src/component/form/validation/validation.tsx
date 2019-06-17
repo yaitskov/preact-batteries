@@ -179,6 +179,7 @@ export class NotEmpty implements Validator {
   name() { return `!e`; }
 
   public check(val: string): Thenable<Invalid[]> {
+    console.log(`not empty val [${val}] => ${!!val}`);
     return resolved(!!val ? [] : [new Invalid('field is required', this.name(), {})]);
   }
 }

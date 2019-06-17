@@ -26,7 +26,11 @@ export class InputBox extends MyCo<{}, {}> {
   }
 
   render() {
-    // @ts-ignore
-    return <div class={bulma.field}>{this.props.children}<Wm c={() => this.flush()}/></div>; //[0];
+    return <div class={bulma.field}>
+      {
+        this.props.children // @ts-ignore
+      }
+      <Wm c={() => this.flush()}/>
+    </div>; //[0];
   }
 }

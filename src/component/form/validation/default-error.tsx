@@ -1,4 +1,5 @@
 import { h } from 'preact';
+import { jne } from 'collection/join-non-empty';
 import { U } from 'util/const';
 import { Valiform, MetaInput } from 'component/form/validation/form-validation';
 import { Tobj, mapO, emptyM, aHas, toMap } from 'collection/typed-object';
@@ -35,16 +36,19 @@ export class DefaultErr extends MyCo<{},  St> implements ValiFieldLi {
   }
 
   valid() {
+    console.log(`default error valid`);
     this.st = {errs: {}};
   }
 
   invalid(inv: Invalid[]) {
     const shownChecks = this.meta.shownChecks();
-    this.st = {
+    console.log(`default error ${inv} ${inv.length}`);
+    this.ust(s => ({
+      ...s,
       errs: toMap(inv.filter(i => !aHas(i.check, shownChecks)),
                   i => i.check,
                   i => i.msgTmp)
-    };
+    }));
   }
 
   dirty() {
@@ -56,9 +60,15 @@ export class DefaultErr extends MyCo<{},  St> implements ValiFieldLi {
   }
 
   render() {
-    // @ts-ignore
+    console.log('default error render');
     return <If f={!emptyM(this.st.errs)}>
-      {mapO(this.st.errs, ([k, m]) => <p class={bulma.help + ' ' + bulma['is-danger'] +  ' err-' + k}>{m}</p>)}
+    {
+        mapO(this.st.errs,
+             ([k, m]) =>
+               <p class={jne(bulma.help, bulma.isDanger,  'err-' + k)}>
+                 {m}
+               </p>)
+      }
     </If>;
   }
 }

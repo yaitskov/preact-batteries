@@ -20,6 +20,7 @@ export class InputOk extends MyCo<InputOkP, InputOkS> implements InputIf {
   constructor(props) {
     super(props);
     this.state = {val: ''};
+    this.onBlur = this.onBlur.bind(this);
     this.onChng = this.onChng.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
   }
@@ -42,12 +43,18 @@ export class InputOk extends MyCo<InputOkP, InputOkS> implements InputIf {
   }
 
   onKeyUp(e) {
-    console.log(`trigger validation check ${e}`);
+    console.log(`kye up ${e.target.value}`);
     // set state some how
     this.form.checkFieldBy(this, ['k'], e.target.value);
   }
 
+  onBlur(e) {
+    console.log(`focus lost ${e.target.value}`);
+    this.form.checkFieldBy(this, ['k', 'c'], e.target.value);
+  }
+
   onChng(e) {
+    console.log(`change ${this.state.val} => ${e.target.value}`);
     e.preventDefault();
     this.form.change(this, this.state.val, e.target.value);
     this.setState({val: e.target.value});
@@ -55,7 +62,10 @@ export class InputOk extends MyCo<InputOkP, InputOkS> implements InputIf {
 
   render(p, st) {
     return <div class={bulma.control}>
-      <input class={bulma.input} value={st.val} onChange={this.onChng} onKeyUp={this.onKeyUp} />
+      <input class={bulma.input} value={st.val}
+             onBlur={this.onBlur}
+             onChange={this.onChng}
+             onKeyUp={this.onKeyUp} />
     </div>;
   }
 
