@@ -35,7 +35,6 @@ export class TxtField extends TransCom<TxtFieldP, TransComS> {
         </CheckI>
       </label>
       <InpErrI>
-
         <DefaultErrI/>
       </InpErrI>
     </InputBoxI>;

@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { TransCom, TransComS } from 'i18n/trans-component';
 
-import { TxtField } from 'app/page/tournament/field/txt-field';
+import { TxtField } from 'app/component/field/txt-field';
 
 import bulma from 'app/style/my-bulma.sass';
 
