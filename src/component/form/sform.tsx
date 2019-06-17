@@ -1,4 +1,5 @@
 import { h } from 'preact';
+import removeEmptyVals from 'collection/remove-empty-values';
 import { MyCo } from 'component/my-component';
 import { Wm } from 'component/will-mount';
 import { Valiform, FormLevel } from 'component/form/validation/form-validation';
@@ -21,7 +22,7 @@ export class Sform<T> extends MyCo<SformP<T>, {}> {
   }
 
   protected dMnt(): void {
-    this.form.setValue(this.props.data);
+    this.form.setValue(removeEmptyVals({...this.props.data}));
   }
 
   render() {
