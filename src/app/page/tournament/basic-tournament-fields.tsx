@@ -2,11 +2,12 @@ import { h } from 'preact';
 import { TransCom, TransComS } from 'i18n/trans-component';
 
 import { TxtField } from 'app/page/tournament/field/txt-field';
+
+import bulma from 'app/style/my-bulma.sass';
+
 /* import { StartDateField } from 'app/page/tournament/field/start-date-field';
  * import { StartTimeField } from 'app/page/tournament/field/start-time-field';*/
-/* import { StartTimeField } from 'app/page/tournament/field/start-time-field';
- * import { StartTimeField } from 'app/page/tournament/field/start-time-field';
- * */
+
 export class BasicTourInfoFields extends TransCom<{}, TransComS> {
   constructor(props) {
     super(props);
@@ -19,8 +20,8 @@ export class BasicTourInfoFields extends TransCom<{}, TransComS> {
      * = this.c3(TourNameField, StartDateField, StartTimeField);*/
     /* const [PlacePickerI, TicketPriceFieldI, DescriptionFieldI]
      * = this.c3(PlacePicker, TicketPriceField, DescriptionField);*/
-    return <div>
-      <TxtFieldI t$lbl="Tournament name" name="name" />
+    return <div class={bulma.field}>
+      <TxtFieldI t$lbl="Tournament name" name="name" mit="!e rng:3:120 " />
     </div>;
 
     {/* <PlacePickerI />
