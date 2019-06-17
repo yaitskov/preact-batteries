@@ -17,8 +17,16 @@ export class Opt<T> {
     return this.has ? (this.v as T) : e;
   }
 
+  public elf(f: () => T): T {
+    return this.has ? (this.v as T) : f();
+  }
+
   public get full(): boolean {
     return this.has;
+  }
+
+  public map<B>(f: (v: T) => B): Opt<B> {
+    return this.ifVE<Opt<B>>(v => opt(f(v)), nic);
   }
 
   public get val(): T {
@@ -43,11 +51,7 @@ export class Opt<T> {
     }
   }
 
-  public ifVE(f: (v: T) => void, o: () => void): void {
-    if (this.has) {
-      f(this.v as T);
-    } else {
-      o();
-    }
+  public ifVE<B>(f: (v: T) => B, o: () => B): B {
+    return this.has ? f(this.v as T) : o();
   }
 }

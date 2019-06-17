@@ -40,6 +40,12 @@ export class MainCom extends InjSubCom<{}, {}> {
   ChooseSport = async () => await import('./page/tournament/choose-sport')
     .then(m => this.inj(m as AsyncModule, 'choose-sport'));
 
+  NewTennisTour = async () => await import('./page/tournament/new/tennis')
+    .then(m => this.inj(m as AsyncModule, 'tennis'));
+
+  NewTennisTourRules = async () => await import('./page/tournament/new/new-tennis-rules')
+    .then(m => this.inj(m as AsyncModule, 'new-tennis-rules'));
+
   SignUp = async () => await import('app/page/sign-up/sign-up')
     .then(m => this.inj(m as AsyncModule, 'sign-up'));
 
@@ -56,6 +62,8 @@ export class MainCom extends InjSubCom<{}, {}> {
   render() {
     return <Router>
       <AsyncRoute path='/' getComponent={this.LPG} />
+      <AsyncRoute path='/tournament/new/tennis/rules' getComponent={this.NewTennisTourRules} />
+      <AsyncRoute path='/tournament/new/tennis' getComponent={this.NewTennisTour} />
       <AsyncRoute path='/tournament/new/choose-sport' getComponent={this.ChooseSport} />
       <AsyncRoute path='/terms' getComponent={this.Terms} />
       <AsyncRoute path='/features/all' getComponent={this.Features} />

@@ -32,7 +32,7 @@ export class FormLevel {
   private curInput: InputIf;
   private inputByName: Tobj<MetaInput> = {};
   // @ts-ignore TS2564
-  private onSubmit: (d: {}) => void;
+  private onSubmit: (d: any) => void;
 
   public check(c: InputCheckP): void {
     failIf(this.curInput, 'wrap input into checks');
@@ -121,7 +121,7 @@ export class FormLevel {
     });
   }
 
-  setSubmit(callback: (d: {}) => void) {
+  setSubmit(callback: (d: any) => void) {
     this.onSubmit = callback;
   }
 

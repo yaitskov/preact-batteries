@@ -1,11 +1,13 @@
 import { h } from 'preact';
+import { opt } from 'collection/optional';
 import { MyCo } from 'component/my-component';
 import { Valiform, FormLevel } from 'component/form/validation/form-validation';
 
-import bulma from 'bulma/bulma.sass';
+import bulma from 'app/style/my-bulma.sass';
 
 export interface SubmitP {
   t$text: string;
+  css?: string;
 }
 
 export class Submit extends MyCo<SubmitP, {}> {
@@ -28,9 +30,8 @@ export class Submit extends MyCo<SubmitP, {}> {
   }
 
   render() {
-    return <div class={bulma.control}>
-      <input class={bulma.button + ' ' + bulma['is-link']} type="submit"
-             value={this.props.t$text} onClick={this.onClick} />
-    </div>;
+    return <input class={bulma.button + ' ' + bulma.isLink + ' ' + opt(this.props.css as string).el('')}
+                  type="submit"
+                  value={this.props.t$text} onClick={this.onClick} />;
   }
 }

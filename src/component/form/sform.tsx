@@ -3,12 +3,12 @@ import { MyCo } from 'component/my-component';
 import { Wm } from 'component/will-mount';
 import { Valiform, FormLevel } from 'component/form/validation/form-validation';
 
-export interface SformP {
-  data: object;
-  onSend: (d: object) => void;
+export interface SformP<T> {
+  data: T;
+  onSend: (d: T) => void;
 }
 
-export class Sform extends MyCo<SformP, {}> {
+export class Sform<T> extends MyCo<SformP<T>, {}> {
   // @ts-ignore
   $valiform: Valiform;
   // @ts-ignore
