@@ -1,14 +1,11 @@
+import { time2Str } from 'util/my-time';
 
 export type SportType = 'TE' | 'TP';
-
-export type JustDate = string; // YYYY-MM-DD
-export type JustTime = string; // HH:MM [AP]M
 
 export interface BasicTourInfo {
   name: string;
   type: SportType;
-  startDate: JustDate;
-  startTime: JustTime;
+  startAt: string;
   placeId: number;
   placeName: string;
   price: number;
@@ -18,8 +15,7 @@ export interface BasicTourInfo {
 export const newBasicTourInfo = (type: SportType) => ({
   name: '',
   type: type,
-  startDate: '2019-01-01',
-  startTime: '10:10 AM',
+  startAt: time2Str(new Date()),
   placeId: 0,
   placeName: '',
   price: 0,

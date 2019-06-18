@@ -1,4 +1,5 @@
 import { U } from 'util/const';
+import removeEmptyVals from 'collection/remove-empty-values';
 import { Tobj, forM, mapO } from 'collection/typed-object';
 import { InputIf, ValiFieldLi } from 'component/form/validation/input-if';
 import { tJoin, tFold, Thenable } from 'async/abortable-promise';
@@ -126,7 +127,7 @@ export class FormLevel {
           if (errs.length) {
             console.log('sync validators fails');
           } else {
-            this.onSubmit(e);
+            this.onSubmit(removeEmptyVals({...this.data}));
           }
         });
   }
