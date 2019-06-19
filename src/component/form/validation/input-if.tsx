@@ -13,7 +13,7 @@ export interface ValiFieldLi {
   invalid(inv: Invalid[]);
   dirty();
   empty();
-  chkN(): string;
+  chkN(): string; // check name
 }
 
 export interface InputIf extends ValiFieldLi {
