@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { time2Str } from 'util/my-time';
+import { time2Str, isoTime2Day, replaceDay } from 'util/my-time';
 import { jne } from 'collection/join-non-empty';
 import { U } from 'util/const';
 import { MyCo } from 'component/my-component';
@@ -15,7 +15,8 @@ interface DayInputP extends InputOkP {
 }
 
 interface DayInputS {
-  val: string;
+  dateTime: string;
+  dayView: string;
 }
 
 export class DayInput extends MyCo<DayInputP, DayInputS> implements InputIf {
@@ -26,7 +27,8 @@ export class DayInput extends MyCo<DayInputP, DayInputS> implements InputIf {
 
   constructor(props) {
     super(props);
-    this.st = {val: time2Str(new Date())}
+    const now = time2Str(new Date());
+    this.st = {dateTime: now, dayView: isoTime2Day(now)};
     this.onChng = this.onChng.bind(this);
   }
 
@@ -47,22 +49,20 @@ export class DayInput extends MyCo<DayInputP, DayInputS> implements InputIf {
     this.form.rm(this);
   }
 
-  onChng(lastDate: string) {
-    this.updateVal(lastDate);
+  onChng(day: string) {
+    this.updateVal(replaceDay(this.st.dateTime, day));
   }
 
-  updateVal(v: string) {
-    this.form.change(this, this.st.val, v);
-    this.st = {val: v};
+  updateVal(dateTime: string) {
+    this.form.change(this, this.st.dateTime, dateTime);
+    this.st = {dateTime: dateTime, dayView: isoTime2Day(dateTime)};
   }
 
   render() {
-    return <div class={bulma.control}>
-      <DayPickr onChng={this.onChng}
-                fmt="yyyy-MM-dd'T'HH:ii:ss.SSSZ"
-                css={jne(bulma.input, this.props.cls)}
-                val={this.st.val} />
-    </div>;
+    return <DayPickr onChng={this.onChng}
+                     fmt="yyyy-MM-dd"
+                     css={jne(bulma.input, this.props.cls)}
+                     val={this.st.dayView} />;
   }
 
   empty() {

@@ -1,4 +1,4 @@
-import { isoTime, time2Str, isoTime2Clock, replaceClock, h12ToH24 } from 'util/my-time';
+import { isoTime, time2Str, isoTime2Clock, isoTime2Day, replaceClock, replaceDay, h12ToH24 } from 'util/my-time';
 
 describe('my-time', () => {
   describe('test environment', () => {
@@ -31,8 +31,17 @@ describe('my-time', () => {
     it('more than 12', () => expect(isoTime2Clock('2014-12-30T23:45:44.777Z')).toBe('03:45 PM'));
   });
 
+  describe('isoTime2Day', () => {
+    it('cut local day', () => expect(isoTime2Day('2014-12-30T01:45:44.777Z')).toBe('2014-12-29'));
+  });
+
   describe('replaceClock', () => {
     it('keep date', () => expect(replaceClock('2014-12-30T19:45:44.777Z', '03:10 PM'))
       .toBe('2014-12-30T23:10:44.777Z'));
+  });
+
+  describe('replaceDay', () => {
+    it('keep time', () => expect(replaceDay('2014-12-30T19:45:44.777Z', '2015-06-03'))
+      .toBe('2015-06-03T18:45:44.777Z'));
   });
 });

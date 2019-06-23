@@ -21,6 +21,14 @@ export interface ClockPickrS {
   node: Opt<HTMLInputElement>;
 }
 
+interface InputEvent {
+  value: string;
+}
+
+interface TextChangeEvent {
+  target: InputEvent;
+}
+
 export class ClockPickr extends MyCo<ClockPickrP, ClockPickrS> {
   constructor(props) {
     super(props);
@@ -29,13 +37,16 @@ export class ClockPickr extends MyCo<ClockPickrP, ClockPickrS> {
   }
 
   onClick() {
-    clocklet.open(this.st.node.val, {...clocklet.defaultOptions, format: 'hh:mm a'});
+    clocklet.open(this.st.node.val,
+                  {...clocklet.defaultOptions,
+                   alignment: 'right',
+                   format: 'hh:mm A'});
   }
 
   dMnt() {
     this.st.node.ifV(node => {
       node.setAttribute('readonly', 'true');
-      onEvent(node, 'input', this.props.onChng);
+      onEvent(node, 'input', (e: TextChangeEvent) => this.props.onChng(e.target.value));
       onEvent(node, 'clocklet.opened', () => {
         getByClass(document, 'clocklet-tick--minute').forEach(
           minuteBtn => onEvent(minuteBtn, 'click', () => clocklet.close()));

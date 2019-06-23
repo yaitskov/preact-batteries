@@ -58,11 +58,9 @@ export class ClockInput extends MyCo<ClockInputP, ClockInputS> implements InputI
   }
 
   render() {
-    return <div class={bulma.control}>
-      <ClockPickr onChng={this.onChng}
-                  css={jne(bulma.input, this.props.cls)}
-                  val={this.st.timeView} />
-    </div>;
+    return <ClockPickr onChng={this.onChng}
+                       css={jne(bulma.input, this.props.cls)}
+                       val={this.st.timeView} />;
   }
 
   empty() {

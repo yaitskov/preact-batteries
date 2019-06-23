@@ -7,7 +7,7 @@ describe('MetaInput', () => {
   describe('showChecks', () => {
     it('non empty fan names',
        () => expect(new MetaInput(
-         {} as InputIf, {},
+         [{}] as InputIf[], {},
          [ {chkN: () => 'x' } as ValiFieldLi,
            {chkN: () => U } as ValiFieldLi]).shownChecks()).toEqual(['x']));
   });

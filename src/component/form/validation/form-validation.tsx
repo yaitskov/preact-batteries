@@ -10,7 +10,7 @@ import { Validation, Validator } from 'component/form/validation/validation';
 import { grpBy } from 'collection/group-by';
 
 export class MetaInput {
-  constructor(public input: InputIf,
+  constructor(public inputs: InputIf[],
               public check: Tobj<Validator>, // key CheckOn
               public fans: ValiFieldLi[] = []) {}
 
@@ -53,14 +53,24 @@ export class FormLevel {
   }
 
   public add(input: InputIf): void {
-    this.curInput = input;
     const props = input.getProps();
+    if (this.curInput) {
+      if (this.curInput.getProps().a === props.a) {
+        this.inputByName[props.a].inputs.push(input);
+        return;
+      } else {
+        throw new Error("input names different");
+      }
+    }
+
+    this.curInput = input;
+
     const checks: Tobj<Validator> = {};
     forM(grpBy(c => c.on, this.inpChecks),
          ([kOn, vLst]) => {
            checks[kOn] = this.validation.build(vLst, props.a);
          });
-    this.inputByName[props.a] = new MetaInput(input, checks);
+    this.inputByName[props.a] = new MetaInput([input], checks);
     this.inpChecks = [];
   }
 
@@ -78,7 +88,7 @@ export class FormLevel {
   }
 
   private checkBy(events: CheckOn[], meta: MetaInput): Thenable<Invalid[]> {
-    const fieldName = meta.input.getProps().a;
+    const fieldName = meta.inputs[0].getProps().a;
     const fieldValue = this.data[fieldName];
     meta.fans.forEach(f => f.empty());
     return tFold(events.filter(et => et in meta.check).map(et =>
@@ -93,10 +103,16 @@ export class FormLevel {
 
   change(input: InputIf, oldV: string, newV: string): void {
     const p = input.getProps();
+    if (this.data[p.a] === newV) {
+      return;
+    }
     this.data[p.a] = newV;
     const meta: MetaInput = this.inputByName[p.a];
     if (meta) {
       this.checkBy(['k', 'c'], meta); //.tn(o => meta.fans.forEach(f => f.forceUpdate()));
+      meta.inputs
+          .filter(otherInput => otherInput !== input)
+          .forEach(otherInput => otherInput.updateVal(newV));
     }
   }
 
@@ -105,12 +121,12 @@ export class FormLevel {
     forM(data, ([k, v]) => {
       const meta = this.inputByName[k];
       if (meta) {
-        meta.input.updateVal(data[k]);
+        meta.inputs.forEach(input => input.updateVal(data[k]));
       }
     });
     forM(this.inputByName, ([k, meta]) => {
       if (!(k in data)) {
-        meta.input.empty();
+        meta.inputs.forEach(input => input.empty());
         meta.fans.forEach(f => f.empty());
       }
     });
