@@ -6,19 +6,16 @@ import { jne } from 'collection/join-non-empty';
 import 'flatpickr/dist/flatpickr.css';
 import Flatpickr from 'flatpickr/dist/flatpickr.js';
 
-export type DayTimePickerMode = 'Day' | 'DayTime';
-
-export interface DayTimePickrP {
+export interface DayPickrP {
   onChng: (d: string) => void;
   fmt: string;
-  mode: DayTimePickerMode;
   val: string;
   css?: string;
   min?: string;
   max?: string;
 }
 
-export class DayTimePickr extends MyCo<DayTimePickrP, {}> {
+export class DayPickr extends MyCo<DayPickrP, {}> {
   // @ts-ignore
   node: HTMLElement;
   // @ts-ignore
@@ -31,7 +28,6 @@ export class DayTimePickr extends MyCo<DayTimePickrP, {}> {
         altInputClass: this.props.css,
         minDate: this.props.min,
         maxDate: this.props.max,
-        enableTime: this.props.mode === 'DayTime',
         dateForma: this.props.fmt,
         onChange: (dts, ld) => this.props.onChng(ld)
       }));

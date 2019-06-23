@@ -1,23 +1,24 @@
 import { h } from 'preact';
+import { time2Str } from 'util/my-time';
+import { jne } from 'collection/join-non-empty';
 import { U } from 'util/const';
 import { MyCo } from 'component/my-component';
 import { Valiform, FormLevel } from 'component/form/validation/form-validation';
 import { InputOkP, InputIf } from 'component/form/validation/input-if';
 import { Invalid } from 'component/form/validation/invalid';
-import { DayTimePickr } from 'component/form/input/day-time-pickr';
+import { DayPickr } from 'component/form/input/day-pickr';
 
-import bulma from 'bulma/bulma.sass';
+import bulma from 'app/style/my-bulma.sass';
 
-interface DayTimeInputP extends InputOkP {
+interface DayInputP extends InputOkP {
   min?: string | Date;
-  css?: string;
 }
 
-interface DayTimeInputS {
+interface DayInputS {
   val: string;
 }
 
-export class DayTimeInput extends MyCo<DayTimeInputP, DayTimeInputS> implements InputIf {
+export class DayInput extends MyCo<DayInputP, DayInputS> implements InputIf {
   // @ts-ignore
   $valiform: Valiform;
   // @ts-ignore
@@ -25,8 +26,8 @@ export class DayTimeInput extends MyCo<DayTimeInputP, DayTimeInputS> implements 
 
   constructor(props) {
     super(props);
+    this.st = {val: time2Str(new Date())}
     this.onChng = this.onChng.bind(this);
-    this.state = {val: ''};
   }
 
   public getProps(): InputOkP {
@@ -57,11 +58,10 @@ export class DayTimeInput extends MyCo<DayTimeInputP, DayTimeInputS> implements 
 
   render() {
     return <div class={bulma.control}>
-      <DayTimePickr onChng={this.onChng}
-                    fmt="yyyy-MM-ddTHH:ii:ss.SSSZ"
-                    mode="DayTime"
-                    css={this.props.css}
-                    val={this.st.val} />
+      <DayPickr onChng={this.onChng}
+                fmt="yyyy-MM-dd'T'HH:ii:ss.SSSZ"
+                css={jne(bulma.input, this.props.cls)}
+                val={this.st.val} />
     </div>;
   }
 
